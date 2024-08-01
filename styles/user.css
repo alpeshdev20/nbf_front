@@ -1,0 +1,398 @@
+.user-portal-section {
+  width: 100%;
+  background: url("../public/images/users/bg.png") top left no-repeat;
+  background-size: cover;
+  height: auto;
+}
+
+.user-portal-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 13.90625vw 1fr;
+  grid-template-rows: auto;
+}
+
+.user-page {
+  width: 100%;
+  padding-top: 4.21875vw;
+  padding-left: 1.9791666666666667vw;
+  /* padding-right: 7.291666666666667vw; */
+  padding-bottom: 7.291666666666667vw;
+  box-sizing: border-box;
+}
+
+.user-welcome-section {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.09375vw;
+  margin-bottom: 3.96875vw;
+}
+
+.user-welcome-note {
+  width: 42.03125vw;
+  height: 8.385416666666666vw;
+  background: var(--white);
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 13px;
+  padding: 1.6145833333333333vw 1.71875vw 1.71875vw 2.0833333333333335vw;
+}
+
+.user-welcome-note h5 {
+  font-size: 1.5625vw;
+  line-height: 1.7708333333333333vw;
+  margin-bottom: 0.5729166666666666vw;
+  color: var(--black);
+  font-weight: bold;
+  font-family: var(--font-family);
+}
+
+.user-welcome-note p {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.3541666666666667vw;
+  color: var(--black);
+  font-family: var(--font-family);
+}
+
+.user-welcome-note p span {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.user-subscription-info {
+  width: 27.916666666666668vw;
+  height: 8.385416666666666vw;
+  background: var(--white);
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 13px;
+  padding: 1.71875vw 1.2421875vw 1.6666666666666667vw 1.9270833333333333vw;
+}
+
+.user-subscription-info h6 {
+  font-size: 1.25vw;
+  line-height: 1.5104166666666667vw;
+  color: var(--black);
+  font-weight: 600;
+  margin-bottom: 0.8854166666666666vw;
+  font-family: var(--font-family);
+}
+
+.user-change-plan {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-change-plan h3 {
+  font-size: 2.0833333333333335vw;
+  line-height: 1.7708333333333333vw;
+  color: var(--black);
+  font-weight: bold;
+  font-family: var(--font-family);
+}
+
+.user-change-plan .change-plan {
+  font-size: 1.25vw;
+  line-height: 1.5625vw;
+  width: 10.745833333333334vw;
+  height: 2.9526041666666667vw;
+  font-family: var(--font-family);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.user-page-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.2630208333333333vw;
+}
+
+.user-page-icon img {
+  width: auto;
+  height: auto;
+}
+
+.user-page-title h4 {
+  font-size: 2.0833333333333335vw;
+  line-height: 2.7604166666666665vw;
+  color: var(--white);
+  font-weight: bold;
+  font-family: var(--font-family);
+}
+
+/* User Profile  */
+.user-profile-section {
+  width: 100%;
+  padding-top: 2.778125vw;
+}
+
+.user-profile-container {
+  width: 100%;
+}
+
+.user-form-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 1.6666666666666667vw;
+}
+
+.user-form-container label {
+  color: var(--white);
+}
+
+.user-form-container select {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.25vw;
+  font-family: var(--font-family);
+  margin-top: 1.25vw;
+}
+
+/* Payment History  */
+.user-payment-history-section {
+  width: 100%;
+  padding-top: 2.75625vw;
+}
+
+.user-payment-history-container {
+  width: 100%;
+}
+
+.user-payment-table {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+}
+
+.user-payment-table thead tr {
+  padding: 0.625vw 1.9791666666666667vw;
+  background: #d34a4a;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.5);
+}
+
+.user-payment-table thead tr th {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.25vw;
+  font-family: var(--font-family);
+  color: var(--white);
+  padding: 0.625vw 1.9791666666666667vw;
+  text-align: center;
+}
+
+.user-payment-table tbody tr {
+  background: var(--white);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.user-payment-table tbody tr td {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.25vw;
+  font-family: var(--font-family);
+  color: var(--black);
+  padding: 0.625vw 1.9791666666666667vw;
+  border: none;
+  text-align: center;
+}
+
+.user-payment-table tbody tr td a {
+  color: #00a2ff;
+  text-decoration: underline;
+}
+
+/* Wishlist and Library  */
+.user-library-section {
+  width: 100%;
+  padding-top: 3.2114583333333333vw;
+}
+
+.user-library-contianer {
+  width: 100%;
+  margin-bottom: 4.835416666666666vw;
+}
+
+.user-library-contianer h5 {
+  font-size: 1.25vw;
+  line-height: 1.5104166666666667vw;
+  font-family: var(--font-family);
+  margin-bottom: 2.4453125vw;
+  color: var(--white);
+}
+
+.user-library-card-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  gap: 2.4692708333333333vw;
+}
+
+/** User Change Password  */
+.change-password-section {
+  width: 100%;
+  padding-top: 2.778125vw;
+}
+
+.change-password-container {
+  width: 100%;
+  max-width: 43.385416666666664vw;
+  margin-left: 5vw;
+}
+
+.change-password-form-container {
+  width: 100%;
+  max-width: 35.520833333333336vw;
+}
+
+.change-password-form-container p {
+  font-size: 1.1458333333333333vw;
+  line-height: 1.4583333333333333vw;
+  color: var(--white);
+  font-style: italic;
+  font-family: var(--font-family);
+}
+
+.change-password-form-container h6 {
+  font-size: 1.5625vw;
+  line-height: 1.875vw;
+  color: var(--white);
+  font-weight: bold;
+  font-family: var(--font-family);
+}
+.change-password-form-container .form-otp {
+  margin-bottom: 2.8125vw;
+}
+
+.profile_button_container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2.9703125vw;
+  padding-top: 2.6041666666666665vw;
+}
+
+.profile_button_container p {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.25vw;
+  font-family: var(--font-family);
+  text-decoration: underline;
+  color: var(--white);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+  .user-portal-container {
+    display: block;
+  }
+
+  .user-page {
+    padding-top: 20px;
+  }
+
+  .user-welcome-section {
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .user-welcome-note {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .user-welcome-note h5,
+  .user-subscription-info h6,
+  .user-change-plan h3 {
+    font-size: 20px;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+
+  .user-welcome-note p,
+  .profile_button_container p {
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 10px;
+  }
+
+  .user-subscription-info {
+    width: 100%;
+    height: auto;
+  }
+
+  .user-change-plan {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .user-change-plan .change-plan {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .user-page-header {
+    gap: 16px;
+  }
+
+  .user-page-icon img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .user-page-title h4 {
+    font-size: 20px;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+
+  .user-profile-section {
+    padding-top: 20px;
+  }
+
+  .user-form-container {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .user-payment-table thead tr th,
+  .user-payment-table tbody tr td {
+    font-size: 16px;
+    line-height: 16px;
+    padding: 12px;
+  }
+
+  .user-library-section {
+    padding-top: 20px;
+  }
+
+  .user-library-contianer {
+    margin-bottom: 20px;
+  }
+
+  .user-library-card-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .change-password-container {
+    margin-left: 0;
+  }
+
+  .change-password-container,
+  .change-password-form-container {
+    max-width: 100%;
+  }
+}

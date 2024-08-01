@@ -1,0 +1,64 @@
+.book_card {
+  width: 11.653645833333334vw;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  position: relative;
+}
+.book_icon {
+  position: absolute;
+  top: -0.9635416666666666vw;
+  right: 0.8302083333333333vw;
+  z-index: 1;
+}
+
+.book_icon img {
+  width: 1.9270833333333333vw;
+  height: 1.9270833333333333vw;
+}
+
+.book_image {
+  width: 100%;
+  box-shadow: 10px 8px 6px #0000003b;
+  margin-bottom: 1.0671875vw;
+  position: relative;
+}
+
+.book_image img {
+  width: 100%;
+  height: auto;
+}
+
+.rating_container {
+  width: 100%;
+  margin-bottom: 0.3125vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5729166666666666vw;
+}
+
+.book_info {
+  width: 100%;
+}
+
+.book_info p {
+  font-family: var(--font-family);
+  color: var(--black);
+  font-size: 1.0416666666666667vw;
+  line-height: 1.6145833333333333vw;
+}
+
+.book_info h6 {
+  font-family: var(--font-family);
+  color: var(--primary-color);
+  font-size: 1.3541666666666667vw;
+  line-height: 1.6145833333333333vw;
+  margin-bottom: 0.8333333333333334vw;
+}
+
+.naisa_search_button {
+  padding: 0.625vw 2.6041666666666665vw !important;
+  font-size: 0.9895833333333334vw !important;
+  line-height: 1.1979166666666667vw !important;
+}

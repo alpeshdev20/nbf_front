@@ -1,0 +1,8 @@
+.releated_resources_section {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2vw;
+  flex-wrap: wrap;
+}

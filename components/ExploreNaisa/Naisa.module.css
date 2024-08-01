@@ -1,0 +1,136 @@
+/* naisa  */
+.naisa_section {
+  width: 100%;
+  position: relative;
+}
+
+.naisa_container {
+  width: 100%;
+}
+
+.naisa_content {
+  width: 100%;
+}
+
+.naisa_heading {
+  width: 100%;
+  margin-bottom: 3.1088541666666667vw;
+  padding-left: 7.291666666666667vw;
+  padding-top: 2.8125vw;
+}
+
+.naisa_heading h4 {
+  font-family: var(--font-family);
+  font-size: 3.125vw;
+  color: var(--black);
+  margin-bottom: 0.9vw;
+}
+
+.naisa_heading h4 span {
+  color: #4947a8;
+  font-weight: normal;
+  font-family: var(--font-family);
+}
+
+.naisa_heading p {
+  font-size: 2.0833333333333335vw;
+  line-height: 1.7708333333333333vw;
+  color: #473aa4;
+  font-family: var(--font-family);
+}
+
+.naisa_feature_container {
+  width: 100%;
+}
+
+.naisa_feature {
+  width: 74.42708333333333vw;
+  height: 4.739583333333333vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: url("../../public/images/home/naisa-text-bg.png") top left
+    no-repeat;
+  background-size: cover;
+  margin-bottom: 0.625vw;
+  padding-left: 7.291666666666667vw;
+}
+
+.naisa_feature p {
+  font-size: 1.1458333333333333vw;
+  line-height: 1.5625vw;
+  color: var(--black);
+  font-family: var(--font-family);
+  font-weight: 600;
+  width: 100%;
+  max-width: 45.520833333333336vw;
+}
+
+.naisa_feature p span {
+  color: var(--primary-color);
+}
+
+.naisa_image {
+  width: 27.302083333333336vw;
+  height: 35.244791666666664vw;
+  position: absolute;
+  top: 0;
+  right: 11.197160883280757vw;
+}
+
+.naisa_image img {
+  width: 27.302083333333336vw;
+  height: auto;
+}
+
+@media (max-width: 767px) {
+  .naisa_section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .naisa_heading {
+    padding-left: 16px;
+    padding-top: 0px;
+    margin-bottom: 24px;
+  }
+
+  .naisa_heading h4 {
+    font-size: 32px;
+    line-height: 32px;
+  }
+
+  .naisa_heading p {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .naisa_feature {
+    width: 100%;
+    height: auto;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 16px;
+    margin-bottom: 10px;
+  }
+
+  .naisa_feature p {
+    font-size: 16px;
+    line-height: 16px;
+    max-width: 100%;
+  }
+
+  .naisa_image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-top: 50px;
+    right: 0;
+  }
+
+  .naisa_image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}

@@ -1,0 +1,26 @@
+.skeleton {
+  width: 100%;
+}
+
+.skeleton_box {
+  width: 11.458333333333334vw !important;
+  height: 17.708333333333332vw !important;
+  margin-bottom: 0.4333333333333334vw;
+}
+
+.skeleton_line {
+  width: 11.458333333333334vw !important;
+  margin-bottom: 0.4333333333333334vw;
+}
+
+@media (max-width: 767px) {
+  .skeleton_box {
+    width: 100% !important;
+    height: 200px !important;
+  }
+
+  .skeleton_line{
+    width: 100% !important;
+    height: auto !important;
+  }
+}

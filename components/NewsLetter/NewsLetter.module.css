@@ -1,0 +1,124 @@
+.news_letter_section {
+  width: 100%;
+  padding-top: 3.0729166666666665vw;
+  padding-bottom: 3.0729166666666665vw;
+  background: #3c38ae;
+}
+
+.news_letter_container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  gap: 3.5765625vw;
+}
+
+.news_letter_content {
+  width: 37.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.news_letter_content h6 {
+  font-size: 1.875vw;
+  color: var(--white);
+  line-height: 1.9791666666666667vw;
+  font-family: var(--font-family);
+  font-weight: 600;
+}
+
+.subscribe_input_container {
+  width: 37.6953125vw;
+  height: 5.625520833333334vw;
+  background: var(--white);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 1.1979166666666667vw;
+}
+
+.subscribe_input {
+  flex-grow: 1;
+}
+
+.subscribe_input input {
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 1.40625vw;
+  padding-left: 1.4302083333333333vw;
+  font-family: var(--font-family);
+}
+
+.subscribe_input input::placeholder {
+  font-size: 1.40625vw;
+}
+
+.subscribe_addon {
+  width: 8.440625vw;
+  height: 5.625520833333334vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.subscribe_addon span {
+  font-size: 1.40625vw;
+  color: var(--primary-color);
+  font-family: var(--font-family);
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  .news_letter_section {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+  .news_letter_container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .news_letter_content {
+    width: 100%;
+  }
+
+  .news_letter_content h6 {
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .subscribe_input_container {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+  }
+
+  .subscribe_input {
+    height: 60px;
+  }
+
+  .subscribe_addon {
+    padding: 1rem;
+    width: auto;
+    height: auto;
+  }
+
+  .subscribe_addon span {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .subscribe_input input {
+    height: 60px;
+    border-radius: 10px;
+    padding-left: 16px;
+  }
+
+  .subscribe_input input,
+  .subscribe_input input::placeholder {
+    font-size: 16px;
+  }
+}

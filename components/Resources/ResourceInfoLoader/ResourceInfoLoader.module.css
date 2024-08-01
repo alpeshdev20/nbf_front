@@ -1,0 +1,89 @@
+.resource_wishlist {
+  width: 14.296875vw !important;
+}
+
+.resource_image {
+  width: 14.296875vw !important;
+  height: 21.927604166666665vw !important;
+}
+.share_resource {
+  width: 14.296875vw !important;
+}
+
+.resource_other_info li {
+  list-style: none !important;
+}
+
+.resource_rating {
+  width: 20vw !important;
+}
+
+.resource_details {
+  width: 40vw !important;
+}
+
+.action_button {
+  width: 20vw !important;
+  height: 2.5vw !important;
+}
+
+.discription {
+  height: 26.041666666666668vw !important;
+}
+
+.title {
+  width: 20vw !important;
+}
+
+.related_books_container {
+  display: flex;
+  gap: 0.8333333333333334vw !important;
+}
+
+.related_books {
+  width: 11.458333333333334vw !important;
+  height: 17.708333333333332vw !important;
+}
+
+@media (max-width: 767px) {
+  .resource_image {
+    width: 250px !important;
+    height: 300px !important;
+  }
+
+  .resource_rating {
+    width: 100% !important;
+    height: 10px;
+  }
+
+  .resource_rating p,
+  .author_info p,
+  .author_info h4,
+  .resource_criteria p {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .resource_criteria p span{
+    width: 100% !important;
+    display: block !important;
+    height: 10px;
+  }
+
+  .resource_other_info {
+    padding-top: 20px;
+  }
+
+  .resource_other_info li {
+    margin-left: 0;
+  }
+
+  .resource_details {
+    width: 100% !important;
+    height: 10px;
+  }
+
+  .discription {
+    height: 250px !important;
+  }
+}

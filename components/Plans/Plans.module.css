@@ -1,0 +1,319 @@
+/** Category Tab  */
+.plan_categories_tab_container {
+  width: 100%;
+  display: flex;
+  gap: 0.8333333333333334vw;
+}
+
+.plan_category_tab {
+  width: 27.916666666666668vw;
+  height: 6.614583333333333vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 1.5104166666666667vw;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 0px 50px #00000029;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.plan_category_tab h5 {
+  font-size: 1.5625vw;
+  line-height: 1.875vw;
+  font-family: var(--font-family);
+  color: var(--black);
+}
+
+.active_category_tab {
+  transition: all 0.5s;
+}
+
+.plan_category_tab.voilet {
+  background: #473aa4;
+}
+
+.plan_category_tab.voilet h5 {
+  color: var(--white);
+}
+
+.plan_category_tab.green {
+  background: #4dbf56;
+}
+
+.plan_category_tab.green h5 {
+  color: var(--white);
+}
+
+.plan_category_tab.cyan {
+  background: #00b4b9;
+}
+
+.plan_category_tab.cyan h5 {
+  color: var(--white);
+}
+
+/** Sub Category Tab  */
+.plans_sub_categories_container {
+  width: 100%;
+}
+.plans_sub_categories {
+  width: 100%;
+  display: flex;
+}
+
+.plan_sub_category_tab {
+  width: 42.708333333333336vw;
+  height: 3.59375vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 2.65625vw;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  border-bottom: 2px solid #d1d1d1;
+}
+
+.plan_sub_category_tab h5 {
+  font-size: 1.5625vw;
+  line-height: 1.875vw;
+  font-family: var(--font-family);
+  color: var(--black);
+}
+
+.plan_sub_category_tab.voilet {
+  border-bottom: 10px solid #473aa4;
+}
+
+.plan_sub_category_tab.voilet h5 {
+  color: #473aa4;
+}
+
+.plan_sub_category_tab.green {
+  border-bottom: 10px solid #4dbf56;
+}
+
+.plan_sub_category_tab.green h5 {
+  color: #4dbf56;
+}
+
+.plan_sub_category_tab.cyan {
+  border-bottom: 10px solid #00b4b9;
+}
+
+.plan_sub_category_tab.cyan h5 {
+  color: #00b4b9;
+}
+
+/** Subscription  */
+.plans_sub_categories_subscriptions_section {
+  width: 100%;
+  padding-top: 1.3541666666666667vw;
+  padding-bottom: 3.5578125vw;
+  background: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.1354166666666665vw;
+}
+
+.plans_sub_categories_subscriptions_container {
+  width: 100%;
+}
+
+.plans_sub_categories_subscriptions {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 1.5104166666666667vw;
+  padding-right: 1.5104166666666667vw;
+}
+
+.subscription {
+  width: auto;
+}
+
+.subscription_heading {
+  width: auto;
+}
+
+.subscription_heading h6 {
+  font-size: 1.5625vw;
+  line-height: 1.875vw;
+  position: relative;
+  padding-bottom: 1.875vw;
+  font-family: var(--font-family);
+  text-align: center;
+  font-weight: 600;
+}
+
+.subscription_heading h6::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #d1d1d1;
+}
+
+.subscription_heading h3 {
+  padding-top: 1.5625vw;
+  font-size: 4.166666666666667vw;
+  line-height: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-family);
+  text-align: center;
+}
+
+.subscription_heading h3 svg {
+  width: 2.096875vw;
+  height: 2.66875vw;
+}
+
+.subscription_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.subscription_includes {
+  width: auto;
+  padding-top: 1.40625vw;
+  padding-bottom: 1.5625vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 3.822917vw;
+}
+
+.subscription_includes p {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: var(--font-family);
+  text-align: center;
+  font-size: 1.0416666666666667vw;
+  line-height: 0.9375vw;
+  margin-bottom: 0.625vw;
+}
+
+.subscription_includes p svg {
+  color: #473aa4;
+}
+
+/** Free Trail  */
+.free_trail_section {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 2.3958333333333335vw 1.5104166666666667vw 3.0630208333333333vw
+    1.5104166666666667vw;
+}
+
+.free_trail_section .subscription .subscription_content {
+  width: max-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.plans_free_trail_button {
+  margin-left: 3.822917vw;
+}
+
+.free_trail_section .subscription .subscription_heading {
+  width: 16.510416666666668vw;
+}
+
+.free_trail_section .subscription .subscription_includes {
+  padding-left: 3.822917vw;
+}
+
+@media (max-width: 767px) {
+  .plan_categories_tab_container {
+    width: 100%;
+    overflow-y: auto;
+    gap: 10px;
+  }
+
+  .plan_category_tab {
+    width: auto;
+    height: auto;
+    padding: 16px;
+  }
+
+  .plan_sub_category_tab {
+    width: 100% !important;
+    height: auto;
+    padding: 16px;
+  }
+
+  .plan_category_tab h5 {
+    font-size: 20px;
+    line-height: 20px;
+    white-space: nowrap;
+  }
+
+  .plan_sub_category_tab h5 {
+    font-size: 16px;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+
+  .plans_sub_categories_subscriptions_section {
+    width: 100%;
+    overflow-y: auto;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+
+  .subscription {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .subscription_heading h6 {
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .plans_sub_categories_subscriptions {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+
+  .subscription_heading h3 {
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 10px;
+  }
+
+  .subscription_includes {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .subscription_includes p {
+    font-size: 12px;
+    line-height: 12px;
+    margin-bottom: 8px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .free_trail_section {
+    padding: 16px;
+  }
+
+  .free_trail_section .subscription .subscription_content {
+    width: 100%;
+  }
+}

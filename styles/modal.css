@@ -1,0 +1,12 @@
+.react-responsive-modal-modal {
+  display: inline-flex !important;
+  flex-direction: column-reverse !important;
+  /* width: 62.5vw;
+  height: 31.25vw;
+  overflow-y: auto; */
+}
+
+.react-responsive-modal-closeButton {
+  align-self: end;
+  position: static !important;
+}

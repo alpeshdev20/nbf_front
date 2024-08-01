@@ -1,0 +1,117 @@
+/** Partner Sliders  */
+
+.partners__slider-wrapper .slick-list {
+  margin: 0 -2.1875vw;
+}
+
+.partners__slider-wrapper .slick-track {
+  padding: 4.01041666667vw 0;
+}
+
+.partners__slider-wrapper .slick-arrow:before {
+  width: 16px;
+  height: 16px;
+  border: 4px solid #4947a8;
+  border-top: none;
+  border-right: none;
+  content: "";
+  display: block;
+}
+
+.partners__slider-wrapper .slick-prev:before {
+  transform: rotate(45deg);
+}
+
+.partners__slider-wrapper .slick-prev {
+  left: 0;
+}
+
+.partners__slider-wrapper .slick-next:before {
+  transform: rotate(227deg);
+}
+
+.partners__slider-wrapper .slick-next {
+  right: 0;
+}
+
+/** Testimonial Sliders  */
+.testimonial__slider .swiper {
+  padding-bottom: 4.5vw;
+}
+
+.testimonial__slider .swiper-pagination-bullet {
+  width: 1.04166666667vw;
+  height: 1.04166666667vw;
+}
+
+.testimonial__slider .swiper-pagination {
+  pointer-events: all !important;
+}
+
+.testimonial__slider .swiper-pagination-bullet-active {
+  background: #f2801b;
+}
+
+.testimonial__slider .swiper-slide:not(.swiper-slide-visible) {
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.testimonial__slider .swiper-slide:not(.swiper-slide-active) {
+  filter: blur(3px);
+}
+
+/** Book Sliders  */
+.books__slider_wrapper .slick-list {
+  margin: 0 -0.67708333333vw;
+}
+
+.books__slider_wrapper .slick-slide:focus {
+  outline: none;
+}
+
+/* .slick-slide img {
+  height: auto;
+} */
+
+/* Related Resources */
+.related_resources_slider {
+  margin: 0 -0.67708333333vw;
+}
+
+.related_resources_slider .slick-dots {
+  bottom: 0;
+}
+
+.related_resources_slider .slick-slider {
+  padding-bottom: 5.125vw;
+}
+
+.related_resources_slider .slick-dots li button:before {
+  font-size: 0.5729166666666666vw;
+  color: #a7a7a7;
+}
+
+.related_resources_slider .slick-dots li.slick-active button:before {
+  color: var(--primary-color);
+}
+
+.related_resources_slider .slick-list {
+  margin: 0 -1.27604166667vw;
+}
+
+@media (max-width: 767px) {
+  .testimonial__slider .swiper {
+    padding-bottom: 30px;
+  }
+
+  .testimonial__slider .swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+  }
+
+  .testimonial__slider .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    bottom: -2px;
+  }
+}

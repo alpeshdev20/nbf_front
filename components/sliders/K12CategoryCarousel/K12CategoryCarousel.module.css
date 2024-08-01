@@ -1,0 +1,10 @@
+.k12_category_carousel {
+  width: 100%;
+}
+
+.k12_category_carousel_heading {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

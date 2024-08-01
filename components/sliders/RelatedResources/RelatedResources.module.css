@@ -1,0 +1,24 @@
+.related_resources_slider {
+  width: 100%;
+}
+
+.slick_slider {
+  padding-top: 1.6666666666666667vw;
+  padding-left: 1.27604166667vw;
+  padding-right: 1.27604166667vw;
+}
+
+.related_resources_contianer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2vw;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .slick_slider {
+    padding-top: 30px;
+  }
+}

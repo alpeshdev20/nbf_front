@@ -1,0 +1,125 @@
+.book_card {
+  width: 11.653645833333334vw;
+  height: auto;
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.book_icon {
+  position: absolute;
+  top: -0.9635416666666666vw;
+  right: 0.8302083333333333vw;
+  z-index: 1;
+}
+
+.book_icon img {
+  width: 1.9270833333333333vw;
+  height: 1.9270833333333333vw;
+}
+
+.book_image {
+  width: 100%;
+  box-shadow: 10px 8px 6px #0000003b;
+  margin-bottom: 1.0671875vw;
+  position: relative;
+}
+
+.book_image img {
+  width: 11.458333333333334vw !important;
+  height: 17.708333333333332vw !important;
+}
+
+.rating_container {
+  width: 100%;
+  margin-bottom: 0.3125vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5729166666666666vw;
+}
+
+.book_info {
+  width: 100%;
+}
+
+.book_info p {
+  font-family: var(--font-family);
+  color: #707070;
+  font-size: 1.0416666666666667vw;
+  line-height: 1.6145833333333333vw;
+}
+
+.book_info h6 {
+  font-family: var(--font-family);
+  color: #473aa4;
+  font-size: 1.0416666666666667vw;
+  line-height: 1.6145833333333333vw;
+}
+
+.overlay_content {
+  width: 100%;
+  height: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.67);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+  overflow: hidden;
+}
+
+.book_card:hover .book_image .overlay_content {
+  height: 100%;
+  transition: all 0.5s;
+}
+
+.related__resource {
+  width: 100%;
+}
+
+.related__resource img:not([alt="Resource icon"]) {
+  width: 100% !important;
+}
+
+@media (max-width: 767px) {
+  .book_card {
+    width: 100%;
+  }
+
+  .book_card{
+    margin-bottom: 16px;
+  }
+
+  .book_icon{
+    top: -18.5px;
+  }
+
+  .book_icon img {
+    width: auto;
+    height: auto;
+  }
+
+  .book_image{
+    margin-bottom: 16px;
+  }
+
+  .book_image img {
+    width: 100% !important;
+    height: 200px !important;
+  }
+
+  .book_info p {
+    font-size: 14px;
+    line-height: 14px;
+    margin-bottom: 8px;
+  }
+
+  .book_info h6 {
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 8px;
+  }
+}

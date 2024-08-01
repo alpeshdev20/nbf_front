@@ -1,0 +1,285 @@
+.footer {
+  width: 100%;
+  background: #282828;
+  padding-top: 3.168229166666667vw;
+  padding-bottom: 2.785416666666667vw;
+}
+
+.footer_cotainer {
+  width: 100%;
+  display: flex;
+  position: relative;
+  gap: 12.614583vw;
+}
+
+.go_to_top {
+  position: absolute;
+  right: 0;
+  top: -4.91302083333vw;
+  cursor: pointer;
+}
+
+.go_to_top img {
+  width: 3.4895833333333335vw;
+  height: 3.4895833333333335vw;
+}
+
+.brand_information {
+  width: 20.625vw;
+}
+
+.brand_logo {
+  width: 100%;
+  margin-bottom: 1.9791666666666667vw;
+}
+
+.brand_logo img {
+  width: 19.21875vw;
+  height: 2.5vw;
+  margin-bottom: 0.5421875vw;
+}
+
+.brand_logo p {
+  font-size: 1.25vw;
+  font-family: var(--font-family);
+  color: var(--white);
+}
+
+.social_media {
+  width: 100%;
+  display: flex;
+  gap: 1.0885416666666667vw;
+  margin-bottom: 0.9760416666666666vw;
+}
+
+.social_media img {
+  width: 2.5520833333333335vw;
+  height: 2.5520833333333335vw;
+}
+
+.stores {
+  width: 100%;
+  display: flex;
+  gap: 1.3083333333333333vw;
+}
+
+.stores img {
+  width: 9.529166666666667vw;
+  height: 2.9541666666666666vw;
+}
+
+.other_information {
+  width: 100%;
+  padding-top: 3.0296875vw;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: auto;
+}
+
+.menu_container {
+  width: auto;
+}
+
+.menu_container a {
+  display: block;
+  font-size: 1.3020833333333333vw;
+  line-height: 1.4583333333333333vw;
+  font-family: var(--font-family);
+  color: var(--white);
+  font-weight: 300;
+  margin-bottom: 1.6505208333333334vw;
+}
+
+.contact_us {
+  width: 14.797395833333333vw;
+}
+.contact_us h6 {
+  font-size: 1.3020833333333333vw;
+  line-height: 1.4583333333333333vw;
+  font-family: var(--font-family);
+  color: var(--white);
+}
+
+.contact_us h6:first-child {
+  margin-bottom: 0.9375vw;
+}
+
+.contact_information {
+  width: 100%;
+  padding-top: 1.9416666666666667vw;
+}
+
+.contact_information a {
+  display: block;
+  display: flex;
+  gap: 0.6369791666666667vw;
+  font-size: 1.3020833333333333vw;
+  font-family: var(--font-family);
+  line-height: 1.4583333333333333vw;
+  color: var(--white);
+  margin-bottom: 1.4296875vw;
+}
+
+.contact_information a:first-child img {
+  width: 1.71875vw;
+  height: 1.71875vw;
+}
+
+.contact_information a:last-child img {
+  width: 1.71875vw;
+  height: 1.1979166666666667vw;
+}
+
+.footer_copyright_cotainer {
+  width: 100%;
+  padding-top: 1.5770833333333334vw;
+}
+
+.footer_copyright_cotainer p {
+  font-size: 1.0416666666666667vw;
+  font-family: var(--font-family);
+  color: var(--white);
+  line-height: 1.4583333333333333vw;
+  opacity: 0.5;
+}
+
+.search_ai {
+  width: auto;
+  position: fixed;
+  bottom: 2.34375vw;
+  right: 1.125vw;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.search_ai img {
+  width: 5.208333333333333vw;
+  height: 5.208333333333333vw;
+}
+
+@media (max-width: 767px) {
+  .footer {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .footer_cotainer {
+    gap: 24px;
+    flex-direction: column;
+  }
+  .go_to_top {
+    display: none;
+  }
+
+  .brand_information {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .brand_logo {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .brand_logo img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .brand_logo p {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .social_media {
+    width: 100%;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+
+  .social_media img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .stores {
+    width: 100%;
+    gap: 24px;
+  }
+
+  .stores img {
+    width: 130px;
+    height: auto;
+  }
+
+  .other_information {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .menu_container {
+    width: 100%;
+  }
+
+  .menu_container a {
+    font-size: 20px;
+    line-height: 20px;
+    margin-bottom: 16px;
+  }
+
+  .contact_us {
+    width: 100%;
+  }
+
+  .contact_us h6 {
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .contact_us h6 {
+    margin-bottom: 10px;
+  }
+
+  .contact_information {
+    width: 100%;
+    gap: 24px;
+    padding-top: 10px;
+  }
+
+  .contact_information a:first-child img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .contact_information a:last-child img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .contact_information a {
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 16px;
+    gap: 16px;
+  }
+
+  .footer_copyright_cotainer p {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .search_ai img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .other_information {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

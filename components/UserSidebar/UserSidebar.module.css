@@ -1,0 +1,129 @@
+.sidebar {
+  width: 100%;
+  box-shadow: 0px 20px 20px #73737329;
+}
+
+.sidebar_container {
+  width: 100%;
+  padding-top: 3.4895833333333335vw;
+}
+
+.user_profile {
+  width: 100%;
+  margin-bottom: 3.2291666666666665vw;
+}
+
+.user_image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.8854166666666666vw;
+}
+
+.user_image img {
+  width: 9.114583333333334vw;
+  height: 9.114583333333334vw;
+  border-radius: 100%;
+}
+
+.user_image_actions {
+  width: 100%;
+}
+
+.user_image_actions p {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.7708333333333333vw;
+  text-align: center;
+  color: #828282;
+  text-decoration: underline;
+  font-family: var(--font-family);
+}
+
+.sidebar_menus_container {
+  width: 100%;
+  margin-bottom: 6.770833333333333vw;
+}
+
+.sidebar_menus {
+  width: 100%;
+  margin-bottom: 1.9791666666666667vw;
+  padding-left: 1.25vw;
+}
+
+.sidebar_menus a,
+.sidebar_menus p {
+  font-size: 1.0416666666666667vw;
+  line-height: 1.25vw;
+  color: #828282;
+  font-family: var(--font-family);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.5s;
+}
+
+.sidebar_menus a svg {
+  color: var(--primary-color);
+  font-size: 1.5vw;
+  display: none;
+  transition: all 0.5s;
+}
+
+.sidebar_menus.menu_active a {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.sidebar_menus.menu_active a svg {
+  display: block;
+  transition: all 0.5s;
+}
+
+.cancel_subscription {
+  width: 100%;
+  margin-bottom: 6.770833333333333vw;
+}
+
+.cancel_subscription a {
+  padding-left: 1.25vw;
+  font-size: 1.0416666666666667vw;
+  line-height: 1.25vw;
+  color: #828282;
+  font-family: var(--font-family);
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.sidebar_menus p {
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    padding: 10px;
+  }
+
+  .sidebar_container {
+    padding-top: 20px;
+  }
+
+  .user_profile {
+    display: none;
+  }
+
+  .sidebar_menus_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .sidebar_menus a,
+  .sidebar_menus p,
+  .cancel_subscription a {
+    font-size: 14px;
+    line-height: 14px;
+  }
+}

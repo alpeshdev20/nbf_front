@@ -1,0 +1,42 @@
+.books__slider_wrapper {
+  display: block;
+}
+
+.books__title {
+  font-size: 1.5625vw;
+  color: #fff;
+  margin-bottom: 1.09375vw;
+  font-weight: 700;
+}
+
+.books__slide {
+  padding: 0 0.67708333333vw;
+  padding-bottom: 0.9375vw;
+}
+
+.books__slider_image {
+  width: 100%;
+  box-shadow: 0.5vw 0.40104166666vw 0.25vw #0000003b;
+  width: 8.795833333333333vw !important;
+  height: 13.292708333333334vw !important;
+  object-fit: contain;
+}
+
+@media (max-width:767px){
+
+  .books__slider_wrapper{
+    margin-bottom: 24px;
+  }
+
+  .books__title{
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 10px;
+    color:#fff !important;
+  }
+
+  .books__slider_image{
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
