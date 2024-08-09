@@ -3860,3 +3860,14 @@
     object-position: center;
   }
 }
+
+
+/* Styles for related resources section */
+.releated_resources_section .ResourceCard_book_card__IaENN {
+
+  width:   67%!important;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  
+}

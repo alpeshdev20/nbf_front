@@ -15,6 +15,7 @@ const nextConfig = {
     NEXT_SHARP_PATH: "/tmp/node_modules/sharp",
     PAYTM_MID: "nyMhCF65590556327274",
     PAYTM_HOST: "https://securegw-stage.paytm.in/",
+    NEXT_PUBLIC_MEASUREMENT_ID: "G-3FG9Q2BZJH",
   },
   eslint: {
     ignoreDuringBuilds: true,
