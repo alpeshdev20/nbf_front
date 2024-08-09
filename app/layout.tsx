@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import SessionProvider from "@/providers/SessionProvider";
 
+
 //* Metadata
 export const metadata: Metadata = {
   title: "Netbookflix",
@@ -20,6 +21,10 @@ import "@/styles/modal.css";
 import TanStackProvider from "@/providers/TanStackProvider";
 import "react-toastify/dist/ReactToastify.css";
 
+// import GoogleAnalytics from '@/components/GoogleAnalytics';
+// import { Inter } from 'next/font/google'; // Importing the font, if needed
+// const inter = Inter({ subsets: ['latin'] }); // Initialize the font, if needed
+
 export default function RootLayout({
   children,
 }: {
@@ -35,6 +40,8 @@ export default function RootLayout({
           rel="stylesheet"
         ></link>
         
+
+         {/* <!-- Google Tag Manager --> */}
          <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -49,6 +56,12 @@ export default function RootLayout({
        
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
       ></script>
+        {/* <!-- End Google Tag Manager --> */}
+
+        {/* <!-- Google tag (gtag.js) --> */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
+      ></script>
+{/*  */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -59,9 +72,15 @@ export default function RootLayout({
           }}
           />
       </head>
+      {/* <GoogleAnalytics /> */}
+
+      {/* <!-- Google Tag Manager (noscript) --> */}
+    
       <body>
          
            
+
+      {/* <noscript>
           <iframe
            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
             height="0"
@@ -71,6 +90,9 @@ export default function RootLayout({
         
           
       
+        </noscript> */}
+        {/* <!-- End Google Tag Manager (noscript) --> */}
+
         <TanStackProvider>
           <SessionProvider>{children}</SessionProvider>
         </TanStackProvider>
