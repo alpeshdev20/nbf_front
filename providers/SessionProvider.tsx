@@ -54,14 +54,19 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
   const { profile, isLoading, isError, isSuccess } = getProfile();
 
   useEffect(() => {
-    if (localStorage.getItem("token") !== null && profile !== null) {
-      setSession((prevSession) => ({
-        ...prevSession,
+    if (localStorage.getItem("token") !== null && profile) {
+      setSession({
         isLoggedIn: true,
-        user: { ...prevSession.user, name: profile.name },
-      }));
+        user: {
+          user_id: profile.user_id || "", 
+          name: profile.name || "",        
+          token: localStorage.getItem("token") || "", 
+        },
+      });
+    } else {
+      setSession(sessionValues);
     }
-  }, [profile, isLoading, isError, isSuccess, session.isLoggedIn]);
+  }, [profile, isLoading]);
 
 
   return (
