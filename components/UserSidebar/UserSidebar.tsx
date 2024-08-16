@@ -1,7 +1,7 @@
 "use client";
 
 //* components
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,6 +25,40 @@ const UserSidebar = () => {
   const queryClient = useQueryClient();
 
   const { setSession } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
+
+
+   // Handle cancel subscription function
+   const handleCancelSubscription = () => {
+    const user_id = localStorage.getItem("user_id");
+    if (!user_id) {
+      errorToast("User ID not found.");
+      return;
+    }
+
+    setIsLoading(true);
+    post(`${process.env.API_URL}user/cancel-subscription/${user_id}`, {})
+      .then((response) => { 
+        if (response.status === 200) {
+          successToast("Subscription canceled successfully.");
+          router.push("/"); // Redirect to homepage or another page
+        } else {
+          errorToast("Failed to cancel subscription, please try again later...");
+        }
+      })
+      .catch(() => {
+        errorToast("Failed to cancel subscription, please try again later...");
+      })
+      .finally(() => {
+          (false);
+      });
+  };
+
+  const handleConfirmCancel = () => {
+    if (window.confirm("Are you sure you want to cancel your subscription?")) {
+      handleCancelSubscription();
+    }
+  };
 
   const signOutUser = () => {
     post(`${process.env.API_URL}user/sign-out`, {})
@@ -132,11 +166,20 @@ const UserSidebar = () => {
           <div className={Style.sidebar_menus}>
             <p onClick={signOutUser}>Sign Out</p>
           </div>
-        </div>
 
-        {/* <div className={Style.cancel_subscription}>
-          <Link href="/user/cancel-subscription">Cancel Subscription</Link>
-        </div> */}
+        </div>
+        <div className={Style.sidebar_menus}>
+          {/* <Link href="/user/cancel-subscription">Cancel Subscription</Link> */}
+          <p onClick={handleConfirmCancel}>Cancel Subscription</p>
+          {/* <button
+            onClick={handleConfirmCancel}
+            className={Style.cancel_subscription_button}
+            disabled={isLoading}
+          >
+            {isLoading ? "Cancelling..." : "Cancel Subscription"}
+          </button> */}
+        </div>
+       
       </div>
     </div>
   );
