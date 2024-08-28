@@ -1,7 +1,7 @@
 "use client";
 
 //* components
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/ui/Button/Button";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,8 +11,14 @@ import { errorToast, successToast } from "@/utils/toast_helper";
 //*  images
 import Logo from "@/public/logo.png";
 import maxLengthCheck from "@/utils/maxlength";
+import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 const PartnerWithUs = () => {
+
+  const searchParams = useSearchParams(); // Initialize useSearchParams hook
+  const source = searchParams.get('source'); 
+
   const [instituteData, setInstituteData] = useState({
     instituteName: "",
     studentEnrollment: "",
@@ -42,6 +48,7 @@ const PartnerWithUs = () => {
       contact_person_email: instituteData.contactPersonEmail,
       contact_person_mobile_no: instituteData.contactPersonMobileNo,
       summary: instituteData.summary,
+      resource_type:source
     })
       .then((data) => {
         if (data.status === 200) {
