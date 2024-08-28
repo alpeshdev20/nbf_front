@@ -28,7 +28,7 @@ const NbfForInstructors = () => {
                             <h5>We assist in your journey to help student progression and transformation</h5>
                             <h4>Unlimited access to 5 million+ pages of academic content</h4>
 
-                            <Button link='/partner-with-us' content='PARTNER WITH US' btnColor='primary' />
+                            <Button link='/partner-with-us?source=instructors' content='PARTNER WITH US' btnColor='primary' />
                         </div>
                     </div>
 

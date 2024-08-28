@@ -31,7 +31,7 @@ const NbfForInstitutions = () => {
               <h3>academic and personal</h3>
               <h3>development resources</h3>
               <Button
-                link="/partner-with-us"
+                link="/partner-with-us?source=institutions"
                 content="PARTNER WITH US"
                 btnColor="primary"
               />
