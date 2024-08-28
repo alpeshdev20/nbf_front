@@ -8,13 +8,13 @@ const nextConfig = {
     API_URL:
       process.env.NODE_ENV == "development"
         ? "http://localhost:8000/api/"
-        : "https://stage.api.netbookflix.com/api/",
+        : "https://api.netbookflix.com/api/",
     API_KEY: "a8c02ffd-128b-448d-9959-9afb05ff08b3",
     AUTH_USER: "netbookflix",
     AUTH_PASSWORD: "r2yCxIV64gC%GzBwALC7Tn8yvV",
     NEXT_SHARP_PATH: "/tmp/node_modules/sharp",
-    PAYTM_MID: "nyMhCF65590556327274",
-    PAYTM_HOST: "https://securegw-stage.paytm.in/",
+    PAYTM_MID: "voIxzV04284252924708",
+    PAYTM_HOST: "https://securegw.paytm.in/",
     NEXT_PUBLIC_MEASUREMENT_ID: "G-3FG9Q2BZJH",
   },
   eslint: {

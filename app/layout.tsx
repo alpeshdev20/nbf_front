@@ -41,6 +41,7 @@ export default function RootLayout({
         ></link>
 
          {/* <!-- Google Tag Manager --> */}
+        
          <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -56,6 +57,11 @@ export default function RootLayout({
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
       ></script>
 {/*  */}
+       
+
+       
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
+      ></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -73,6 +79,8 @@ export default function RootLayout({
       <body>
 
       {/* <noscript>
+         
+           
           <iframe
            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
             height="0"
@@ -82,6 +90,9 @@ export default function RootLayout({
         </noscript> */}
         {/* <!-- End Google Tag Manager (noscript) --> */}
 
+        
+          
+      
         <TanStackProvider>
           <SessionProvider>{children}</SessionProvider>
         </TanStackProvider>
