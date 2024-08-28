@@ -465,6 +465,7 @@ const SignUp = () => {
                           <option value="">Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
+                          <option value="Female">Others</option>
                         </select>
                         <div className="error">{error.genderError}</div>
                       </div>
@@ -505,31 +506,30 @@ const SignUp = () => {
                         </div>
                         <div className="error">{error.segmentError}</div>
                       </div>
-
                       <div className="form-group">
-                        <label htmlFor=""></label>
-                        <select
-                          name="class"
-                          id="class"
-                          onChange={(e) =>
-                            setUserInfo({
-                              ...userInfo,
-                              class: e.target.value,
-                            })
-                          }
-                        >
-                          <option value="">Select Class</option>
-                          {classesData?.map((data) => {
-                            return (
-                              <option value={data.id} key={data.id}>
-                                {data.class_name}
-                              </option>
-                            );
-                          })}
-                        </select>
-                        <div className="error">{error.classError}</div>
+                          <label htmlFor=""></label>
+                          <select
+                            name="class"
+                            id="class"
+                            onChange={(e) =>
+                              setUserInfo({
+                                ...userInfo,
+                                class: e.target.value,
+                              })
+                            }
+                            disabled={userInfo.segment === "Higher Education"} // Conditionally disable the select
+                          >
+                            <option value="">Select Class</option>
+                            {classesData?.map((data) => {
+                              return (
+                                <option value={data.id} key={data.id}>
+                                  {data.class_name}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <div className="error">{error.classError}</div>
                       </div>
-
                       <div className="form-group">
                         <label htmlFor="personal_address">
                           Personal Address

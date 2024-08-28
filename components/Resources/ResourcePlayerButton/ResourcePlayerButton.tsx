@@ -13,7 +13,6 @@ import { Modal } from "react-responsive-modal";
 import { post } from "@/utils/fetch";
 import { isResourceRead } from "@/services/UsersStats";
 
-
 //* interface
 interface ResourcePlayerButtonInterface {
   format: string;
@@ -22,67 +21,69 @@ interface ResourcePlayerButtonInterface {
   resourceId: string;
 }
 
-
 const time = 2000;
 
 const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
   format,
   btnContext,
   resourceLink,
-  resourceId
+  resourceId,
 }) => {
 
-  const [showFormat, setShowFormat] = useState<string>("");
+  useEffect(() => {
+    // Disable right-click globally
+    const disableContextMenu = (event: MouseEvent) => {
+      event.preventDefault();
+    };
 
+    // Attach the event listener on mount
+    document.addEventListener('contextmenu', disableContextMenu);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      document.removeEventListener('contextmenu', disableContextMenu);
+    };
+  }, []);
+  const [showFormat, setShowFormat] = useState<string>("");
 
   const [open, setOpen] = useState(false);
 
   const onCloseModal = () => setOpen(false);
 
-  const handleResourcePlayer = () => {
+  const handleResourcePlayer = () => {    
     setShowFormat(format);
-    if (!resourceLink) {
-      errorToast("Please uprgade your plan to access this resource");
+    if (!format) {
+      errorToast("Failed to load file, please try again later.");
       return false;
     } else {
-      setOpen(true);
-      setShowFormat(format);
+      if (!resourceLink) {
+        errorToast("Please uprgade your plan to access this resource");
+        return false;
+      } else {
+        setOpen(true);
+      }
     }
   };
 
-
   //* Updating User Reading stats
   const updateUserReadingStats = (pageNumber: string) => {
-
     post(`${process.env.API_URL}users-stats/update-book-read-stats`, {
       id: resourceId,
-      page_number: pageNumber
+      page_number: pageNumber,
     })
-      .then((data) => {
-
-      })
-      .catch((error) => {
-
-      });
+      .then((data) => {})
+      .catch((error) => {});
   };
-
 
   //* Updating User and book stats
   const updateUserAndBookStats = (time: string) => {
     post(`${process.env.API_URL}users-stats/update-book-stats`, {
       id: resourceId,
-      read_time: time
+      read_time: time,
     })
-      .then((data) => {
-
-      })
-      .catch((error) => {
-
-      });
+      .then((data) => {})
+      .catch((error) => {});
   };
-
-
-
 
   return (
     <>
@@ -95,11 +96,18 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
           format === "pdf" || format === "epub"
             ? "modal_pdf_epub_reader"
             : format === "mp3"
-              ? "modal_audio_player"
-              : "modal_media_player"
+            ? "modal_audio_player"
+            : "modal_media_player"
         }
       >
-        {showFormat === "pdf" && <PdfReader resource={resourceLink} resourceId={resourceId} updateUserReadingStats={updateUserReadingStats} updateUserAndBookStats={updateUserAndBookStats} />}
+        {showFormat === "pdf" && (
+          <PdfReader
+            resource={resourceLink}
+            resourceId={resourceId}
+            updateUserReadingStats={updateUserReadingStats}
+            updateUserAndBookStats={updateUserAndBookStats}
+          />
+        )}
         {showFormat === "mp3" && (
           <AudioPlayer resource={resourceLink} format={format} />
         )}
@@ -107,7 +115,14 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
           <VideoPlayer resource={resourceLink} format={format} />
         )}
 
-        {showFormat === "epub" && <EpubPlayer resource={resourceLink} resourceId={resourceId} updateUserReadingStats={updateUserReadingStats} updateUserAndBookStats={updateUserAndBookStats} />}
+        {showFormat === "epub" && (
+          <EpubPlayer
+            resource={resourceLink}
+            resourceId={resourceId}
+            updateUserReadingStats={updateUserReadingStats}
+            updateUserAndBookStats={updateUserAndBookStats}
+          />
+        )}
       </Modal>
 
       <div className="resource_action_container">

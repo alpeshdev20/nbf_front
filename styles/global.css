@@ -484,3 +484,10 @@ textarea:read-only {
     padding: 8px;
   }
 }
+
+/* Hide the print and open options specifically */
+.rpv-core__display--block:nth-child(3),
+.rpv-core__display--block:nth-child(4),
+div[aria-controls="rpv-core__modal-body-properties"]  {
+  display: none !important;
+}

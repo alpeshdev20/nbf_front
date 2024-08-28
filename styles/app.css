@@ -3871,3 +3871,11 @@
   text-align: center;
   
 }
+
+
+/* Disable text selection and interactions for modal */
+.epub-container {
+  user-select: none;  /* Prevent text selection */
+  pointer-events: none;  /* Disable interactions */
+}
+

@@ -46,8 +46,8 @@ const Footer: React.FC = () => {
                 <p>STREAM UNLIMITED KNOWLEDGE</p>
               </div>
               <div className={Style.social_media}>
-                <Link
-                  href=" https://www.facebook.com/netbookflix/"
+              <Link
+                  href="https://www.linkedin.com/company/netbookflix-learning-resource-pvt-ltd/"
                   target="_blank"
                 >
                   <Image src={Linkedin} alt="Linkedin" />
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
                       width={33}
                       height={33}
                     />
-                    +9818195778
+                    +919821466399
                   </Link>
 
                   <Link href="mailto:support@netbookflix.com">

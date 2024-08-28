@@ -296,7 +296,7 @@ const NbfForPublishers = () => {
                 <Image src={ReachImage} alt="Ecosystem Image" priority />
               </div>
               <div className="nbf_reach_info_content">
-                <h6>Global students & faculty reach to 120+ courses</h6>
+                < h6>Global students & faculty reach to 120+ countries</h6>
                 <p>Market Books in multiple Indian and foreign languages</p>
                 <p>Key Author engagement and retention leveraging Usage data</p>
               </div>
