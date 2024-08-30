@@ -68,6 +68,7 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [profile, isLoading]);
 
+
   return (
     <SessionContext.Provider
       value={{ session, setSession, profile, isLoading }}

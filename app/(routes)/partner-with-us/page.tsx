@@ -2,6 +2,7 @@
 
 //* components
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Button from "@/components/ui/Button/Button";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,13 +12,18 @@ import { errorToast, successToast } from "@/utils/toast_helper";
 //*  images
 import Logo from "@/public/logo.png";
 import maxLengthCheck from "@/utils/maxlength";
-import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 
 const PartnerWithUs = () => {
+  const [source, setSource] = useState<string | null>(null);
+  // const searchParams = useSearchParams(); // Initialize useSearchParams hook
+  // const source = searchParams.get('source'); 
 
-  const searchParams = useSearchParams(); // Initialize useSearchParams hook
-  const source = searchParams.get('source'); 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const sourceParam = searchParams.get('source');
+    setSource(sourceParam);
+  }, []);
 
   const [instituteData, setInstituteData] = useState({
     instituteName: "",
