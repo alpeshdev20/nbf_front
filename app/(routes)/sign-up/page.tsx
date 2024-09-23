@@ -54,6 +54,7 @@ const SignUp = () => {
     gender: "",
     segment: "",
     class: "",
+    city :"",
     personal_address: "",
     institute_address: "",
     registration_type: "",
@@ -71,6 +72,7 @@ const SignUp = () => {
     genderError: "",
     segmentError: "",
     classError: "",
+    cityError : "",
     personalAddressError: "",
     instituteAddressError: "",
     termsError: "",
@@ -147,6 +149,7 @@ const SignUp = () => {
               genderError: data?.message?.gender?.toString(),
               segmentError: data?.message?.segment?.toString(),
               classError: data?.message?.class?.toString(),
+              cityError :data?.message?.city?.toString(),
               personalAddressError: data?.message?.personal_address?.toString(),
               instituteAddressError:
                 data?.message?.institute_address?.toString(),
@@ -166,6 +169,7 @@ const SignUp = () => {
               gender: "",
               segment: "",
               class: "",
+              city : "",
               personal_address: "",
               institute_address: "",
               registration_type: "",
@@ -183,6 +187,7 @@ const SignUp = () => {
               genderError: "",
               segmentError: "",
               classError: "",
+              cityError : "",
               personalAddressError: "",
               instituteAddressError: "",
               termsError: "",
@@ -202,6 +207,7 @@ const SignUp = () => {
             gender: "",
             segment: "",
             class: "",
+            city:"",
             personal_address: "",
             institute_address: "",
             registration_type: "",
@@ -214,11 +220,12 @@ const SignUp = () => {
             nameError: "",
             mobileError: "",
             passwordError: "",
+            dobError :"",
             emailError: "",
-            dobError: "",
             genderError: "",
             segmentError: "",
             classError: "",
+            cityError : "",
             personalAddressError: "",
             instituteAddressError: "",
             termsError: "",
@@ -319,7 +326,7 @@ const SignUp = () => {
                                   id="token"
                                   className="form-input"
                                   name="token"
-                                  placeholder="Registration Token"
+                                  placeholder="Entrollment Number"
                                   onChange={(e) =>
                                     setUserInfo({
                                       ...userInfo,
@@ -530,6 +537,27 @@ const SignUp = () => {
                           </select>
                           <div className="error">{error.classError}</div>
                       </div>
+
+                      <div className="form-group">
+                       <label htmlFor="city">City</label>
+                        <input
+                          type="text"
+                          id="city"
+                          className="form-input inputs"
+                          name="city"
+                          placeholder="City*"
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              city: e.target.value,
+                            })
+                          }
+                        />
+                        <div className="error">{error.cityError}</div>
+                      </div>
+                      <div className="form-group">
+                      </div>
+
                       <div className="form-group">
                         <label htmlFor="personal_address">
                           Personal Address

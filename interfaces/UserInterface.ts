@@ -7,6 +7,7 @@ export default interface UserInterface {
   gender?: string;
   segment?: string;
   class?: number | string;
+  city: string;
   personal_address: string;
   institute_address: string;
   registration_type?: number | string;

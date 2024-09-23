@@ -13,6 +13,8 @@ import Style from "@/components/layout/Footer/Footer.module.css";
 import Logo from "@/public/logo.png";
 import Linkedin from "@/images/footer/linkedin.png";
 import Twiiter from "@/images/footer/twitter.png";
+import Youtube from "@/images/footer/youtube12.png";
+import Facebook from "@/images/footer/facebook.png";
 import Instagram from "@/images/footer/instagram.png";
 import AppleStore from "@/images/footer/app-store.png";
 import PlayStore from "@/images/footer/play-store.png";
@@ -60,6 +62,20 @@ const Footer: React.FC = () => {
                   target="_blank"
                 >
                   <Image src={Instagram} alt="Instagram" />
+                </Link>
+
+                <Link
+                  href="https://www.youtube.com/@netbookflix4507/"
+                  target="_blank"
+                >
+                  <Image src={Youtube} alt="Youtube" />
+                </Link>
+
+                <Link
+                  href="https://www.facebook.com/netbookflix/"
+                  target="_blank"
+                >
+                  <Image src={Facebook} alt="Youtube" />
                 </Link>
               </div>
               <div className={Style.stores}>
