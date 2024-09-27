@@ -1,46 +1,86 @@
-//* importing component
-import React from "react";
-import ResourcesLayout from "../resource-layout";
-// import Filters from "@/components/Filters/Filters";
-import ComingSoon from "@/components/ComingSoon/ComingSoon";
-// import ContinueWatching from "@/components/Resources/ContinueWatching/ContinueWatching";
-// import ExploreSection from "@/components/Resources/ExploreSection/ExploreSection";
+"use client";
 
-//* images
+import React, { useState } from "react";
+import ResourcesLayout from "../resource-layout";
+import { useSession } from "@/providers/SessionProvider"; // Make sure this path is correct
 import DefaultResourceImage from "@/images/common/recommendation.png";
 
 const GamifiedLearning = () => {
+  const { session } = useSession(); // Get session context
+  const [showGame, setShowGame] = useState(false);
+
+  const handleShowGame = () => {
+    setShowGame(true);
+  };
+
   return (
     <ResourcesLayout>
-      {/* <div className="resouses-title books">
-        <div className="app-container">
-          <h5>
-            Vid<span>eos</span>
-          </h5>
-        </div>
-      </div> */}
+      <div className="game-container">
+        {session.isLoggedIn ? ( // Check if user is logged in
+          <>
+            {!showGame && (
+              <button className="start-game-btn" onClick={handleShowGame}>
+                Start Feed the Bee Game
+              </button>
+            )}
+            {showGame && (
+              <iframe
+                src="/feedthebee/index.html"
+                style={{ width: "100%", height: "500px", border: "none" }}
+                title="Feed the Bee Game"
+              ></iframe>
+            )}
+          </>
+        ) : (
+          <div className="login-prompt">
+            <p>You need to be logged in to access the Gamified Learning feature.</p>
+            <a href="/log-in" className="login-link">Log In</a>
+          </div>
+        )}
+      </div>
 
-      {/* Filters  */}
-      {/* <Filters /> */}
+      <style jsx>{`
+        .game-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          text-align: center;
+        }
 
-      {/* <ContinueWatching
-        url="/resources/gamified-learning/info"
-        resourceType="Gamefied"
-        requestURL="resources/gamified-learning"
-      />
-       */}
-      {/* <div className="resources-explore-section">
-        <div className="app-container">
-          <h5>Explore More</h5>
-          <ExploreSection
-            url="/resources/gamified-learning/info"
-            resourceType="Gamefied"
-            requestURL="resources/gamified-learning"
-          />
-        </div>
-      </div> */}
+        .start-game-btn {
+          background-color: #5044ac;
+          border: none;
+          color: white;
+          padding: 12px 24px;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          border-radius: 8px;
+          margin-top: 20px;
+          transition: background-color 0.3s ease;
+        }
 
-      <ComingSoon />
+        .start-game-btn:hover {
+          background-color: #5044ac;
+        }
+
+        .start-game-btn:focus {
+          outline: none;
+          box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-prompt {
+          margin-top: 20px;
+        }
+
+        .login-link {
+          color: #5044ac;
+          font-weight: bold;
+          text-decoration: underline;
+        }
+      `}</style>
     </ResourcesLayout>
   );
 };

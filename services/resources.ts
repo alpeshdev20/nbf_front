@@ -31,15 +31,15 @@ export function getResources(
 }
 
 //* Get Resources Info
-export function getResourcesInfo(id: string) {
+export function getResourcesInfo(slug: string) {
   const {
     data: responseData,
     isLoading,
     isError,
     isSuccess,
   } = useQuery({
-    queryKey: [`resource-info/${id}`],
-    queryFn: () => get(`${process.env.API_URL}resources/info/${id}`),
+    queryKey: [`resource-info/${slug}`],
+    queryFn: () => get(`${process.env.API_URL}resources/${slug}`),
     // staleTime: 60000 * 60,
   });
 

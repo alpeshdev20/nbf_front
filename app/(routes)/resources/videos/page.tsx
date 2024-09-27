@@ -3,7 +3,13 @@ import React from "react";
 import ResourcesLayout from "../resource-layout";
 import ContinueWatching from "@/components/Resources/ContinueWatching/ContinueWatching";
 import ExploreSection from "@/components/Resources/ExploreSection/ExploreSection";
+import type { Metadata } from "next";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "Best Online Learning Videos - Educational and Story Videos",
+  description: "Explore online learning videos, educational videos for students, online story videos, moral stories videos in Hindi, short learning videos, video lectures.",
+};
 const Videos = () => {
   return (
     <ResourcesLayout>
@@ -16,13 +22,13 @@ const Videos = () => {
       </div>
 
       <ContinueWatching
-        url="/resources/videos/info"
+        url="/resources/videos/"
         resourceType="Videos"
         requestURL="resources/videos"
       />
 
       <ExploreSection
-        url="/resources/videos/info"
+        url="/resources/videos"
         resourceType="Videos"
         requestURL="resources/videos"
       />

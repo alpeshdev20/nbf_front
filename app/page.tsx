@@ -1,6 +1,7 @@
 //* Importing Component
 import Navbar from "@/components/layout/Navbar/Navbar";
 import Image from "next/image";
+import Head from 'next/head'; // Import Head for meta tags
 import Naisa from "@/components/ExploreNaisa/Naisa";
 import SubscriptionWithCategory from "@/components/SubscriptionWithCategory/SubscriptionWithCategory";
 import Partners from "@/components/sliders/Partners/Partners";
@@ -9,7 +10,13 @@ import Footer from "@/components/layout/Footer/Footer";
 import Testimonials from "@/components/sliders/Testimonials/Testimonials";
 import RecommandationHome from "@/components/sliders/RecommandationHome/RecommandationHome";
 import HomeHero from "@/components/HomeHero/HomeHero";
+import type { Metadata } from "next";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "Your Online Bookstore for Instant Reading Anywhere, Anytime",
+  description: "Netbookflix: A digital textbook platform with the best audio books, video books, and online textbooks for easy, convenient reading anytime. ",
+};
 //* Importing Image
 import TickIcon from "@/icons/tick.png";
 

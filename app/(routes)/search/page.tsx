@@ -196,22 +196,23 @@ const Search = () => {
                 {!isLoading &&
                   searchSuccess &&
                   searchData.length !== 0 &&
-                  searchData.map((data) => {
+                  searchData.map((data) =>  {
                     let url = "/";
                     if (data.material_type === "Videos") {
-                      url = `/resources/videos/info?id=${data.resource_id}`;
+                      url = `/resources/videos/${data.slug}`;
                     } else if (data.material_type === "Class Notes") {
-                      url = `/resources/class-notes/info?id=${data.resource_id}`;
+                      url = `/resources/class-notes/${data.slug}`;
                     } else if (data.material_type === "Audio Books") {
-                      url = `/resources/audio-books/info?id=${data.resource_id}`;
-                    } else if (data.material_type === "Books") {
-                      url = `/resources/books/info?id=${data.resource_id}`;
+                      url = `/resources/audio-books/${data.slug}`;
+                    } else if (data.material_type === "Books" || data.material_type === "e-Books") {
+                      url = `/resources/books/${data.slug}`;
                     } else {
                       url = "/";
                     }
+                    
                     return (
                       <ResourceCard
-                        key={data.resource_id}
+                        key={data.slug}
                         image={
                           data.resource_image
                             ? data.resource_image
@@ -224,7 +225,7 @@ const Search = () => {
                         isUserLogin={session.isLoggedIn}
                         url={
                           session.isLoggedIn
-                            ? `${url}?id=${data.resource_id}`
+                            ? `${url}`
                             : "/log-in"
                         }
                         resourceType={data.material_type}

@@ -93,7 +93,7 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
             {resources.length !== 0 &&
               resources.map((data) => (
                 <ResourceCard
-                  key={data.resource_id}
+                  key={data.slug}
                   image={
                     data.resource_image
                       ? data.resource_image
@@ -106,7 +106,7 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
                   isUserLogin={session.isLoggedIn}
                   url={
                     session.isLoggedIn
-                      ? `${url}?id=${data.resource_id}`
+                      ? `${url}/${data.slug}`
                       : "/log-in"
                   }
                   resourceType={resourceType}

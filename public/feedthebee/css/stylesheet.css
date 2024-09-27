@@ -1,0 +1,114 @@
+body
+{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: #daf95e;
+	background-repeat: no-repeat;
+    background-attachment: fixed;
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+	-o-user-select: none;
+	user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Webkit touch devices */
+}
+
+#canvas_area
+{
+	width: 1280px;
+	height: 720px;
+	margin: auto;
+	position: relative;
+	background: #FFF;
+	float: left;
+	max-height: 720px;
+	max-width: 1280px;
+	margin: auto;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	object-fit: contain;
+	width: 1280px;
+	height: 720px;
+	float: none;
+}
+
+#canvas_area.large
+{
+	transform-origin: 0 0;
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	float: left;
+}
+
+#canvas_area.small
+{
+	transform-origin: 0 0;
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	float: left;
+}
+
+#preload_div
+{
+	display: inline-block;
+	width: 360px;
+    height: 360px;
+    position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -60px;
+	margin-top: -60px;
+}
+
+#loader-txt
+{
+	font-family: "Source Sans Pro", "Arial", sans-serif;
+    position: absolute;
+    left: 20px;
+    top: 100px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('Poppins-Bold.eot');
+    src: url('Poppins-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Poppins-Bold.woff2') format('woff2'),
+        url('Poppins-Bold.woff') format('woff'),
+        url('Poppins-Bold.ttf') format('truetype'),
+        url('Poppins-Bold.svg#Poppins-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Thambi';
+    src: url('BalooThambi-Regular.eot');
+    src: url('BalooThambi-Regular.eot?#iefix') format('embedded-opentype'),
+        url('BalooThambi-Regular.woff2') format('woff2'),
+        url('BalooThambi-Regular.woff') format('woff'),
+        url('BalooThambi-Regular.ttf') format('truetype'),
+        url('BalooThambi-Regular.svg#BalooThambi-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Arial';
+    src: url('Arial-Black.eot');
+    src: url('Arial-Black.eot?#iefix') format('embedded-opentype'),
+        url('Arial-Black.woff2') format('woff2'),
+        url('Arial-Black.woff') format('woff'),
+        url('Arial-Black.ttf') format('truetype'),
+        url('Arial-Black.svg#Arial-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}

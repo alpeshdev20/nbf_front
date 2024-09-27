@@ -34,6 +34,7 @@ interface WishListAndLibraryResourceCardInterface {
   resourceId: string;
   detailContext: string;
   removeContext?: string;
+  slug?: string;
 }
 
 const WishListAndLibraryResourceCard: React.FC<
