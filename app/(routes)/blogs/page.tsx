@@ -1,16 +1,13 @@
-//* Importing Component
 import React from "react";
-import Image from "next/image";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
-import BlogCard from "@/components/BlogCard/BlogCard";
-import Button from "@/components/ui/Button/Button";
+import ExploreBlogsSection from "@/components/blogs/ExploreBlogsSection";
 
 const Blogs = () => {
   return (
     <>
-      {/* Navbar  */}
+      {/* Navbar */}
       <Navbar
         navType="main"
         btnClass="primary"
@@ -18,31 +15,23 @@ const Blogs = () => {
         btnContent="EXPLORE K12/SCHOOL"
       />
 
-      {/* Blogs  */}
+      {/* Blogs Section */}
       <div className="blogs-section">
         <div className="app-container">
           <h4>Our Blogs</h4>
           <div className="blog-card-container">
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-          </div>
-
-          <div className="blog-button-container">
-            <Button btnType="button" btnColor="secondary" content="SHOW MORE" />
+            <ExploreBlogsSection
+              url="/blogs"  // Pass the API URL to fetch blogs
+              requestURL="blogs"  // The relative URL path for blogs
+            />
           </div>
         </div>
       </div>
 
-      {/* News Letter  */}
+      {/* Newsletter */}
       <NewsLetter />
 
-      {/* Footer  */}
+      {/* Footer */}
       <Footer />
     </>
   );

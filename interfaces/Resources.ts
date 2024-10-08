@@ -22,4 +22,5 @@ export default interface ResourcesInterface {
   table_of_content?: string;
   author_detail?: string;
   slug?:string;
+  folder_name?:string;
 }

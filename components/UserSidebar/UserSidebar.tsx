@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { errorToast, successToast } from "@/utils/toast_helper";
 import { post } from "@/utils/fetch";
 import { useQueryClient } from "@tanstack/react-query";
+import { getProfile } from "@/services/profile";
+
 
 //* css
 import Style from "@/components/UserSidebar/UserSidebar.module.css";
@@ -26,6 +28,8 @@ const UserSidebar = () => {
 
   const { setSession } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const { profile } = getProfile();
+  console.log(profile);
 
 
    // Handle cancel subscription function
@@ -170,7 +174,10 @@ const UserSidebar = () => {
         </div>
         <div className={Style.sidebar_menus}>
           {/* <Link href="/user/cancel-subscription">Cancel Subscription</Link> */}
-          <p onClick={handleConfirmCancel}>Cancel Subscription</p>
+          {profile?.remaning_days != null && typeof profile.remaning_days === 'number' && profile.remaning_days > 0 ? (
+                  <p onClick={handleConfirmCancel}>Cancel Subscription</p>
+              ) : null}
+     
           {/* <button
             onClick={handleConfirmCancel}
             className={Style.cancel_subscription_button}
