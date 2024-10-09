@@ -1,8 +1,30 @@
 .ads_banner_section {
-  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin: 0 auto;
 }
 
-.ads_banner_section img {
-  width: 100%;
-  height: auto;
+.slide_container {
+  padding: 10px;
+  text-align: center;
 }
+
+.book_image {
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.2s ease-in-out; 
+  height: 80px !important; 
+  width: 140px !important;
+}
+
+.book_image:hover {
+  transform: scale(1.05); 
+}
+
+
+.slick-slide{
+  height: 150px !important; 
+ width: 400px !important;;
+}
+
