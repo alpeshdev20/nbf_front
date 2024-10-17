@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 //* components
 import React, { useEffect, useState } from "react";
@@ -15,8 +15,9 @@ import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 
 const PartnerWithUs = () => {
+
   const searchParams = useSearchParams(); // Initialize useSearchParams hook
-  const source = searchParams.get("source");
+  const source = searchParams.get('source'); 
 
   const [instituteData, setInstituteData] = useState({
     instituteName: "",
@@ -47,7 +48,7 @@ const PartnerWithUs = () => {
       contact_person_email: instituteData.contactPersonEmail,
       contact_person_mobile_no: instituteData.contactPersonMobileNo,
       summary: instituteData.summary,
-      resource_type: source,
+      resource_type:source
     })
       .then((data) => {
         if (data.status === 200) {
