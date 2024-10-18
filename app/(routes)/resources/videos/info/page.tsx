@@ -79,10 +79,7 @@ const ResourceDetails = () => {
                         <p>
                           <FaCaretRight /> Published In {resourceInfo.year}
                         </p>
-                        <p>
-                          <FaCaretRight /> Copyright by
-                          {resourceInfo.publisher_name}
-                        </p>
+                        <p><FaCaretRight /> Copyright by {resourceInfo.publisher_name}</p>
                       </div>
                     </div>
 

@@ -3,6 +3,7 @@
 //* importing Components
 import React, { useEffect, useState } from "react";
 import Button from "@/components/ui/Button/Button";
+import { useSession } from "@/providers/SessionProvider";
 
 //* css
 import Style from "@/components/Plans/Plans.module.css";
@@ -16,7 +17,10 @@ import { errorToast } from "@/utils/toast_helper";
 import initiatePayment from "@/services/payment";
 
 const Plan = () => {
-  const { planData, isLoading } = getPlans();
+  //* Session Values
+  const { session, isLoading } = useSession();
+
+  const { planData } = getPlans();
   const [activeCategoryTab, setCategoryMainTab] = useState(1);
   const [activeSubCategoryTab, setActiveSubCategoryTab] = useState(1);
 
@@ -42,12 +46,12 @@ const Plan = () => {
       },
     };
 
-      {/* @ts-ignore */}
+    {/* @ts-ignore */ }
     if (window.Paytm) {
-        {/* @ts-ignore */}
+      {/* @ts-ignore */ }
       window.Paytm.CheckoutJS.init(config)
         .then(function onSuccess() {
-            {/* @ts-ignore */}
+          {/* @ts-ignore */ }
           window.Paytm.CheckoutJS.invoke();
         })
         .catch(function onError(error: any) {
@@ -93,7 +97,7 @@ const Plan = () => {
 
   useEffect(() => {
     // Ensure this code only runs on the client side
-      {/* @ts-ignore */}
+    {/* @ts-ignore */ }
     if (typeof window !== "undefined" && window.Paytm) {
       console.log("Paytm is available on window object");
     } else {
@@ -199,35 +203,38 @@ const Plan = () => {
           ))}
       </div>
 
-      <div className={Style.free_trail_section}>
-        <div className={Style.subscription}>
-          <div className={Style.subscription_heading}>
-            <h6>FREE TRIAL</h6>
-          </div>
-          <div className={Style.subscription_content}>
-            <div className={Style.subscription_includes}>
-              <p>
-                <FaCaretRight />
-                3,000+ Books
-              </p>
-              <p>
-                <FaCaretRight />
-                Access to BASIC packaged e-Books for a period of 07 days
-              </p>
-              <p>
-                <FaCaretRight />3 AI Prompt Included
-              </p>
+      {!isLoading && !session?.isLoggedIn && (
+        <div className={Style.free_trail_section}>
+          <div className={Style.subscription}>
+            <div className={Style.subscription_heading}>
+              <h6>FREE TRIAL</h6>
             </div>
+            <div className={Style.subscription_content}>
+              <div className={Style.subscription_includes}>
+                <p>
+                  <FaCaretRight />
+                  3,000+ Books
+                </p>
+                <p>
+                  <FaCaretRight />
+                  Access to BASIC packaged e-Books for a period of 07 days
+                </p>
+                <p>
+                  <FaCaretRight />3 AI Prompt Included
+                </p>
+              </div>
 
-            <Button
-              btnType="button"
-              btnColor="secondary"
-              content="START NOW"
-              otherClass={Style.plans_free_trail_button}
-            />
+              <Button
+                link="/sign-up"
+                btnType="button"
+                btnColor="secondary"
+                content="START NOW"
+                otherClass={Style.plans_free_trail_button}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

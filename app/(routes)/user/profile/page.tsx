@@ -212,6 +212,7 @@ const Profile = () => {
                   <option value="">Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
+                  <option value="Others">Others</option>
                 </select>
                 <div className="error">{error.gender_error}</div>
               </div>

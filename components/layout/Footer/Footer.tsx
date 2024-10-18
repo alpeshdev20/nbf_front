@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
                       width={33}
                       height={33}
                     />
-                    +9818195778
+                    +919821466399
                   </Link>
 
                   <Link href="mailto:support@netbookflix.com">
