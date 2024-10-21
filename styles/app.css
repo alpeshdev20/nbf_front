@@ -2974,14 +2974,15 @@
   padding-top: 0.9375vw;
   padding-bottom: 0.9375vw;
   padding-left: 1.25vw;
+  cursor: pointer;
+  border-top: 1px solid #555555;
 }
 
-.naisa_search_card {
+.naisa_search_card p {
   font-size: 1.0416666666666667vw;
   line-height: 1.25vw;
   font-family: var(--font-family);
   color: var(--white);
-  border-top: 1px solid #555555;
 }
 
 .naisa_search_card.naisa_active_search {
@@ -3861,15 +3862,234 @@
   }
 }
 
-
 /* Styles for related resources section */
 .releated_resources_section .ResourceCard_book_card__IaENN {
-
-  width:   67%!important;
+  width: 67% !important;
   margin-right: auto;
   margin-left: auto;
   text-align: center;
-  
+}
+
+/* Mobile Css for Naisa  */
+@media (min-width: 1200px) {
+  .naisa_sidebar_mobile_controls {
+    display: none;
+  }
+
+  .naisa_hamburger {
+    display: none;
+  }
+}
+@media (min-width: 320px) and (max-width: 1200px) {
+  .naisa_section .app-container {
+    padding: 0;
+  }
+
+  .new_chat_button_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+
+  .naisa_container {
+    display: block;
+  }
+
+  .naisa_sidebar {
+    width: 100%;
+    z-index: 2;
+    position: fixed;
+    height: 100vh;
+    transform: translateX(-200%);
+    transition: all 0.5s;
+  }
+
+  .naisa_sidebar.show_sidebar {
+    transform: translateX(0);
+    transition: all 0.5s;
+  }
+
+  .new_chat_button {
+    width: auto;
+    height: auto;
+    border: 1px solid #20a5ff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    cursor: pointer;
+  }
+
+  .new_chat_button p {
+    font-size: 16px;
+  }
+
+  .new_chat_button svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .naisa_sidebar_mobile_controls {
+    cursor: pointer;
+  }
+
+  .naisa_sidebar_mobile_controls p {
+    font-size: 24px;
+    color: var(--white);
+  }
+
+  .naisa_search_history_container {
+    width: 100%;
+    height: calc(100vh - 150px);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .naisa_search_history_container h5 {
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .naisa_search_card {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+  }
+
+  .naisa_search_card p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .naisa_search_result_page {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .naisa_search_result_heading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .naisa_hamburger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .naisa_search_result_heading p {
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .naisa-no-result {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+  }
+
+  .naisa-no-result h5 {
+    font-size: 32px;
+    line-height: 48px;
+    text-align: center;
+  }
+
+  .naisa_ask_question_container {
+    padding-top: 40px;
+  }
+
+  .ask_questions {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 56px;
+  }
+
+  .ask_questions input {
+    font-size: 16px;
+  }
+
+  .naisa_submit_button {
+    width: 32px;
+    height: 32px;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .naisa_submit_button svg {
+    font-size: 24px;
+  }
+
+  .naisa_search_result_page_skeleton {
+    padding: 16px;
+  }
+
+  .naisa_search_result_heading_skeleton span,
+  .naisa_user_search_question_card_skeleton span {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 10px;
+  }
+
+  .naisa_search_result_heading_skeleton span {
+    margin-bottom: 30px;
+  }
+
+  .naisa_user_search_result_skeleton span {
+    height: 400px !important;
+  }
+
+  .naisa_user_search_question_card {
+    margin-bottom: 16px;
+  }
+
+  .naisa_user_search_question_card h5 {
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .naisa_user_search_question_card p {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .naisa_user_search_result_text p:nth-child(1) {
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .naisa_user_search_result_text p {
+    font-size: 18px;
+    line-height: 24px;
+    -ms-overflow-style: 16px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 600px) {
+  .search_result_resource_suggestion {
+    margin-top: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 }
 
 
