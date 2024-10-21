@@ -57,11 +57,11 @@ const ContinueWatching: React.FC<ResourceCardInterface> = ({
                   title={data.resource_name}
                   rating={data.rating}
                   totalReviews={data.reviews}
-                  isUserLogin={session.isLoggedIn}
+                  // isUserLogin={session.isLoggedIn}
                   url={
-                    session.isLoggedIn
-                      ? `${url}?id=${data.resource_id}`
-                      : "/log-in"
+                    // session.isLoggedIn
+                       `${url}?id=${data.resource_id}`
+                      // : "/log-in"
                   }
                   resourceType={resourceType}
                 />

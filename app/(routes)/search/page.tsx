@@ -222,11 +222,11 @@ const Search = () => {
                         title={data.resource_name}
                         rating={data.rating}
                         totalReviews={data.reviews}
-                        isUserLogin={session.isLoggedIn}
+                        // isUserLogin={session.isLoggedIn}
                         url={
-                          session.isLoggedIn
-                            ? `${url}`
-                            : "/log-in"
+                          // session.isLoggedIn
+                             `${url}`
+                            // : "/log-in"
                         }
                         resourceType={data.material_type}
                       />

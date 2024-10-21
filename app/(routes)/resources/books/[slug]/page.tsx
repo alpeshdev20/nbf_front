@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
 import StarRating from "@/components/StarRating/StarRating";
@@ -12,6 +12,10 @@ import ShareResource from "@/components/Resources/ShareResource/ShareResource";
 import ResourceInfoLoader from "@/components/Resources/ResourceInfoLoader/ResourceInfoLoader";
 import NoDataFound from "@/components/NoDataFound/NoDataFound";
 import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/ResourcePlayerButton";
+import { useRouter } from "next/navigation";
+import styles from "./BookInfo.module.css";
+import { useSession } from "@/providers/SessionProvider";
+
 
 //* Icons
 import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
@@ -21,22 +25,25 @@ import { FaCaretRight } from "react-icons/fa";
 import DefaultResourceImage from "@/images/common/recommendation.png";
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
-  // Extract slug from params
+  const router = useRouter();
   const { slug } = params;
-  
-  // Fetch resource info based on slug
+
+  // State to check user login status
+  const { session } = useSession();
+
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
+
+  const handleStartFreeTrial = () => {
+    router.push("/sign-up");
+  };
 
   return (
     <ResourcesLayout showAddBanner={false} showResourcesHighlights={false}>
       {isLoading && <ResourceInfoLoader />}
-
       {!isLoading && resourceInfo === null && <NoDataFound />}
-
       {!isLoading && resourceInfo !== null && (
         <div className="resouce-info-section">
           <div className="app-container">
-            {/* Resource Info */}
             <div className="resources-info-container">
               <div className="resource-info">
                 <div className="resource_image_container">
@@ -74,12 +81,21 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                   </div>
 
                   {/* Player Button */}
-                  <ResourcePlayerButton
-                    format={resourceInfo.format ?? ""}
-                    btnContext="Read Now"
-                    resourceLink={resourceInfo.resource ?? ""}
-                    resourceId={slug ?? ""}
-                  />
+                  {session.isLoggedIn ? (
+                    <ResourcePlayerButton
+                      format={resourceInfo.format ?? ""}
+                      btnContext="Read Now"
+                      resourceLink={resourceInfo.resource ?? ""}
+                      resourceId={slug ?? ""}
+                    />
+                  ) : (
+                    <button 
+                    onClick={handleStartFreeTrial} 
+                    className={styles.startFreeTrialButton} // Use the imported class
+                  >
+                    Start Free Trial
+                  </button>
+                  )}
 
                   <ul className="resource_other_info">
                     <li>ISBN Product Code - {resourceInfo.tags}</li>
@@ -87,19 +103,19 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     <li>Language - {resourceInfo.language}</li>
                     <li>Pages - {resourceInfo.length}</li>
                     <li>Product Category - {resourceInfo.genre}</li>
+                    <li>Contet Type  - {resourceInfo.material_category}</li>
+                    <li>Age Gruop - {resourceInfo.age_text}</li>
                   </ul>
                 </div>
               </div>
             </div>
 
-            {/* Resource Description and Summary */}
             <ResourceDescription
               summary={resourceInfo.summary ?? ""}
               toc={resourceInfo.table_of_content ?? ""}
               authorDetails={resourceInfo.author_detail ?? ""}
             />
 
-            {/* Related Resources */}
             <RelatedResources resourceId={slug} />
           </div>
         </div>

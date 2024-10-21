@@ -97,6 +97,8 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                       <li>Language - {resourceInfo.language}</li>
                       <li>Duration - {resourceInfo.length}</li>
                       <li>Product Category - {resourceInfo.genre}</li>
+                      <li>Contet Type  - {resourceInfo.mat_category}</li>
+                      <li>Age Gruop - {resourceInfo.age_text}</li>
                     </ul>
                   </div>
                 </div>
