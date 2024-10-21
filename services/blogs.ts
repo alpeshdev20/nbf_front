@@ -35,5 +35,6 @@ export function useGetBlogBySlug(slug: string) {
 
   // Extract the blog data
   const blogData: BlogsInterface | null = responseData?.response?.[0] ?? null;
+  console.log("blogData" ,blogData);
   return { blogData, isLoading, isError };
 }

@@ -34,6 +34,7 @@ const ResourceEpisodes: React.FC<ResourceEpisodesInterface> = ({
 
           <div className={Style.related_resources_contianer}>
             {resourceEpisodes?.map((data) => {
+              console.log("data" ,data);
               let url = "/";
               if (data.material_type === "Videos") {
                 url = `/resources/videos/${data.slug}`;
@@ -59,7 +60,7 @@ const ResourceEpisodes: React.FC<ResourceEpisodesInterface> = ({
                     totalReviews={0}
                     author=""
                     resourceType={data.material_type ?? ""}
-                    // isUserLogin={true}
+                    isUserLogin={true}
                     url={url}
                   />
                 </div>

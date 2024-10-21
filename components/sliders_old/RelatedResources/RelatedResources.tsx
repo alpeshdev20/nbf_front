@@ -72,7 +72,7 @@ const RelatedResources: React.FC<RelatedResourcesInterface> = ({
                       rating={data.rating}
                       totalReviews={data.reviews}
                       resourceType={data.material_type}
-                      // isUserLogin={true}
+                      isUserLogin={true}
                       url={url}
                     />
                   </div>
@@ -115,7 +115,7 @@ const RelatedResources: React.FC<RelatedResourcesInterface> = ({
                         rating={data.rating}
                         totalReviews={data.reviews}
                         resourceType={data.material_type}
-                        // isUserLogin={true}
+                        isUserLogin={true}
                         url={url}
                         relatedSliderClass={true}
                       />

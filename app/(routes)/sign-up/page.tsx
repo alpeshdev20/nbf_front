@@ -621,7 +621,7 @@ const SignUp = () => {
                       {!loading && (
                         <Button
                           btnColor="secondary"
-                          content="GET STARTED"
+                          content="GET STRATED"
                           clickEventName={(e) => handleForm(e)}
                         />
                       )}
