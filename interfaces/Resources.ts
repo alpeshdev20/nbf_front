@@ -23,4 +23,6 @@ export default interface ResourcesInterface {
   author_detail?: string;
   slug?:string;
   folder_name?:string;
+  mat_category? :number;
+  age_text?:number;
 }
