@@ -44,16 +44,16 @@ export async function middleware(request: NextRequest) {
   }
 
   //* for naisa rooutes
-  const isNaisaRoutes = naisaRoutes.includes(request.nextUrl.pathname);
+  // const isNaisaRoutes = naisaRoutes.includes(request.nextUrl.pathname);
 
   //! Checking naisa routes
-  if (isNaisaRoutes) {
-    if (cookie) {
-      return;
-    } else {
-      return NextResponse.redirect(new URL("/log-in", request.nextUrl));
-    }
-  }
+  // if (isNaisaRoutes) {
+    // if (cookie) {
+    //   return;
+    // } else {
+  //     return NextResponse.redirect(new URL("/log-in", request.nextUrl));
+  //   }
+  // }
 
   //* for users routes
   const isUsersRoutes = userRoutes.includes(request.nextUrl.pathname);

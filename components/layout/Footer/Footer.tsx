@@ -5,6 +5,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "@/providers/SessionProvider";
+
 
 //*Importing css
 import Style from "@/components/layout/Footer/Footer.module.css";
@@ -25,6 +27,10 @@ import AISearch from "@/icons/ai-search.png";
 
 const Footer: React.FC = () => {
   const pathName = usePathname();
+  const { session } = useSession(); // Get session context
+  console.log("session" ,session);
+  const isLoggedIn = session?.isLoggedIn;
+
 
   const goToTop = () => {
     window.scrollTo({
@@ -145,10 +151,19 @@ const Footer: React.FC = () => {
       </footer>
 
       {pathName !== "/naisa" && (
-        <Link href="/naisa" className={Style.search_ai}>
-          <Image src={AISearch} alt="Search AI" />
-        </Link>
-      )}
+      <>
+        {isLoggedIn ? (
+          <Link href="/naisa" className={Style.search_ai}>
+            <Image src={AISearch} alt="Search AI" />
+          </Link>
+        ) : (
+          // Redirect to login if not logged in
+          <Link href="/log-in" className={Style.search_ai}>
+            <Image src={AISearch} alt="Search AI" />
+          </Link>
+        )}
+      </>
+    )}
     </>
   );
 };

@@ -13,6 +13,9 @@ import ResourceInfoLoader from "@/components/Resources/ResourceInfoLoader/Resour
 import ShareResource from "@/components/Resources/ShareResource/ShareResource";
 import Wishlist from "@/components/Resources/Wishlist/Wishlist";
 import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/ResourcePlayerButton";
+import { useRouter } from "next/navigation";
+import styles from "./BookInfo.module.css";
+import { useSession } from "@/providers/SessionProvider";
 
 //* Icons
 import ResourceTypeIcon from "@/images/categories/class-card-icon.png";
@@ -24,10 +27,16 @@ import DefaultResourceImage from "@/images/common/recommendation.png";
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   // Extract slug from params
   const { slug } = params;
+  const router = useRouter();
+  const { session } = useSession();
 
   // Fetch resource info based on slug
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
 
+  const handleStartFreeTrial = () => {
+    router.push("/sign-up");
+  };
+  
   return (
     <>
       <ResourcesLayout showAddBanner={false} showResourcesHighlights={false}>
@@ -78,12 +87,21 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     </div>
 
                     {/* Player Button */}
+                    {session.isLoggedIn ? (
                     <ResourcePlayerButton
                       format={resourceInfo.format ?? ""}
                       btnContext="Read Now"
                       resourceLink={resourceInfo.resource ?? ""}
                       resourceId={slug ?? ""}
                     />
+                  ) : (
+                    <button 
+                    onClick={handleStartFreeTrial} 
+                    className={styles.startFreeTrialButton} // Use the imported class
+                  >
+                    Start Free Trial
+                  </button>
+                  )}
 
                     <ul className="resource_other_info">
                       <li>Format - {resourceInfo.format}</li>

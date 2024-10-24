@@ -36,7 +36,7 @@ const SearchSuggestion: React.FC<{
                 title={data.resource_name}
                 rating={data.rating}
                 totalReviews={data.reviews}
-                isUserLogin={true}
+                // isUserLogin={true}
                 url={`${url}?id=${data.resource_id}`}
                 resourceType={data.material_type}
               />
