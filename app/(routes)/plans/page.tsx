@@ -27,11 +27,7 @@ const ViewPlans = () => {
         </Head>
 
         {/* @ts-ignore */}
-        <Script
-          type="application/javascript"
-          src={`${process.env.PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.PAYTM_MID}.js`}
-          onLoad="onScriptLoad();"
-          crossOrigin="anonymous"
+        <Script type="application/javascript" src={`${process.env.PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.PAYTM_MID}.js`} onLoad="onScriptLoad();" crossOrigin="anonymous"
         ></Script>
 
         

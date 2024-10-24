@@ -4,7 +4,7 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 import Button from "@/components/ui/Button/Button";
-import StarRating from "@/components/StarRating/StarRating";
+// import StarRating from "@/components/StarRating/StarRating";
 import { useQueryClient } from "@tanstack/react-query";
 import { post } from "@/utils/fetch";
 import { errorToast } from "@/utils/toast_helper";
@@ -34,6 +34,7 @@ interface WishListAndLibraryResourceCardInterface {
   resourceId: string;
   detailContext: string;
   removeContext?: string;
+  slug?: string;
 }
 
 const WishListAndLibraryResourceCard: React.FC<

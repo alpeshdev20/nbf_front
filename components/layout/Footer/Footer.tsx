@@ -5,6 +5,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "@/providers/SessionProvider";
+
 
 //*Importing css
 import Style from "@/components/layout/Footer/Footer.module.css";
@@ -13,6 +15,8 @@ import Style from "@/components/layout/Footer/Footer.module.css";
 import Logo from "@/public/logo.png";
 import Linkedin from "@/images/footer/linkedin.png";
 import Twiiter from "@/images/footer/twitter.png";
+import Youtube from "@/images/footer/youtube12.png";
+import Facebook from "@/images/footer/facebook.png";
 import Instagram from "@/images/footer/instagram.png";
 import AppleStore from "@/images/footer/app-store.png";
 import PlayStore from "@/images/footer/play-store.png";
@@ -23,6 +27,10 @@ import AISearch from "@/icons/ai-search.png";
 
 const Footer: React.FC = () => {
   const pathName = usePathname();
+  const { session } = useSession(); // Get session context
+  console.log("session" ,session);
+  const isLoggedIn = session?.isLoggedIn;
+
 
   const goToTop = () => {
     window.scrollTo({
@@ -46,8 +54,8 @@ const Footer: React.FC = () => {
                 <p>STREAM UNLIMITED KNOWLEDGE</p>
               </div>
               <div className={Style.social_media}>
-                <Link
-                  href=" https://www.facebook.com/netbookflix/"
+              <Link
+                  href="https://www.linkedin.com/company/netbookflix-learning-resource-pvt-ltd/"
                   target="_blank"
                 >
                   <Image src={Linkedin} alt="Linkedin" />
@@ -60,6 +68,20 @@ const Footer: React.FC = () => {
                   target="_blank"
                 >
                   <Image src={Instagram} alt="Instagram" />
+                </Link>
+
+                <Link
+                  href="https://www.youtube.com/@netbookflix4507/"
+                  target="_blank"
+                >
+                  <Image src={Youtube} alt="Youtube" />
+                </Link>
+
+                <Link
+                  href="https://www.facebook.com/netbookflix/"
+                  target="_blank"
+                >
+                  <Image src={Facebook} alt="Youtube" />
                 </Link>
               </div>
               <div className={Style.stores}>
@@ -105,7 +127,7 @@ const Footer: React.FC = () => {
                       width={33}
                       height={33}
                     />
-                    +9818195778
+                    +919821466399
                   </Link>
 
                   <Link href="mailto:support@netbookflix.com">
@@ -129,10 +151,19 @@ const Footer: React.FC = () => {
       </footer>
 
       {pathName !== "/naisa" && (
-        <Link href="/naisa" className={Style.search_ai}>
-          <Image src={AISearch} alt="Search AI" />
-        </Link>
-      )}
+      <>
+        {isLoggedIn ? (
+          <Link href="/naisa" className={Style.search_ai}>
+            <Image src={AISearch} alt="Search AI" />
+          </Link>
+        ) : (
+          // Redirect to login if not logged in
+          <Link href="/log-in" className={Style.search_ai}>
+            <Image src={AISearch} alt="Search AI" />
+          </Link>
+        )}
+      </>
+    )}
     </>
   );
 };

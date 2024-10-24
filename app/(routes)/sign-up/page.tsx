@@ -54,6 +54,7 @@ const SignUp = () => {
     gender: "",
     segment: "",
     class: "",
+    city :"",
     personal_address: "",
     institute_address: "",
     registration_type: "",
@@ -71,6 +72,7 @@ const SignUp = () => {
     genderError: "",
     segmentError: "",
     classError: "",
+    cityError : "",
     personalAddressError: "",
     instituteAddressError: "",
     termsError: "",
@@ -147,6 +149,7 @@ const SignUp = () => {
               genderError: data?.message?.gender?.toString(),
               segmentError: data?.message?.segment?.toString(),
               classError: data?.message?.class?.toString(),
+              cityError :data?.message?.city?.toString(),
               personalAddressError: data?.message?.personal_address?.toString(),
               instituteAddressError:
                 data?.message?.institute_address?.toString(),
@@ -166,6 +169,7 @@ const SignUp = () => {
               gender: "",
               segment: "",
               class: "",
+              city : "",
               personal_address: "",
               institute_address: "",
               registration_type: "",
@@ -183,6 +187,7 @@ const SignUp = () => {
               genderError: "",
               segmentError: "",
               classError: "",
+              cityError : "",
               personalAddressError: "",
               instituteAddressError: "",
               termsError: "",
@@ -202,6 +207,7 @@ const SignUp = () => {
             gender: "",
             segment: "",
             class: "",
+            city:"",
             personal_address: "",
             institute_address: "",
             registration_type: "",
@@ -214,11 +220,12 @@ const SignUp = () => {
             nameError: "",
             mobileError: "",
             passwordError: "",
+            dobError :"",
             emailError: "",
-            dobError: "",
             genderError: "",
             segmentError: "",
             classError: "",
+            cityError : "",
             personalAddressError: "",
             instituteAddressError: "",
             termsError: "",
@@ -319,7 +326,7 @@ const SignUp = () => {
                                   id="token"
                                   className="form-input"
                                   name="token"
-                                  placeholder="Registration Token"
+                                  placeholder="Entrollment Number"
                                   onChange={(e) =>
                                     setUserInfo({
                                       ...userInfo,
@@ -465,6 +472,7 @@ const SignUp = () => {
                           <option value="">Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
+                          <option value="Female">Others</option>
                         </select>
                         <div className="error">{error.genderError}</div>
                       </div>
@@ -505,29 +513,49 @@ const SignUp = () => {
                         </div>
                         <div className="error">{error.segmentError}</div>
                       </div>
+                      <div className="form-group">
+                          <label htmlFor=""></label>
+                          <select
+                            name="class"
+                            id="class"
+                            onChange={(e) =>
+                              setUserInfo({
+                                ...userInfo,
+                                class: e.target.value,
+                              })
+                            }
+                            disabled={userInfo.segment === "Higher Education"} // Conditionally disable the select
+                          >
+                            <option value="">Select Class</option>
+                            {classesData?.map((data) => {
+                              return (
+                                <option value={data.id} key={data.id}>
+                                  {data.class_name}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <div className="error">{error.classError}</div>
+                      </div>
 
                       <div className="form-group">
-                        <label htmlFor=""></label>
-                        <select
-                          name="class"
-                          id="class"
+                       <label htmlFor="city">City</label>
+                        <input
+                          type="text"
+                          id="city"
+                          className="form-input inputs"
+                          name="city"
+                          placeholder="City*"
                           onChange={(e) =>
                             setUserInfo({
                               ...userInfo,
-                              class: e.target.value,
+                              city: e.target.value,
                             })
                           }
-                        >
-                          <option value="">Select Class</option>
-                          {classesData?.map((data) => {
-                            return (
-                              <option value={data.id} key={data.id}>
-                                {data.class_name}
-                              </option>
-                            );
-                          })}
-                        </select>
-                        <div className="error">{error.classError}</div>
+                        />
+                        <div className="error">{error.cityError}</div>
+                      </div>
+                      <div className="form-group">
                       </div>
 
                       <div className="form-group">
@@ -593,7 +621,7 @@ const SignUp = () => {
                       {!loading && (
                         <Button
                           btnColor="secondary"
-                          content="GET STRATED"
+                          content="GET STARTED"
                           clickEventName={(e) => handleForm(e)}
                         />
                       )}

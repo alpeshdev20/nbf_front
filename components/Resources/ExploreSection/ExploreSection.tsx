@@ -19,12 +19,12 @@ interface ResourceCardInterface {
   url: string;
   requestURL: string;
   resourceType:
-    | "Books"
-    | "Audio Books"
-    | "Videos"
-    | "Class Notes"
-    | "Ar/Vr"
-    | "Gamefied";
+  | "Books"
+  | "Audio Books"
+  | "Videos"
+  | "Class Notes"
+  | "Ar/Vr"
+  | "Gamefied";
 }
 
 interface Option {
@@ -57,10 +57,10 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
     if (!isLoading && isSuccess) {
       if (showMoreClicked) {
         setResources([...resources, ...resourceData]);
+        setShowMoreClicked(false);
       } else {
         setResources(resourceData);
       }
-      setShowMoreClicked(false);
     }
   }, [
     resourceData,
@@ -68,7 +68,6 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
     isLoading,
     selectedGenres?.value,
     selectedAgeGroup?.value,
-    showMoreClicked,
   ]);
 
   const showMore = () => {
@@ -94,7 +93,7 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
             {resources.length !== 0 &&
               resources.map((data) => (
                 <ResourceCard
-                  key={data.resource_id}
+                  key={data.slug}
                   image={
                     data.resource_image
                       ? data.resource_image
@@ -104,11 +103,11 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
                   title={data.resource_name}
                   rating={data.rating}
                   totalReviews={data.reviews}
-                  isUserLogin={session.isLoggedIn}
+                  // isUserLogin={session.isLoggedIn}
                   url={
-                    session.isLoggedIn
-                      ? `${url}?id=${data.resource_id}`
-                      : "/log-in"
+                    // session.isLoggedIn
+                       `${url}/${data.slug}`
+                      // : "/log-in"
                   }
                   resourceType={resourceType}
                 />
@@ -118,14 +117,16 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
         </div>
       </div>
       {isSuccess && resourceData.length === 36 && (
-        <div className="resource-show-more-button-container">
-          <Button
-            btnColor="secondary"
-            btnType="button"
-            content={isLoading ? "Loading please wait..." : "SHOW MORE"}
-            clickEventName={showMore}
-            disabled={isLoading || isError || !isSuccess}
-          />
+        <div className="app-container">
+          <div className="resource-show-more-button-container">
+            <Button
+              btnColor="secondary"
+              btnType="button"
+              content={isLoading ? "Loading please wait..." : "SHOW MORE"}
+              clickEventName={showMore}
+              disabled={isLoading || isError || !isSuccess}
+            />
+          </div>
         </div>
       )}
     </>

@@ -1,11 +1,19 @@
+"use client"
 //* Component
+import { useEffect } from "react";
+import { useSession } from "@/providers/SessionProvider";
+import { post } from "@/utils/fetch";
+// import { metadata } from '@/services/metadata'; // Adjust the path as necessary
+// /var/www/html/nbf_front/services/metadata.ts
+
+
 import type { Metadata } from "next";
 import { ToastContainer } from "react-toastify";
 import SessionProvider from "@/providers/SessionProvider";
 
 
 //* Metadata
-export const metadata: Metadata = {
+ const metadata: Metadata = {
   title: "Netbookflix",
   description: "Online portal",
 };
@@ -30,6 +38,33 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
+  const { session } = useSession(); // Get session context
+
+  useEffect(() => {
+
+    if (session) {
+      const interval = setInterval(() => {
+       logTimeSpent(5000);
+      }, 5000);
+  
+    }
+
+  }, [session]);
+
+  //* Updating User Reading stats
+  const logTimeSpent = (time: number) => {
+    post(`${process.env.API_URL}users-stats/update-user-time-spent-on-nbf`, {
+      time,
+    })
+      .then((data) => {
+        // Handle success if needed
+      })
+      .catch((error) => {
+        // Handle error if needed
+      });
+  };
+
   return (
     <html lang="en">
       <head>

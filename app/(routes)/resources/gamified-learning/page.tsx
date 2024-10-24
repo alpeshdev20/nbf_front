@@ -1,48 +1,40 @@
 //* importing component
 import React from "react";
 import ResourcesLayout from "../resource-layout";
-// import Filters from "@/components/Filters/Filters";
-import ComingSoon from "@/components/ComingSoon/ComingSoon";
-// import ContinueWatching from "@/components/Resources/ContinueWatching/ContinueWatching";
-// import ExploreSection from "@/components/Resources/ExploreSection/ExploreSection";
+import ContinueWatching from "@/components/Resources/ContinueWatching/ContinueWatching";
+import ExploreSection from "@/components/Resources/ExploreSection/ExploreSection";
 
-//* images
-import DefaultResourceImage from "@/images/common/recommendation.png";
+import type { Metadata } from "next";
 
-const GamifiedLearning = () => {
+//* Metadata
+export const metadata: Metadata = {
+  title: "Online Bookstore - Explore and Read Books Online Anytime",
+  description: "Find the best books online at our online bookstore. Read books online from a vast collection at the ultimate books online store, anytime, anywhere.",
+};
+const Books = () => {
   return (
     <ResourcesLayout>
-      {/* <div className="resouses-title books">
+      <div className="resouses-title books">
         <div className="app-container">
           <h5>
-            Vid<span>eos</span>
+          Gamified<span> Learning</span>
           </h5>
         </div>
-      </div> */}
+      </div>
 
-      {/* Filters  */}
-      {/* <Filters /> */}
-
-      {/* <ContinueWatching
-        url="/resources/gamified-learning/info"
+      <ContinueWatching
+        url="/resources/gamified-learning/"
         resourceType="Gamefied"
         requestURL="resources/gamified-learning"
       />
-       */}
-      {/* <div className="resources-explore-section">
-        <div className="app-container">
-          <h5>Explore More</h5>
-          <ExploreSection
-            url="/resources/gamified-learning/info"
-            resourceType="Gamefied"
-            requestURL="resources/gamified-learning"
-          />
-        </div>
-      </div> */}
 
-      <ComingSoon />
+      <ExploreSection
+        url="/resources/gamified-learning"
+        resourceType="Gamefied"
+        requestURL="resources/gamified-learning"
+      />
     </ResourcesLayout>
   );
 };
 
-export default GamifiedLearning;
+export default Books;

@@ -21,4 +21,8 @@ export default interface ResourcesInterface {
   wishlist?: boolean;
   table_of_content?: string;
   author_detail?: string;
+  slug?:string;
+  folder_name?:string;
+  mat_category? :number;
+  age_text?:number;
 }

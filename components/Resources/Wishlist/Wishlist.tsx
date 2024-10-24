@@ -14,7 +14,7 @@ import { errorToast, successToast } from "@/utils/toast_helper";
 //* interface
 interface WishlistInterface {
   isWishlisted: boolean;
-  resourceId: string;
+  resourceId?: string; // Make resourceId optional
 }
 
 const Wishlist: React.FC<WishlistInterface> = ({

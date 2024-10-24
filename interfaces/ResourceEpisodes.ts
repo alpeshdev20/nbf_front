@@ -4,4 +4,5 @@ export default interface ResourceEpisodesInterface {
   resource_id: string;
   resource_image: string;
   resource_name: string;
+  slug?: string; 
 }

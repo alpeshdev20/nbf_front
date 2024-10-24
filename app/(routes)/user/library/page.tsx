@@ -29,13 +29,13 @@ const Library = () => {
               libraryData.map((data) => {
                 let url = "/";
                 if (data.material_type === "Videos") {
-                  url = `/resources/videos/info?id=${data.resource_id}`;
+                  url = `/resources/videos/${data.slug}`;
                 } else if (data.material_type === "Class Notes") {
-                  url = `/resources/class-notes/info?id=${data.resource_id}`;
+                  url = `/resources/class-notes/${data.slug}`;
                 } else if (data.material_type === "Audio Books") {
-                  url = `/resources/audio-books/info?id=${data.resource_id}`;
-                } else if (data.material_type === "Books") {
-                  url = `/resources/books/info?id=${data.resource_id}`;
+                  url = `/resources/audio-books/${data.slug}`;
+                } else if (data.material_type === "Books" || data.material_type === "e-Books") {
+                  url = `/resources/books/${data.slug}`;
                 } else {
                   url = "/";
                 }
@@ -56,7 +56,7 @@ const Library = () => {
                     title={data.resource_name}
                     rating={data.rating}
                     totalReviews={data.reviews}
-                    pageURL={url}
+                    pageURL={`${url}`}
                     resourceType={data.material_type}
                   />
                 );

@@ -15,10 +15,12 @@ import DefaultResourceImage from "@/images/common/recommendation.png";
 //* interface
 interface ResourceEpisodesInterface {
   resourceId: string;
+  slug?: string;  // Make slug optional
 }
 
 const ResourceEpisodes: React.FC<ResourceEpisodesInterface> = ({
   resourceId,
+  slug ,
 }) => {
   const { resourceEpisodes, isLoading } = getResourceEpisodes(resourceId ?? "");
 
@@ -34,13 +36,13 @@ const ResourceEpisodes: React.FC<ResourceEpisodesInterface> = ({
             {resourceEpisodes?.map((data) => {
               let url = "/";
               if (data.material_type === "Videos") {
-                url = `/resources/videos/info/${data.resource_id}`;
+                url = `/resources/videos/${data.slug}`;
               } else if (data.material_type === "Class Notes") {
-                url = `/resources/class-notes/info/${data.resource_id}`;
-              } else if (data.material_type === "Audio Books") {
-                url = `/resources/audio-books/info/${data.resource_id}`;
-              } else if (data.material_type === "Books") {
-                url = `/resources/books/info/${data.resource_id}`;
+                url = `/resources/class-notes/${data.slug}`;
+              } else if (data.material_type === "audio-books") {
+                url = `/resources/audio-books/${data.slug}`;
+              } else if (data.material_type === "Books" || data.material_type === "e-Books") {
+                url = `/resources/books/${data.slug}`;
               } else {
                 url = "/";
               }
@@ -57,7 +59,7 @@ const ResourceEpisodes: React.FC<ResourceEpisodesInterface> = ({
                     totalReviews={0}
                     author=""
                     resourceType={data.material_type ?? ""}
-                    isUserLogin={true}
+                    // isUserLogin={true}
                     url={url}
                   />
                 </div>

@@ -23,6 +23,7 @@ import { FaCaretRight } from "react-icons/fa";
 import DefaultResourceImage from "@/images/common/recommendation.png";
 
 const ResourceDetails = () => {
+  
   const params = useSearchParams();
   const resourceId = params.get("id");
 
@@ -77,10 +78,7 @@ const ResourceDetails = () => {
                       <p>
                         <FaCaretRight /> Published In {resourceInfo.year}
                       </p>
-                      <p>
-                        <FaCaretRight /> Copyright by
-                        {resourceInfo.publisher_name}
-                      </p>
+                      <p><FaCaretRight /> Copyright by {resourceInfo.publisher_name}</p>
                     </div>
                   </div>
 
@@ -93,7 +91,7 @@ const ResourceDetails = () => {
                   />
 
                   <ul className="resource_other_info">
-                    <li>ISBN Product Code - {resourceInfo.isbn_code}</li>
+                    <li>ISBN Product Code - {resourceInfo.tags}</li>
                     <li>Format - {resourceInfo.format}</li>
                     <li>Language - {resourceInfo.language}</li>
                     <li>Pages - {resourceInfo.length}</li>

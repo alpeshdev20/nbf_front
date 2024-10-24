@@ -83,8 +83,8 @@ const SubscriptionWithCategory: React.FC<SubscriptionWithCategoryInterface> = ({
             <h6>Join Us at minimum of &#8377;15/-</h6>
             <h6> Cancel at anytime...</h6>
 
-            {!session.isLoggedIn && <Button
-              link="/"
+            {!session.isLoggedIn && <Button 
+              link="/plans"
               content="Subscribe"
               btnColor="third"
               otherClass="subscription-button"

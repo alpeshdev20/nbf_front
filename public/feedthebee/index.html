@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Feed The Bee - FTS</title>
+<script src="libs/createjs.min.js"></script>
+<script src="libs/jquery.min.js"></script>
+<script src="libs/StageResize.js"></script>
+<script src="index.js"></script>
+<link href="css/stylesheet.css" rel="stylesheet" type="text/css">
+<script>
+var canvas, stage, exportRoot;
+var propertyWidth = 1280, propertyHeight = 720;
+function init()
+{
+	canvas = document.getElementById("canvas");
+	images = images||{};
+	ss = ss||{};
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(lib.properties.manifest);
+	loadCSSFonts();
+}
+function handleFileLoad(evt)
+{	
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }	
+}
+function loadCSSFonts()
+{
+	loadFonts({
+		src: foo,
+		type: "fontcss"
+	});
+	return false;
+}
+function loadFonts(config)
+{
+	var loader = new createjs.FontLoader(config, true);
+	loader.on("complete", this.handleFontLoaded);
+	loader.load();
+}
+function handleFontLoaded(e)
+{
+	
+}
+function handleComplete(evt)
+{	
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var preloaderDiv = document.getElementById("preload_div");
+	preloaderDiv.style.display = 'none';
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++)
+	{
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.index();
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);	
+	createjs.Touch.enable(stage);
+	stage.enableMouseOver();
+	createjs.Ticker.framerate = lib.properties.fps;
+	createjs.Ticker.addEventListener("tick", stage);
+}
+function gotoFullScreenMode()
+{
+	if(isMobile())
+	{
+		var docElm = document.documentElement;
+		if (docElm.requestFullscreen)docElm.requestFullscreen();
+		else if (docElm.mozRequestFullScreen)docElm.mozRequestFullScreen();
+		else if (docElm.webkitRequestFullScreen)docElm.webkitRequestFullScreen();
+		else if (docElm.msRequestFullscreen)docElm.msRequestFullscreen();
+		screen.orientation.lock("landscape-primary");
+		setTimeout(function(){ if(initialScreenHeight == 0)initialScreenHeight = window.innerHeight; }.bind(this), 1000);
+	}
+}
+
+</script>
+
+
+<style id='foo'>
+@font-face {
+    font-family: 'Poppins';
+    src: url('css/fonts/Poppins-Bold.eot');
+    src: url('css/fonts/Poppins-Bold.eot?#iefix') format('embedded-opentype'),
+        url('css/fonts/Poppins-Bold.woff2') format('woff2'),
+        url('css/fonts/Poppins-Bold.woff') format('woff'),
+        url('css/fonts/Poppins-Bold.ttf') format('truetype'),
+        url('css/fonts/Poppins-Bold.svg#Poppins-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Baloo Thambi';
+    src: url('css/fonts/BalooThambi-Regular.eot');
+    src: url('css/fonts/BalooThambi-Regular.eot?#iefix') format('embedded-opentype'),
+        url('css/fonts/BalooThambi-Regular.woff2') format('woff2'),
+        url('css/fonts/BalooThambi-Regular.woff') format('woff'),
+        url('css/fonts/BalooThambi-Regular.ttf') format('truetype'),
+        url('css/fonts/BalooThambi-Regular.svg#BalooThambi-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Arial-Black';
+    src: url('css/fonts/Arial-Black.eot');
+    src: url('css/fonts/Arial-Black.eot?#iefix') format('embedded-opentype'),
+        url('css/fonts/Arial-Black.woff2') format('woff2'),
+        url('css/fonts/Arial-Black.woff') format('woff'),
+        url('css/fonts/Arial-Black.ttf') format('truetype'),
+        url('css/fonts/Arial-Black.svg#Arial-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+</style>
+</head>
+<body onload="init();" style="margin:0px;">
+	<div id="game_bg" style="background-repeat:no-repeat;"></div>
+	<div id="canvas_area" style="background-color:rgba(255, 255, 255, 1.00); width:1280px; height:720px">
+		<canvas id="canvas" width="1280" height="720" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		 <!--<div id='_preload_div_' style='display: inline-block; height:720px; width: 1280px; vertical-align=middle;position:absolute;left:0px;top:0px;text-align: center;'>	<span style='display: inline-block; height: 100%; vertical-align: middle;'></span>	<img src=images/_preloader.gif?1560139046769 style='vertical-align: middle; max-height: 100%'/></div>-->
+		  <div id='preload_div'><img src=images/preloader.gif style='width: 30%; max-height: 100%;'/><div id="loader-txt">Loading...</div></div>
+	</div>
+	
+</body>
+</html>
