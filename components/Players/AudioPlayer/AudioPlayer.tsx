@@ -2,8 +2,7 @@
 
 //* importing components
 import React, { useEffect, useState } from "react";
-
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
 
 import "plyr-react/plyr.css";
@@ -12,12 +11,30 @@ import "plyr-react/plyr.css";
 interface AudioPlayerInterface {
   resource: string;
   format: string;
+  resourceId: string;
+  updateUserReadingStats: (time: string) => void;
+  updateUserAndBookStats: (time: string) => void;
 }
 
-//* css
-// import Style from "@/components/Players/AudioPlayer/AudioPlayer.module.css";
+const AudioPlayer: React.FC<AudioPlayerInterface> = ({
+  resource,
+  resourceId,
+  updateUserAndBookStats,
+}) => {
+  // State to track the current time of the audio
+  const [currentTime, setCurrentTime] = useState(0);
 
-const AudioPlayer: React.FC<AudioPlayerInterface> = ({ resource, format }) => {
+  // Effect to handle periodic updates to stats
+   //* Use Effect for setInterval
+   useEffect(() => {
+    const interval = setInterval(() => {
+      updateUserAndBookStats("5000");
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <>
