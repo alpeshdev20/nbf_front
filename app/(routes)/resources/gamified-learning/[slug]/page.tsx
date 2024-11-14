@@ -13,6 +13,8 @@ import Image from "next/image";
 import { FaCaretRight } from "react-icons/fa";
 import DefaultResourceImage from "@/images/common/recommendation.png";
 import { getResourcesInfo } from "@/services/resources";
+import { post } from "@/utils/fetch";
+
 
 // import images
 import ResourceTypeIcon from "@/images/categories/class-card-icon.png";
@@ -21,7 +23,6 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const { session } = useSession(); // Get session context
   const [showGame, setShowGame] = useState(false);
   const { slug } = params;
-    console.log("slug" ,slug);
   const handleShowGame = () => {
     setShowGame(true);
     document.body.style.overflow = "hidden"; // Disable body scrolling
@@ -40,6 +41,45 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
       document.body.style.overflow = "auto"; // Cleanup
     };
   }, []);
+
+    //* Updating User and book stats
+    const updateUserAndBookStats = (slug : any) => {
+      post(`${process.env.API_URL}users-stats/update-book-stats`, {
+        id: slug,
+        read_time: 5000,
+      })
+        .then((data) => {})
+        .catch((error) => {});
+    };
+  
+    useEffect(() => {
+      console.log("is game model open", showGame);
+      
+      // Only start the interval if the game modal is open
+      let intervalId: NodeJS.Timeout | undefined;
+    
+      if (showGame) {
+        // Start the interval when the modal is open
+        intervalId = setInterval(() => {
+          if (resourceInfo?.resource_id) {
+            updateUserAndBookStats(resourceInfo.slug);
+          }
+        }, 5000); // Call every 5 seconds
+      } else {
+        // When modal is closed, clear the interval
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+      }
+    
+      // Cleanup the interval when the component unmounts or the modal state changes
+      return () => {
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+      };
+    }, [showGame, resourceInfo?.resource_id]);
+    
 
   return (
     <ResourcesLayout>
@@ -118,8 +158,8 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     <li>Language - {resourceInfo.language}</li>
                     <li>Pages - {resourceInfo.length}</li>
                     <li>Product Category - {resourceInfo.genre}</li>
-                    <li>Contet Type  - {resourceInfo.mat_category}</li>
-                    <li>Age Gruop - {resourceInfo.age_text}</li>
+                    <li>Content Type  - {resourceInfo.mat_category}</li>
+                    <li>Age Group - {resourceInfo.age_text}</li>
                   </ul>
                 </div>
               </div>

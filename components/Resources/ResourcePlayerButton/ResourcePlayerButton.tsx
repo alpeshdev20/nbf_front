@@ -109,10 +109,19 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
           />
         )}
         {showFormat === "mp3" && (
-          <AudioPlayer resource={resourceLink} format={format} />
+          <AudioPlayer resource={resourceLink} 
+           format={format} 
+           resourceId={resourceId}
+           updateUserReadingStats={updateUserReadingStats}
+           updateUserAndBookStats={updateUserAndBookStats}
+          />
         )}
         {showFormat === "mp4" && (
-          <VideoPlayer resource={resourceLink} format={format} />
+          <VideoPlayer resource={resourceLink} 
+          format={format} 
+          resourceId={resourceId}
+          updateUserAndBookStats={updateUserAndBookStats}
+          />
         )}
 
         {showFormat === "epub" && (

@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import SearchedResults from "@/components/Naisa/SearchedResults/SearchedResults";
 import NaisaSidebar from "@/components/Naisa/NaisaSidebar/NaisaSidebar";
+import './style.css'
 
 //* Interface
 import SearchInterface from "@/interfaces/NaisaSearchInterface";
@@ -62,7 +63,7 @@ const NaisaSection = () => {
 
   return (
     <section className="naisa_section">
-      <div className="app-container">
+      <div className="app-container naisa-app-container">
         <div className="naisa_container">
           {/* Naisa Sidebar  */}
           <NaisaSidebar

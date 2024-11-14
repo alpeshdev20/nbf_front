@@ -1,33 +1,48 @@
 "use client";
 
-//* importing components
 import React, { useEffect, useState } from "react";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 const Plyr = dynamic(() => import("plyr-react"), { ssr: false });
-
 import "plyr-react/plyr.css";
+import Style from "@/components/Players/VideoPlayer/VideoPlayer.module.css";
 
-//* interface
 interface VideoPlayerInterface {
   resource: string;
+  resourceId: string;
   format: string;
+  updateUserAndBookStats: (time: string) => void;
 }
 
-//* css
-// import Style from "@/components/Players/VideoPlayer/VideoPlayer.module.css";
+const VideoPlayer: React.FC<VideoPlayerInterface> = ({
+  resource,
+  format,
+  resourceId,
+  updateUserAndBookStats,
+}) => {
+  const [currentTime, setCurrentTime] = useState(0);
 
-const VideoPlayer: React.FC<VideoPlayerInterface> = ({ resource, format }) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateUserAndBookStats("5000");
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
-    <>
-      <Plyr
-        source={{
-          type: "video",
-          sources: [{ src: resource }],
-        }}
-        autoPlay={true}
-      />
-    </>
+    <div className={Style.videoPlayerContainer}>
+      <div className={Style.videoPlayer}>
+        <Plyr
+          source={{
+            type: "video",
+            sources: [{ src: resource }],
+          }}
+          autoPlay={true}
+        />
+      </div>
+    </div>
   );
 };
 

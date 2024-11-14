@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState, useEffect } from "react";
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
 import StarRating from "@/components/StarRating/StarRating";
@@ -16,13 +16,15 @@ import { useRouter } from "next/navigation";
 import styles from "./BookInfo.module.css";
 import { useSession } from "@/providers/SessionProvider";
 
-
 //* Icons
 import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
 import { FaCaretRight } from "react-icons/fa";
 
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
+// import Ereader from "@/components/heightlight/Heighlight";
+// import Ereader2 from "@/components/Ereader-backup/Ereader";
+// import Ereader_b from "@/components/Ereader-backup/Ereader";
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const router = useRouter();
@@ -31,10 +33,17 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   // State to check user login status
   const { session } = useSession();
 
+  // State to control visibility of the ResourcePlayerButton section
+  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
 
   const handleStartFreeTrial = () => {
     router.push("/sign-up");
+  };
+
+  const togglePlayerVisibility = () => {
+    setIsPlayerVisible((prev) => !prev); // Toggle the visibility state
   };
 
   return (
@@ -76,25 +85,45 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                       <p>
                         <FaCaretRight /> Published In {resourceInfo.year}
                       </p>
-                      <p><FaCaretRight /> Copyright by {resourceInfo.publisher_name}</p>
+                      <p>
+                        <FaCaretRight /> Copyright by {resourceInfo.publisher_name}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Player Button */}
+                  {/* Toggle Player Button */}
                   {session.isLoggedIn ? (
-                    <ResourcePlayerButton
-                      format={resourceInfo.format ?? ""}
-                      btnContext="Read Now"
-                      resourceLink={resourceInfo.resource ?? ""}
-                      resourceId={slug ?? ""}
-                    />
+                    <div>
+                      <ResourcePlayerButton
+                        format={resourceInfo.format ?? ""}
+                        btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
+                        resourceLink={resourceInfo.resource ?? ""}
+                        resourceId={slug ?? ""}
+                      />
+                      {/* This button triggers the visibility toggle */}
+                      {/* <button
+                        onClick={togglePlayerVisibility}
+                        className={styles.togglePlayerButton}
+                      >
+                        {isPlayerVisible ? "Close Player" : "Open Player"}
+                      </button> */}
+
+                      {/* Conditionally render the player section based on state */}
+                      {/* {isPlayerVisible && (
+                        <div className={styles.playerContainer + ' resource-player'}>
+                          <p>Resource Player for {resourceInfo.resource_name}</p>
+                                <Ereader_b />
+
+                        </div>
+                      )} */}
+                    </div>
                   ) : (
-                    <button 
-                    onClick={handleStartFreeTrial} 
-                    className={styles.startFreeTrialButton} // Use the imported class
-                  >
-                    Start Free Trial
-                  </button>
+                    <button
+                      onClick={handleStartFreeTrial}
+                      className={styles.startFreeTrialButton}
+                    >
+                      Start Free Trial
+                    </button>
                   )}
 
                   <ul className="resource_other_info">
@@ -103,8 +132,8 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     <li>Language - {resourceInfo.language}</li>
                     <li>Pages - {resourceInfo.length}</li>
                     <li>Product Category - {resourceInfo.genre}</li>
-                    <li>Contet Type  - {resourceInfo.material_category}</li>
-                    <li>Age Gruop - {resourceInfo.age_text}</li>
+                    <li>Content Type  - {resourceInfo.material_category}</li>
+                    <li>Age Group - {resourceInfo.age_text}</li>
                   </ul>
                 </div>
               </div>

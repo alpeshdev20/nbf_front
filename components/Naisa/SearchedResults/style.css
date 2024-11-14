@@ -1,0 +1,10 @@
+.naisa_submit_button {
+    cursor: pointer; /* Optional: to indicate it's clickable */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Apply hover effect */
+  .naisa_submit_button:hover {
+    background-color: #ff5718; /* Change to desired background color */
+    color: white; /* Change text color on hover */
+  }

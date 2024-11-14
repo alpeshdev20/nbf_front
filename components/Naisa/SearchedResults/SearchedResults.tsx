@@ -9,6 +9,8 @@ import SearchLoader from "@/components/Naisa/SearchLoader/SearchLoader";
 import { post } from "@/utils/fetch";
 import { errorToast } from "@/utils/toast_helper";
 import { GiHamburgerMenu } from "react-icons/gi";
+import "./style.css";
+
 
 //* Interface
 interface SearchedResultsProps {
@@ -59,15 +61,12 @@ const SearchedResults: React.FC<SearchedResultsProps> = ({
           );
 
           setSearchId(data?.response?.id);
-        } else if (data.status === 400) {
-          setQuestion("");
-          setFilteredOption(null);
-          errorToast("No Result Found.");
-          setShowLoader(false);
         } else {
           setQuestion("");
           setFilteredOption(null);
-          errorToast("something went wrong please try again later...");
+          // Check for API-specific error messages and display them
+          const errorMessage = data?.message || "Something went wrong, please try again later.";
+          errorToast(errorMessage); // Show the error message from the API or fallback message
           setShowLoader(false);
         }
       })
@@ -78,6 +77,7 @@ const SearchedResults: React.FC<SearchedResultsProps> = ({
         setShowLoader(false);
       });
   };
+  
 
   useEffect(() => {
     return () => {
@@ -148,7 +148,7 @@ const SearchedResults: React.FC<SearchedResultsProps> = ({
                   onKeyDown={handleKeyDown}
                 />
                 <div className="naisa_submit_button" onClick={searchQuery}>
-                  <FaArrowRight />
+                 <FaArrowRight />
                 </div>
               </div>
             </div>
