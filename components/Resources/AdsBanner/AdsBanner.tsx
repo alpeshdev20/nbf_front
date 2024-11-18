@@ -1,5 +1,3 @@
-// components/Resources/AdsBanner/AdsBanner.js
-
 import React from "react"; 
 import Slider from "react-slick";
 import Image from "next/image";
@@ -49,10 +47,13 @@ const AdsBanner = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching ads</div>;
 
+  // Ensure adsData is an array before calling .map()
+  const ads = Array.isArray(adsData) ? adsData : [];
+
   return (
     <div className={Style.ads_banner_section}>
       <Slider {...settings}>
-        {adsData.map((ad) => (
+        {ads.map((ad) => (
           <div key={ad.id} className={Style.slide_container}>
             <a href={ad.link} target="_blank" rel="noopener noreferrer">
               <Image 

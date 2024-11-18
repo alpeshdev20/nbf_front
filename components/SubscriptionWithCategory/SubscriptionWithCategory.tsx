@@ -37,16 +37,13 @@ const SubscriptionWithCategory: React.FC<SubscriptionWithCategoryInterface> = ({
   return (
     <div
       className={
-        bgType === "higher-edu"
-          ? Style.subscription_section
-          : `${Style.subscription_section} ${Style.k12}`
+           Style.subscription_section
       }
     >
       <div className="app-container">
         <div className={
-          bgType === "higher-edu"
-            ? Style.subscription_container
-            : `${Style.subscription_container} ${Style.k12}`
+             Style.subscription_container
+            // : `${Style.subscription_container} ${Style.k12}`
         }>
           <div className={Style.subscription_content_container}>
             <h6>Join the community of global learners</h6>

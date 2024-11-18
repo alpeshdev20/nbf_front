@@ -66,3 +66,20 @@ export function getGenres() {
   const genresData: genresInterface[] = responseData?.response ?? [];
   return { genresData, genreSuccess, isLoading };
 }
+
+export function K12getGenres() {
+
+  const {
+    data: responseData,
+    isLoading,
+    isSuccess: genreSuccess,
+  } = useQuery({
+    queryKey: ["k12-genres"],
+    queryFn: () => get(`${process.env.API_URL}k12-genres/`),
+  });
+
+  const genresData: genresInterface[] = responseData?.response ?? [];
+
+  return { genresData, genreSuccess, isLoading };
+}
+

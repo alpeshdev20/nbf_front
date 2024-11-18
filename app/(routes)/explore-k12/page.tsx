@@ -2,7 +2,7 @@
 import Navbar from "@/components/layout/Navbar/Navbar";
 import Image from "next/image";
 import Naisa from "@/components/ExploreNaisa/Naisa";
-import SubscriptionWithCategory from "@/components/SubscriptionWithCategory/SubscriptionWithCategory";
+import K12SubscriptionWithCategory from "@/components/SubscriptionWithCategory/K12SubscriptionWithCategory";
 import Partners from "@/components/sliders/Partners/Partners";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
@@ -15,6 +15,7 @@ import K12Hero from "@/components/K12Hero/K12Hero";
 import TickIcon from "@/icons/tick.png";
 
 const ExploreK12 = () => {
+  const isK12 :boolean = true
   return (
     <>
       {/* navbar  */}
@@ -52,7 +53,7 @@ const ExploreK12 = () => {
           </div>
         </section> */}
         {/* subscriptions */}
-        <SubscriptionWithCategory bgType="K12" icon={TickIcon} />
+        <K12SubscriptionWithCategory bgType="K12" icon={TickIcon} />
 
         {/* Partners  */}
         <Partners />
