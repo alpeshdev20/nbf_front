@@ -43,7 +43,6 @@ const SubscriptionWithCategory: React.FC<SubscriptionWithCategoryInterface> = ({
       <div className="app-container">
         <div className={
              Style.subscription_container
-            // : `${Style.subscription_container} ${Style.k12}`
         }>
           <div className={Style.subscription_content_container}>
             <h6>Join the community of global learners</h6>

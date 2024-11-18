@@ -103,11 +103,7 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
                   title={data.resource_name}
                   rating={data.rating}
                   totalReviews={data.reviews}
-                  url={
-                    // session.isLoggedIn
-                       `${url}/${data.slug}`
-                      // : "/log-in"
-                  }
+                  url={`${url}/${data.slug}`}
                   resourceType={resourceType}
                 />
               ))}
