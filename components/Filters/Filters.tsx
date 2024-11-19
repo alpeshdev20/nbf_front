@@ -64,23 +64,12 @@ const Filters: React.FC<FiltersInterface> = ({
         },
       ];
 
-  const genresOptions: Option[] = genresData
-    ? genresData.map((row) => ({
-        value: row.id,
-        label: row.genre_name,
-      }))
-    : [
-        {
-          value: 0,
-          label: "All Genres",
-        },
-      ];
-
-  // Prepend the "All Genres" option
-  genresOptions.unshift({
-    value: 0,
-    label: "All Genres",
-  });
+      const genresOptions: Option[] = genresData
+      ? genresData.map((row) => ({
+          value: row.id,
+          label: row.genre_name,
+        }))
+      : [];
 
   useEffect(() => {
     if (ageGroupOptions.length > 0) {
@@ -113,7 +102,7 @@ const Filters: React.FC<FiltersInterface> = ({
               <Select
                 options={genresOptions}
                 isSearchable={true}
-                placeholder="All Genres"
+                placeholder="Select Genres"
                 styles={customStyles}
                 value={selectedGenres}
                 onChange={handleGenresChange}
