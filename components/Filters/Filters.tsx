@@ -69,7 +69,17 @@ const Filters: React.FC<FiltersInterface> = ({
           value: row.id,
           label: row.genre_name,
         }))
-      : [];
+      : [
+          {
+            value: 0,
+            label: "All Genres",
+          },
+        ];
+    // Prepend the "All Genres" option
+    genresOptions.unshift({
+      value: 0,
+      label: "All Genres",
+    });
 
   useEffect(() => {
     if (ageGroupOptions.length > 0) {
