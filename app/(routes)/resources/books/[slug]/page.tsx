@@ -22,6 +22,7 @@ import { FaCaretRight } from "react-icons/fa";
 
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
+import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
 // import Ereader from "@/components/heightlight/Heighlight";
 // import Ereader2 from "@/components/Ereader-backup/Ereader";
 // import Ereader_b from "@/components/Ereader-backup/Ereader";
@@ -32,6 +33,8 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
   // State to check user login status
   const { session } = useSession();
+
+  const userId = session?.user?.user_id;
 
   // State to control visibility of the ResourcePlayerButton section
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
@@ -100,22 +103,26 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                         resourceLink={resourceInfo.resource ?? ""}
                         resourceId={slug ?? ""}
                       />
-                      {/* This button triggers the visibility toggle */}
-                      {/* <button
+                       {/* This button triggers the visibility toggle */}
+                       <button
                         onClick={togglePlayerVisibility}
                         className={styles.togglePlayerButton}
                       >
                         {isPlayerVisible ? "Close Player" : "Open Player"}
-                      </button> */}
+                      </button>
 
                       {/* Conditionally render the player section based on state */}
-                      {/* {isPlayerVisible && (
-                        <div className={styles.playerContainer + ' resource-player'}>
+                      {isPlayerVisible && (
+                        <div className={styles.playerContainer + ' resource-player hello'}>
                           <p>Resource Player for {resourceInfo.resource_name}</p>
-                                <Ereader_b />
+                                <PDF_E_reader
+                                 fileUrl={resourceInfo.resource}
+                                 userId={userId}
+                                 book_id ={slug ?? ""}
+                                  />
 
                         </div>
-                      )} */}
+                       )} 
                     </div>
                   ) : (
                     <button

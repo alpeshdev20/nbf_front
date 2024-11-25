@@ -3659,9 +3659,7 @@
   height: 10.041666666666668vw;
 }
 
-.rpv-core__text-layer-text {
-  user-select: none;
-}
+
 
 .Toastify__toast-container {
   z-index: 1000000000 !important;
@@ -4093,9 +4091,4 @@
 }
 
 
-/* Disable text selection and interactions for modal */
-.epub-container {
-  user-select: none;  /* Prevent text selection */
-  pointer-events: none;  /* Disable interactions */
-}
 
