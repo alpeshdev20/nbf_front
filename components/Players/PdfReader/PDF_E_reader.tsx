@@ -163,7 +163,7 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
 
                 // Save note to the backend
                 try {
-                    const response = await axios.post('http://api.netbookflix.local/api/highlight-notes', Notedata, {
+                    const response = await axios.post('https://api.netbookflix.com/api/highlight-notes', Notedata, {
                         headers: { 'Content-Type': 'application/json' },
                     });
                     setNotes(notes.concat([note]));
@@ -270,7 +270,7 @@ const renderHighlights = React.useCallback(
     const fetchNotes = async () => {
         try {            
             // Fetch the notes from the API (getting both the first note and the remaining ones)
-            const response = await axios.post('http://api.netbookflix.local/api/highlight-notes-get', { book_id , userIdMain});
+            const response = await axios.post('https://api.netbookflix.com/api/highlight-notes-get', { book_id , userIdMain});
             const notesArray = response.data.response; // Assuming 'response' contains the notes
                     // Extract the first note to add it directly to the state
                 const firstNote = notesArray[0];
