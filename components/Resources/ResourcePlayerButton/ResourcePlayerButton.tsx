@@ -21,7 +21,6 @@ interface ResourcePlayerButtonInterface {
   btnContext: string;
   resourceLink: string;
   resourceId: string;
-  userId:string;
 }
 
 const time = 2000;
@@ -31,7 +30,6 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
   btnContext,
   resourceLink,
   resourceId,
-  userId,
 }) => {
 
   useEffect(() => {
@@ -120,7 +118,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
            resource={resourceLink}
            resourceId={resourceId} 
             fileUrl={resourceLink}
-            userId={userId}
+            // userId={userId}
             book_id ={resourceId ?? ""}
             updateUserReadingStats={updateUserReadingStats}
             updateUserAndBookStats={updateUserAndBookStats}

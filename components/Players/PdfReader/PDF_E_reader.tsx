@@ -33,7 +33,7 @@ interface Note {
 
 interface HighlightExampleProps {
     fileUrl: string;
-    userId :string | unknown;
+    // userId :string | unknown;
     book_id : string | unknown
     resource: string;
     resourceId: string;
@@ -41,7 +41,7 @@ interface HighlightExampleProps {
     updateUserAndBookStats: (time: string) => void;
 }
 
-const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,userId ,
+const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
 
     book_id , resource, updateUserReadingStats, resourceId, updateUserAndBookStats}) => {
 

@@ -106,7 +106,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                         btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
                         resourceLink={resourceInfo.resource ?? ""}
                         resourceId={slug ?? ""}
-                        userId={userId}
+                        // userId={userId}
                       />
                        {/* This button triggers the visibility toggle */}
                         {/* <button
