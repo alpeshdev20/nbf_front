@@ -12,6 +12,8 @@ import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { post } from "@/utils/fetch";
 import { isResourceRead } from "@/services/UsersStats";
+import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
+import { useSession } from "@/providers/SessionProvider";
 
 //* interface
 interface ResourcePlayerButtonInterface {
@@ -19,6 +21,7 @@ interface ResourcePlayerButtonInterface {
   btnContext: string;
   resourceLink: string;
   resourceId: string;
+  userId:string;
 }
 
 const time = 2000;
@@ -28,6 +31,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
   btnContext,
   resourceLink,
   resourceId,
+  userId,
 }) => {
 
   useEffect(() => {
@@ -50,7 +54,12 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
 
   const onCloseModal = () => setOpen(false);
 
-  const handleResourcePlayer = () => {    
+   // State to check user login status
+   const { session } = useSession();  
+  //  console.log("userId in resource player module" ,userId);
+  //  console.log("resourceId in resource player module" ,resourceId);
+
+  const handleResourcePlayer = ({ params }: { params: { slug: string } }) => {    
     setShowFormat(format);
     if (!format) {
       errorToast("Failed to load file, please try again later.");
@@ -101,12 +110,21 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
         }
       >
         {showFormat === "pdf" && (
-          <PdfReader
-            resource={resourceLink}
-            resourceId={resourceId}
+          // <PdfReader
+          //   resource={resourceLink}
+          //   resourceId={resourceId}
+          //   updateUserReadingStats={updateUserReadingStats}
+          //   updateUserAndBookStats={updateUserAndBookStats}
+          // />
+          <PDF_E_reader
+           resource={resourceLink}
+           resourceId={resourceId} 
+            fileUrl={resourceLink}
+            userId={userId}
+            book_id ={resourceId ?? ""}
             updateUserReadingStats={updateUserReadingStats}
             updateUserAndBookStats={updateUserAndBookStats}
-          />
+            />
         )}
         {showFormat === "mp3" && (
           <AudioPlayer resource={resourceLink} 

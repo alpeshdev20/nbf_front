@@ -112,17 +112,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                       </button>
 
                       {/* Conditionally render the player section based on state */}
-                      {isPlayerVisible && (
-                        <div className={styles.playerContainer + ' resource-player hello'}>
-                          <p>Resource Player for {resourceInfo.resource_name}</p>
-                                <PDF_E_reader
-                                 fileUrl={resourceInfo.resource}
-                                 userId={userId}
-                                 book_id ={slug ?? ""}
-                                  />
 
-                        </div>
-                       )} 
                     </div>
                   ) : (
                     <button

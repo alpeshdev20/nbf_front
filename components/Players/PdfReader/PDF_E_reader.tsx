@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from "react";
 import { Button, DocumentLoadEvent, PdfJs, Position, PrimaryButton, Tooltip, Viewer, Worker } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import {
@@ -12,6 +13,8 @@ import {
 
 import type { ToolbarProps, ToolbarSlot, TransformToolbarSlot } from '@react-pdf-viewer/toolbar';
 import { SearchIcon, searchPlugin } from '@react-pdf-viewer/search';
+import { useSession } from "@/providers/SessionProvider";
+
 
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
@@ -19,6 +22,7 @@ import '@react-pdf-viewer/search/lib/styles/index.css';
 import './PdfReader.module.css';
 import axios from 'axios';
 import SearchSidebar from './SearchSidebar';
+import styles from "./PdfReader.module.css";
 
 interface Note {
     id: any;
@@ -28,15 +32,51 @@ interface Note {
 }
 
 interface HighlightExampleProps {
-    fileUrl: string | unknown;
+    fileUrl: string;
     userId :string | unknown;
-    book_id : string | unknown;
+    book_id : string | unknown
+    resource: string;
+    resourceId: string;
+    updateUserReadingStats: (pageNumber: string) => void;
+    updateUserAndBookStats: (time: string) => void;
 }
-
 
 const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,userId ,
 
-    book_id , }) => {
+    book_id , resource, updateUserReadingStats, resourceId, updateUserAndBookStats}) => {
+
+    // Prevent copy event (Ctrl+C)
+    const handleCopyEvent = (event: ClipboardEvent) => {
+        event.preventDefault(); // This will stop the text from being copied
+    };
+
+    // Set up event listener to block the default copy action (Ctrl + C)
+    React.useEffect(() => {
+        // Listen for the copy event and prevent the default behavior (copying)
+        document.addEventListener('copy', handleCopyEvent);
+
+        // Cleanup the event listener when the component is unmounted
+        return () => {
+            document.removeEventListener('copy', handleCopyEvent);
+        };
+    }, []);
+
+
+        
+    //* Use Effect for setInterval
+    useEffect(() => {
+        const interval = setInterval(() => {
+        updateUserAndBookStats("5000");
+        }, 5000);
+
+        return () => {
+        clearInterval(interval);
+        };
+    }, []);
+    const { session } = useSession();
+
+    const userIdMain = session?.user?.user_id;
+        
     const [message, setMessage] = React.useState('');
     const [notes, setNotes] = React.useState<Note[]>([]);
     const notesContainerRef = React.useRef<HTMLDivElement | null>(null);
@@ -45,7 +85,7 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,userId ,
     
     const [currentDoc, setCurrentDoc] = React.useState<PdfJs.PdfDocument | null>(null);
     const handleDocumentLoad = (e: DocumentLoadEvent) => {
-        // setCurrentDoc(e.doc);
+        setCurrentDoc(e.doc);
     };
 
     const transform: TransformToolbarSlot = (slot: ToolbarSlot) => ({
@@ -116,10 +156,10 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,userId ,
                     highlightAreas: props.highlightAreas,
                     quote: props.selectedText,
                     book_id ,
-                    userId
+                    userIdMain
 
                 }
-                console.log("added  new note format" ,note);
+                // console.log("added  new note format" ,note);
 
                 // Save note to the backend
                 try {
@@ -164,15 +204,14 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,userId ,
     const jumpToNote = (note: Note) => {
         // Activate the Notes tab before scrolling
         activateTab(3);
-        console.log("jumpto note" , note);
+        // console.log("jumpto note" , note);
         
         // Check if the note element exists and scroll into view
         const noteElement = noteEles.get(note.id);
 
-        console.log("noteElement  note" , noteElement);
+        // console.log("noteElement  note" , noteElement);
 
 
-        noteElement
         if (noteElement) {
             noteElement.scrollIntoView({
                 behavior: 'smooth',
@@ -224,13 +263,15 @@ const renderHighlights = React.useCallback(
         renderHighlights,
     });
 
+    React.useEffect(() => {
+        fetchNotes(); // Fetch notes on component mount
+    }, []);
     
     const fetchNotes = async () => {
-        try {
+        try {            
             // Fetch the notes from the API (getting both the first note and the remaining ones)
-            const response = await axios.post('http://api.netbookflix.local/api/highlight-notes-get', { bookId: 45 });
+            const response = await axios.post('http://api.netbookflix.local/api/highlight-notes-get', { book_id , userIdMain});
             const notesArray = response.data.response; // Assuming 'response' contains the notes
-    
                     // Extract the first note to add it directly to the state
                 const firstNote = notesArray[0];
                 const note: Note = {
@@ -239,13 +280,13 @@ const renderHighlights = React.useCallback(
                     highlightAreas: [JSON.parse(firstNote.highlight_area)],  // Assuming the highlight_area is a JSON string
                     quote: firstNote.quote  // Quote associated with the note
                 };
-                console.log('added first not format', note)
+                // console.log('added first not format', note)
                 // First add the first note directly to the state
                 setNotes(notes.concat([note]));
 
             
             // Now process the remaining notes
-            const processedNotes = notesArray.slice(1).map((note: any) => ({
+            const processedNotes = notesArray.map((note: any) => ({
                 id: note.id,
                 content: note.content,
                 highlightAreas: [JSON.parse(note.highlight_area)],
@@ -271,11 +312,6 @@ const renderHighlights = React.useCallback(
         }
     };
     
-
-    React.useEffect(() => {
-        fetchNotes(); // Fetch notes on component mount
-    }, []);
-
     const sidebarNotes = (
         <div style={{ overflow: 'auto', width: '100%' }}>
             {notes.length === 0 && <div style={{ textAlign: 'center' }}>No notes available for this book</div>}

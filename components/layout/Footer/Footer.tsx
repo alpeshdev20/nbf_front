@@ -28,7 +28,7 @@ import AISearch from "@/icons/ai-search.png";
 const Footer: React.FC = () => {
   const pathName = usePathname();
   const { session } = useSession(); // Get session context
-  console.log("session" ,session);
+  // console.log("session" ,session);
   const isLoggedIn = session?.isLoggedIn;
 
 

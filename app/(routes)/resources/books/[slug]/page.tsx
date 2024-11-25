@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import styles from "./BookInfo.module.css";
 import { useSession } from "@/providers/SessionProvider";
 
+
 //* Icons
 import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
 import { FaCaretRight } from "react-icons/fa";
@@ -35,6 +36,9 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const { session } = useSession();
 
   const userId = session?.user?.user_id;
+  // console.log("userId in bookumoduel componenets" ,userId);
+  // console.log("resourceId in bookumoduel componenets" ,slug);
+
 
   // State to control visibility of the ResourcePlayerButton section
   const [isPlayerVisible, setIsPlayerVisible] = useState(false);
@@ -102,18 +106,18 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                         btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
                         resourceLink={resourceInfo.resource ?? ""}
                         resourceId={slug ?? ""}
+                        userId={userId}
                       />
                        {/* This button triggers the visibility toggle */}
-                       <button
+                        {/* <button
                         onClick={togglePlayerVisibility}
                         className={styles.togglePlayerButton}
                       >
                         {isPlayerVisible ? "Close Player" : "Open Player"}
-                      </button>
+                      </button> 
 
-                      {/* Conditionally render the player section based on state */}
                       {isPlayerVisible && (
-                        <div className={styles.playerContainer + ' resource-player hello'}>
+                        <div className={styles.playerContainer}>
                           <p>Resource Player for {resourceInfo.resource_name}</p>
                                 <PDF_E_reader
                                  fileUrl={resourceInfo.resource}
@@ -122,9 +126,10 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                                   />
 
                         </div>
-                       )} 
+                      )} */}
+                       {/* )}  */}
                     </div>
-                  ) : (
+                  )  : (
                     <button
                       onClick={handleStartFreeTrial}
                       className={styles.startFreeTrialButton}

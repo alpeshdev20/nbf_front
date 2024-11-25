@@ -1,0 +1,46 @@
+
+
+/* Style for the toggle button */
+.togglePlayerButton {
+    background-color: #4CAF50; /* Green button */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor pointer */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 10px; /* Margin from the top */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
+  /* Style for the toggle button on hover */
+  .togglePlayerButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  /* Container for the resource player (PDF reader) */
+  .playerContainer {
+    background-color: #f4f4f4; /* Light background color */
+    padding: 20px; /* Padding around the content */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 20px; /* Margin from the top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for a subtle effect */
+    transition: opacity 0.3s ease; /* Smooth transition for visibility */
+  }
+  /* Show the player container when isPlayerVisible is true */
+  .playerContainer.resource-player {
+    display: block; /* Display as block */
+    opacity: 1; /* Fully visible */
+  }
+  /* Optional: Style for the PDF reader content */
+  .playerContainer .pdf-reader {
+    width: 100%; /* Make sure the reader fills the container */
+    max-width: 100%; /* Ensure it doesn't overflow */
+    height: 500px; /* Adjust height based on your needs */
+    overflow: auto; /* Allow scrolling if content exceeds height */
+  }
+  /* Style for player text */
+  .playerContainer p {
+    font-size: 18px; /* Larger text for the heading */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Dark text color */
+    margin-bottom: 20px; /* Space below the text */
+  }
