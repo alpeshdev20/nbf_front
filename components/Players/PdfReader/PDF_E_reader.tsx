@@ -367,8 +367,9 @@ const renderHighlights = React.useCallback(
         toolbarPlugin: {
             fullScreenPlugin: {
                 // Explicitly manage fullscreen functionality here
-                getFullScreenTarget: (pagesContainer) => {
-                    return pagesContainer.closest('[data-testid="default-layout__body"]');
+                getFullScreenTarget: (pagesContainer: HTMLElement): HTMLElement => {
+                    const target = pagesContainer.closest('[data-testid="default-layout__body"]');
+                    return target as HTMLElement; // Use type assertion
                 },
             },
         },
