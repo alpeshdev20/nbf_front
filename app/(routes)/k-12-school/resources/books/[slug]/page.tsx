@@ -104,12 +104,12 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                       />
                       
                       {/* This button triggers the visibility toggle */}
-                      <button
+                      {/* <button
                         onClick={togglePlayerVisibility}
                         className={styles.togglePlayerButton}
                       >
                         {isPlayerVisible ? "Close Player" : "Open Player"}
-                      </button>
+                      </button> */}
 
                       {/* Conditionally render the player section based on state */}
 

@@ -29,7 +29,7 @@ const UserSidebar = () => {
   const { setSession } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const { profile } = getProfile();
-  console.log(profile);
+  // console.log(profile);
 
 
    // Handle cancel subscription function

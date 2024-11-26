@@ -53,7 +53,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
     };
   
     useEffect(() => {
-      console.log("is game model open", showGame);
+      // console.log("is game model open", showGame);
       
       // Only start the interval if the game modal is open
       let intervalId: NodeJS.Timeout | undefined;

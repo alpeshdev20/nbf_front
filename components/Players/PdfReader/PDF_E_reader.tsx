@@ -13,6 +13,7 @@ import {
 
 import type { ToolbarProps, ToolbarSlot, TransformToolbarSlot } from '@react-pdf-viewer/toolbar';
 import { SearchIcon, searchPlugin } from '@react-pdf-viewer/search';
+import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
 import { useSession } from "@/providers/SessionProvider";
 
 
@@ -20,6 +21,8 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import '@react-pdf-viewer/search/lib/styles/index.css';
 import './PdfReader.module.css';
+import '@react-pdf-viewer/full-screen/lib/styles/index.css';
+
 import axios from 'axios';
 import SearchSidebar from './SearchSidebar';
 import styles from "./PdfReader.module.css";
@@ -94,12 +97,12 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
         SearchMenuItem :()=><></>,
         Download: () => <></>,
         DownloadMenuItem: () => <></>,
-        EnterFullScreen: () => <></>,
+        // EnterFullScreen: () => <></>,
         Print: () => <></>, // Add this to remove the Print button
         PrintMenuItem: () => <></>, // Add this to remove the Print menu item (if exists)
         UploadFile: () => <></>, // Remove the Upload File button
         UploadFileMenuItem: () => <></>, // Remove the Upload File menu item (if exists)    
-        EnterFullScreenMenuItem: () => <></>,
+        // EnterFullScreenMenuItem: () => <></>,
         // SwitchTheme: () => <></>,
         // SwitchThemeMenuItem: () => <></>,
         OpenFile: () => <></>, // Disable the Open File button
@@ -361,6 +364,14 @@ const renderHighlights = React.useCallback(
             },
         ],
         renderToolbar,
+        toolbarPlugin: {
+            fullScreenPlugin: {
+                // Explicitly manage fullscreen functionality here
+                getFullScreenTarget: (pagesContainer) => {
+                    return pagesContainer.closest('[data-testid="default-layout__body"]');
+                },
+            },
+        },
     });
 
     const searchPluginInstance = searchPlugin({
@@ -372,6 +383,8 @@ const renderHighlights = React.useCallback(
             },
         ],
     });
+    const fullScreenPluginInstance = fullScreenPlugin({});
+
     const { renderDefaultToolbar } = defaultLayoutPluginInstance.toolbarPluginInstance;
 
     const { activateTab } = defaultLayoutPluginInstance;
@@ -381,8 +394,9 @@ const renderHighlights = React.useCallback(
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
             <Viewer
                 fileUrl={fileUrl}
-                plugins={[highlightPluginInstance, defaultLayoutPluginInstance ,searchPluginInstance]}
+                plugins={[highlightPluginInstance, defaultLayoutPluginInstance ,searchPluginInstance,fullScreenPluginInstance ]}
                 onDocumentLoad={handleDocumentLoad}
+                defaultScale={1}
             />
          </Worker>    
         </div>

@@ -68,9 +68,11 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
         return false;
       } else {
         setOpen(true);
+        console.log("show format ", format);
       }
     }
   };
+  
 
   //* Updating User Reading stats
   const updateUserReadingStats = (pageNumber: string) => {

@@ -3641,12 +3641,15 @@
 }
 
 /* Modal Css as per players  */
-
+/* Default Styles for Modal */
 #modal_pdf_epub_reader {
-  width: 75.5vw;
-  max-width: 75.5vw;
-  height: 36.041666666666668vw;
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
   overflow-x: auto;
+  z-index: 999999999999;
+  margin-top: 66px;
 }
 
 #modal_media_player {
@@ -3665,11 +3668,13 @@
   z-index: 1000000000 !important;
 }
 
+/* Responsive Styles */
 @media (max-width: 767px) {
   #modal_pdf_epub_reader {
     width: 100%;
     max-width: 100%;
     height: 90vh;
+    margin-top: 0;
   }
 
   #modal_audio_player {
@@ -3686,13 +3691,9 @@
 
   .react-responsive-modal-modal {
     margin: 0 !important;
-  }
-
-  .react-responsive-modal-modal {
     padding: 12px !important;
   }
 }
-
 /* Search Page  */
 .search_section {
   width: 100%;

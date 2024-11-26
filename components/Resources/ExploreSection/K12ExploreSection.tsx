@@ -37,7 +37,7 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
   resourceType,
   requestURL,
 }) => {
-  console.log("url in request ," ,url);
+  // console.log("url in request ," ,url);
   const { session } = useSession();
   const [startFrom, setStartFrom] = useState<number>(0);
   const [resources, setResources] = useState<ResourcesInterface[]>([]);
