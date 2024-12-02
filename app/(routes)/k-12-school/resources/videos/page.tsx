@@ -24,13 +24,13 @@ const Videos = () => {
       <K12ContinueWatching
         url="/k-12-school/resources/videos/"
         resourceType="Videos"
-        requestURL="resources/videos"
+        requestURL="k-12-school/resources/videos"
       />
 
       <K12ExploreSection
         url="/k-12-school/resources/videos"
         resourceType="Videos"
-        requestURL="resources/videos"
+        requestURL="k-12-school/resources/videos"
       />
     </K12ResourcesLayout>
   );
