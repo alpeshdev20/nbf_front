@@ -33,9 +33,36 @@
   background-color: #f4f4f4; /* Light background color */
   padding: 20px; /* Padding around the content */
   border-radius: 10px; /* Rounded corners */
-  margin-top: 20px; /* Margin from the top */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for a subtle effect */
   transition: opacity 0.3s ease; /* Smooth transition for visibility */
+  position: absolute;
+  z-index: 100000000;
+  width: 100%; /* Use 90% of the screen width for small screens */
+  left: 0;
+  right: 0;
+  top:0;
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 480px) {
+  .playerContainer {
+    padding: 15px; /* Reduce padding on small screens */
+    font-size: 14px; /* Adjust font size for smaller text */
+  }
+}
+
+/* Responsive adjustments for medium screens */
+@media (max-width: 768px) {
+  .playerContainer {
+    width: 100%;
+  }
+}
+
+/* Responsive adjustments for large screens */
+@media (min-width: 1200px) {
+  .playerContainer {
+    max-width: 100%; /* Increase the maximum width for larger screens */
+  }
 }
 /* Show the player container when isPlayerVisible is true */
 .playerContainer.resource-player {
@@ -55,4 +82,24 @@
   font-weight: bold; /* Make the text bold */
   color: #333; /* Dark text color */
   margin-bottom: 20px; /* Space below the text */
+}
+
+
+.ready_now_btn{
+  background: var(--secondary-color);
+  color: var(--white);
+  width: max-content;
+  border-radius: 0.520833333vw;
+  height: 2.5vw;
+  padding: 0 1.11875vw 0 1.2614583333333333vw;
+  border: none;
+  outline: none;
+  font-size: 0.9375vw;
+  line-height: 1.5625vw;
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  align-items: center;
+  font-family: var(--font-family);
+  cursor: pointer;
 }

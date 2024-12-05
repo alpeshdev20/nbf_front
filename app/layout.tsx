@@ -42,12 +42,15 @@ export default function RootLayout({
   const { session } = useSession(); // Get session context
 
   useEffect(() => {
-
-    if (session) {
-      const interval = setInterval(() => {
-       logTimeSpent(5000);
+    let interval;
+    if (localStorage.getItem("user_id") != null) {
+      interval = setInterval(() => {
+        logTimeSpent(5000);
       }, 5000);
-  
+    } else {
+      if (interval) {
+        clearInterval(interval);  // Clear the interval if it exists
+      }
     }
 
   }, [session]);

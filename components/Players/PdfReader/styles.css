@@ -1,0 +1,108 @@
+
+
+/* Style for the toggle button */
+.togglePlayerButton {
+    background-color: #4CAF50; /* Green button */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor pointer */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 10px; /* Margin from the top */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
+  /* Style for the toggle button on hover */
+  .togglePlayerButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  /* Container for the resource player (PDF reader) */
+  .playerContainer {
+    background-color: #f4f4f4; /* Light background color */
+    padding: 20px; /* Padding around the content */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 20px; /* Margin from the top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for a subtle effect */
+    transition: opacity 0.3s ease; /* Smooth transition for visibility */
+  }
+  /* Show the player container when isPlayerVisible is true */
+  .playerContainer.resource-player {
+    display: block; /* Display as block */
+    opacity: 1; /* Fully visible */
+  }
+  /* Optional: Style for the PDF reader content */
+  .playerContainer .pdf-reader {
+    width: 100%; /* Make sure the reader fills the container */
+    max-width: 100%; /* Ensure it doesn't overflow */
+    height: 500px; /* Adjust height based on your needs */
+    overflow: auto; /* Allow scrolling if content exceeds height */
+  }
+  /* Style for player text */
+  .playerContainer p {
+    font-size: 18px; /* Larger text for the heading */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Dark text color */
+    margin-bottom: 20px; /* Space below the text */
+  }
+
+  
+/* Default styles for larger screens (desktops, laptops) */
+.bookmark-icon {
+  position: fixed; /* Relative to the viewerRef container */
+  top: 100px; /* Default top position */
+  right: 95px; /* Default right position */
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: #fff; /* Light background */
+  padding: 8px; /* Padding for the container */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+  font-size: 24px; /* Default font size for the icon */
+}
+
+/* For laptops and large tablets */
+@media (max-width: 1024px) {
+  .bookmark-icon {
+    top: 60px; /* Adjust for laptops */
+    right: 70px; /* Slightly closer to the edge */
+    font-size: 22px; /* Slightly smaller icon */
+  }
+}
+
+/* For tablets (portrait and landscape) */
+@media (max-width: 768px) {
+  .bookmark-icon {
+    top: 50px; /* Adjust for tablets */
+    right: 50px; /* Adjust for smaller screens */
+    font-size: 20px; /* Smaller icon */
+    padding: 6px; /* Adjust padding */
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .bookmark-icon {
+    top: 100px; /* Adjust for mobile devices */
+    right: 30px; /* Closer to the edge */
+    font-size: 18px; /* Smaller icon */
+    padding: 5px; /* Less padding */
+  }
+}
+
+/* For foldable phones or very small devices */
+@media (max-width: 360px) {
+  .bookmark-icon {
+    top: 30px; /* Further adjustment for very small screens */
+    right: 20px; /* Even closer to the edge */
+    font-size: 16px; /* Smaller icon size */
+    padding: 4px; /* Minimal padding */
+  }
+}
+
+
+.rpv-default-layout__sidebar.hidden {
+  display: none;
+}
+
+.rpv-default-layout__sidebar.visible {
+  display: block;
+}

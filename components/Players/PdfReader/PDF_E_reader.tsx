@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
-import { Button, DocumentLoadEvent, PdfJs, Position, PrimaryButton, Tooltip, Viewer, Worker } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import { useEffect, useState ,useRef } from "react";
+import { Button, DocumentLoadEvent, Icon, PdfJs, Position, PrimaryButton, RenderPageProps, Tooltip, Viewer, Worker } from '@react-pdf-viewer/core';
+import { BookmarkIcon, defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import {
     HighlightArea,
     highlightPlugin,
@@ -15,17 +15,21 @@ import type { ToolbarProps, ToolbarSlot, TransformToolbarSlot } from '@react-pdf
 import { SearchIcon, searchPlugin } from '@react-pdf-viewer/search';
 import { fullScreenPlugin } from '@react-pdf-viewer/full-screen';
 import { useSession } from "@/providers/SessionProvider";
+import { bookmarkPlugin } from '@react-pdf-viewer/bookmark';
+import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
 
-
+//styles
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import '@react-pdf-viewer/search/lib/styles/index.css';
 import './PdfReader.module.css';
 import '@react-pdf-viewer/full-screen/lib/styles/index.css';
-
+import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
 import axios from 'axios';
 import SearchSidebar from './SearchSidebar';
-import styles from "./PdfReader.module.css";
+import { FaBookmark } from 'react-icons/fa';
+import { styleText } from 'util';
+import './styles.css';
 
 interface Note {
     id: any;
@@ -44,10 +48,17 @@ interface HighlightExampleProps {
     updateUserAndBookStats: (time: string) => void;
 }
 
+interface Bookmark {
+    pageIndex: any;
+    snippet: string;
+}
+interface CustomRenderPageProps extends RenderPageProps {
+    snippet?: string;  // Add `snippet` as an optional property
+}
+
 const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
 
     book_id , resource, updateUserReadingStats, resourceId, updateUserAndBookStats}) => {
-
     // Prevent copy event (Ctrl+C)
     const handleCopyEvent = (event: ClipboardEvent) => {
         event.preventDefault(); // This will stop the text from being copied
@@ -64,8 +75,6 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
         };
     }, []);
 
-
-        
     //* Use Effect for setInterval
     useEffect(() => {
         const interval = setInterval(() => {
@@ -85,11 +94,268 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
     const notesContainerRef = React.useRef<HTMLDivElement | null>(null);
     let noteId = notes.length;
     const noteEles: Map<number, HTMLElement> = new Map();
-    
-    const [currentDoc, setCurrentDoc] = React.useState<PdfJs.PdfDocument | null>(null);
+    const BookmarkEles: Map<number, HTMLElement> = new Map();
+    const [preloadedPages, setPreloadedPages] = useState([]);
+
     const handleDocumentLoad = (e: DocumentLoadEvent) => {
         setCurrentDoc(e.doc);
     };
+    // Bookmark 
+    const [bookmarkedPages, setBookmarkedPages] = React.useState<Bookmark[]>([]);
+    const bookmarkContainerRef = React.useRef<HTMLDivElement | null>(null);
+    const [currentDoc, setCurrentDoc] = React.useState<PdfJs.PdfDocument | null>(null);
+    const viewerRef = React.useRef<HTMLDivElement | null>(null);
+    const [currentPage, setCurrentPage] = React.useState<number>(0);
+    const hasFetchedBookmarks = useRef(false); // Track if fetchBookmarks has been called
+   const [pageIndexB, setPageIndexB] = useState<number>(0)
+
+    // Function to add a bookmark
+    const addBookmark =  async (pageIndex: number) => {
+            try {
+                // Use PDF.js to get the text content of the page
+               console.log("before snipped");
+               
+                const snippet= await extractSnippet(pageIndex);
+                console.log("snippet",snippet);
+                
+                const response = await axios.post(`${process.env.API_URL}bookmarks/add`, {
+                    book_id,
+                    userIdMain,
+                    pageIndex,
+                    snippet
+                });
+
+                // Add the bookmark with page number and snippet
+                setBookmarkedPages([
+                    ...bookmarkedPages,
+                    { pageIndex, snippet },
+                ]);
+                
+               console.log("bookmaek  added successfully");
+                                
+            } catch (error) {
+                console.error("Error extracting text content from the page:", error);
+            }
+        // }
+        // if (!bookmarkedPages.includes(pageIndex)) {
+        //     setBookmarkedPages([...bookmarkedPages, pageIndex]);
+        // }
+    };
+    // 
+        // Function to extract first 3-4 sentences or first 100 characters
+        const extractSnippet = async (pageIndex: number) => {
+            try {
+
+                if (!currentDoc) {
+                    console.error("currentDoc is null");
+                    return ''; // Return empty snippet if currentDoc is null
+                }
+                // Use PDF.js to get the text content of the page
+                const page = await currentDoc.getPage(pageIndex + 1); // PDF.js pages are 1-based
+                const textContent = await page.getTextContent();
+                
+                // Get the page dimensions to understand the layout
+                const viewport = page.getViewport({ scale: 1 });
+                const pageHeight = viewport.height;
+        
+                // Filter the text items to exclude header and footer based on Y-coordinates
+                const bodyTextItems = textContent.items.filter((item) => {
+                    const yCoord = (item as any).transform[5]; // Use 'any' to bypass type checking
+                    return yCoord > pageHeight * 0.1 && yCoord < pageHeight * 0.9;
+                });
+        
+                // Join the filtered text items to form the body text
+                const textItems = bodyTextItems.map((item) => item.str).join(' ');
+        
+                // Function to split text into sentences based on punctuation
+                const sentences = textItems.split(/(?<=\.)\s+/); // Split text by period (.) followed by space
+        
+                // Get the first 3-4 sentences or first 100 characters
+                let snippet = sentences.slice(0, 3).join(' '); // Join first 3 sentences (can change to 4 sentences)
+        
+                // If we don't have enough sentences, fall back to the first 100 characters
+                if (snippet.length < 100) {
+                    snippet = textItems.substring(0, 100);
+                }
+            
+                return snippet; // Return the snippet (first 3-4 sentences or first 100 characters)
+            } catch (error) {
+                console.error("Error extracting snippet:", error);
+                return ''; // Return empty string in case of error
+            }
+        };
+        
+
+     // ftech Bookmark
+       const fetchBookmarks = async () => {
+        try {
+            const response = await axios.post(`${process.env.API_URL}bookmarks/list`, {
+                book_id,
+                userIdMain,
+            });
+    
+            // Assuming 'message' contains the bookmarks
+            const bookmarksArray1 = response.data.message;  // Correctly access the 'message' property
+    
+            // If 'bookmarksArray1' is valid, proceed with further processing
+            if (Array.isArray(bookmarksArray1)) {
+    
+                if (Array.isArray(bookmarksArray1)) {
+                    // Accumulate the new bookmarks in an array
+                    const fetchedBookmarks = bookmarksArray1.map((bookmark: any) => ({
+                        pageIndex: bookmark.page_number,  // Ensure `page_number` exists in the response
+                        snippet: bookmark.bookmark_content,  // Ensure `bookmark_content` exists in the response
+                    }));
+        
+                    // Update the state with all the fetched bookmarks at once
+                    setBookmarkedPages((prevBookmarkedPages) => [
+                        ...prevBookmarkedPages,  // Retain previous bookmarks
+                        ...fetchedBookmarks,     // Add newly fetched bookmarks
+                    ]);
+                    
+                } else {
+                    console.error("Expected an array but got:", bookmarksArray1);
+                }
+                
+    
+            } else {
+                console.error("Expected an array but got:", bookmarksArray1);
+            }
+    
+        } catch (error) {
+            console.error("Failed to fetch bookmarks:", error);
+        }
+    };
+
+
+    React.useEffect(() => {
+        if (!hasFetchedBookmarks.current) {
+            fetchBookmarks(); // Fetch bookmarks only once
+            hasFetchedBookmarks.current = true; // Mark that fetchBookmarks has been called
+        }
+    }, []);
+
+    useEffect(() => {
+        if (viewerRef.current && currentDoc) {
+            const viewerInstance = viewerRef.current.querySelector('.rpv-core__viewer');
+            
+            if (viewerInstance) {
+                // Ensure the document is loaded and all pages are available
+                const totalPages = currentDoc.numPages; // This directly fetches the total number of pages
+                console.log("Total Pages:", totalPages);
+            }
+        }
+    }, [viewerRef, currentDoc]);
+
+
+    const bookmark = (
+        <>
+            <div
+                ref={bookmarkContainerRef}
+                style={{
+                    overflow: 'auto',
+                    width: '100%',
+                }}
+            >
+                {bookmarkedPages?.length === 0 ? (
+                    <div style={{ textAlign: 'center' }}>No bookmarks yet.</div>
+                ) : (
+                    bookmarkedPages.map((bookmark) => (
+                        <div
+                            key={bookmark.pageIndex}  // Use bookmark.pageIndex if it's unique
+                            style={{
+                                marginTop: '10px',
+                                marginLeft: '10px',
+                                marginRight: '10px',
+                                borderBottom: '1px solid rgba(0, 0, 0, .3)',
+                                cursor: 'pointer',
+                                padding: '8px',
+                            }}
+                        >
+                            {/* Ensure that pageIndex is valid before rendering the button */}
+                            {bookmark.pageIndex != null ? (
+                                <div>
+                                    <button
+                                        onClick={() => {
+                                            // Uncomment the following lines if needed
+                                            // scrollToPage(bookmark.pageIndex);
+                                            // setPageIndexB(bookmark.pageIndex);
+                                            scrollToPage(bookmark.snippet, bookmark.pageIndex);
+                                        }}
+                                        style={{
+                                            borderLeft: '2px solid rgba(0, 0, 0, 0.2)',
+                                            fontSize: '.75rem',
+                                            lineHeight: 1.5,
+                                            margin: '0 0 8px 0',
+                                            paddingLeft: '8px',
+                                            textAlign: 'justify',
+                                        }}
+                                    >
+                                        <FaBookmark style={{ cursor: 'pointer', color: 'blue' }} />
+                                        &nbsp;
+                                        {bookmark.snippet}...
+                                    </button>
+                                </div>
+                            ) : (
+                                <div style={{ color: 'red' }}>Invalid bookmark, missing pageIndex</div>
+                            )}
+                        </div>
+                    ))
+                )}
+            </div>
+        </>
+    );
+    
+    
+    //scrooll to page where
+    const scrollToPage = (snippet: string ,pageIndex : number) => {
+        
+        //close sidebar
+        const sidebarContainer = document.querySelector('.rpv-default-layout__sidebar--ltr');
+        const sidebarContent = document.querySelector('.rpv-default-layout__sidebar-content--ltr');
+
+        if (sidebarContainer && sidebarContent) {
+            console.log("class of sidebar", sidebarContainer, sidebarContent);
+            sidebarContainer.classList.remove("rpv-default-layout__sidebar--opened")
+            sidebarContent.classList.remove("rpv-default-layout__sidebar-content--opened")
+        }
+    
+    if (viewerRef.current) {
+        const viewerInstance = viewerRef.current.querySelector('.rpv-core__viewer') as HTMLElement;
+        console.log('viewerInstance', viewerInstance);
+
+        if (viewerInstance) {
+            // Ensure that the viewer has rendered enough pages before accessing them
+            let renderedPages = viewerInstance.querySelectorAll('.rpv-core__page-layer').length;
+            console.log("Rendered Pages: ", renderedPages);
+            
+
+            // Ensure page is fully rendered and scrolled
+            const pages = viewerInstance.querySelectorAll('.rpv-core__page-layer');            
+            const pageElement = pages[pageIndex];
+
+            if (pageElement) {
+
+                // Scroll the page into view when the snippet is found
+                pageElement.scrollIntoView({
+                    behavior: 'auto',
+                    block: 'start',
+                });
+
+                return pageIndex; // Return the page index once the snippet is found
+            } else {
+                console.log('Page element not found');
+                return -1; // Return -1 if the page element is not found
+            }
+        }
+    }
+    };
+      
+    //set current page
+    const handlePageChange = (e: { currentPage: number }) => {
+        setCurrentPage(e.currentPage);
+    };
+    // Function to list bookmarks
 
     const transform: TransformToolbarSlot = (slot: ToolbarSlot) => ({
         ...slot,
@@ -112,7 +378,7 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
        
     });
     
-
+    //rendertoolbar
     const renderToolbar = (Toolbar: (props: ToolbarProps) => React.ReactElement) => (
         <Toolbar>{renderDefaultToolbar(transform)}</Toolbar>
     );
@@ -141,7 +407,7 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
             />
         </div>
     );
-
+    //add note function
     const renderHighlightContent = (props: RenderHighlightContentProps) => {
         const addNote = async () => {
             const uniqueId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -203,17 +469,22 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
             </div>
         );
     };
-
+    //jump to note
     const jumpToNote = (note: Note) => {
         // Activate the Notes tab before scrolling
-        activateTab(3);
-        // console.log("jumpto note" , note);
+
+        const sidebarContainer = document.querySelector('.rpv-default-layout__sidebar--ltr');
+        const sidebarContent = document.querySelector('.rpv-default-layout__sidebar-content--ltr');
+
+        if (sidebarContainer && sidebarContent) {
+            console.log("class of sidebar", sidebarContainer, sidebarContent);
+            sidebarContainer.classList.remove("rpv-default-layout__sidebar--opened")
+            sidebarContent.classList.remove("rpv-default-layout__sidebar-content--opened")
+        }
+        activateTab(1);
         
         // Check if the note element exists and scroll into view
         const noteElement = noteEles.get(note.id);
-
-        // console.log("noteElement  note" , noteElement);
-
 
         if (noteElement) {
             noteElement.scrollIntoView({
@@ -223,8 +494,6 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
         }
     };
 
-
-    
 const renderHighlights = React.useCallback(
     (props: RenderHighlightsProps) => {
         return (
@@ -258,16 +527,22 @@ const renderHighlights = React.useCallback(
     },
     [notes, noteEles] // Dependencies
 );
-    
 
     const highlightPluginInstance = highlightPlugin({
         renderHighlightTarget,
         renderHighlightContent,
         renderHighlights,
     });
+    // bookmark plagin
+    const bookmarkPluginInstance = bookmarkPlugin();
+    const { Bookmarks } = bookmarkPluginInstance;
 
     React.useEffect(() => {
         fetchNotes(); // Fetch notes on component mount
+        // if (!hasFetchedBookmarks.current) {
+        //     fetchBookmarks(); // Fetch bookmarks only once
+        //     hasFetchedBookmarks.current = true; // Mark that fetchBookmarks has been called
+        // }
     }, []);
     
     const fetchNotes = async () => {
@@ -314,7 +589,7 @@ const renderHighlights = React.useCallback(
             console.error('Error fetching notes:', error);
         }
     };
-    
+    //notes
     const sidebarNotes = (
         <div style={{ overflow: 'auto', width: '100%' }}>
             {notes.length === 0 && <div style={{ textAlign: 'center' }}>No notes available for this book</div>}
@@ -322,7 +597,7 @@ const renderHighlights = React.useCallback(
                 <div
                     key={note.id}
                     style={{ borderBottom: '1px solid rgba(0, 0, 0, .3)', cursor: 'pointer', padding: '8px' }}
-                   onClick={() => jumpToNote(note)}
+                    onClick={() => jumpToNote(note)}
                         ref={(ref): void => {
                             noteEles.set(note.id, ref as HTMLElement);
                         }}
@@ -347,7 +622,8 @@ const renderHighlights = React.useCallback(
 
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         sidebarTabs: (defaultTabs) => [
-            ...defaultTabs,
+            // ...defaultTabs,
+            defaultTabs[0], // Bookmarks tab
             {
                 content: sidebarNotes,
                 icon: <MessageIcon />,
@@ -362,6 +638,11 @@ const renderHighlights = React.useCallback(
                 icon: <SearchIcon />,
                 title: 'Search',
             },
+            {
+                content:bookmark,
+                icon: <BookmarkIcon />,
+                title: 'Bookmakr',
+            }, 
         ],
         renderToolbar,
         toolbarPlugin: {
@@ -375,6 +656,9 @@ const renderHighlights = React.useCallback(
         },
     });
 
+    const pageNavigationPluginInstance = pageNavigationPlugin();
+    const { CurrentPageLabel } = pageNavigationPluginInstance;
+ 
     const searchPluginInstance = searchPlugin({
         keyword: [
             'document',
@@ -391,17 +675,32 @@ const renderHighlights = React.useCallback(
     const { activateTab } = defaultLayoutPluginInstance;
 
     return (
-        <div style={{ height: '100%' }}>
+    <div ref={viewerRef} style={{ height: '100%', position: 'relative' }}>
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
-            <Viewer
-                fileUrl={fileUrl}
-                plugins={[highlightPluginInstance, defaultLayoutPluginInstance ,searchPluginInstance,fullScreenPluginInstance ]}
-                onDocumentLoad={handleDocumentLoad}
-                defaultScale={1}
+          <Viewer
+            fileUrl={fileUrl}
+            plugins={[
+              highlightPluginInstance,
+              defaultLayoutPluginInstance,
+              searchPluginInstance,
+              fullScreenPluginInstance,
+            ]}
+            onDocumentLoad={handleDocumentLoad}
+            defaultScale={1}
+            onPageChange={handlePageChange}
+          />
+        </Worker>
+        
+        {/* Bookmark Icon */}
+        <div className="bookmark-icon">
+            <FaBookmark
+            onClick={() => currentDoc && addBookmark(currentPage)}
+            style={{ cursor: 'pointer', color: 'blue' }}
             />
-         </Worker>    
         </div>
+      </div>  
     );
+    
 };
 
 export default PDF_E_reader;

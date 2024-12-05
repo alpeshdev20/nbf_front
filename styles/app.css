@@ -3673,7 +3673,7 @@
   #modal_pdf_epub_reader {
     width: 100%;
     max-width: 100%;
-    height: 90vh;
+    /* height: 90vh; */
     margin-top: 0;
   }
 

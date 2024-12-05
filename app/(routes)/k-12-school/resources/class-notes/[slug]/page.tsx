@@ -1,7 +1,7 @@
 "use client";
 
 //* Importing components
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
 import ResourceDescription from "@/components/Resources/ResourceDescription/ResourceDescription";
@@ -23,6 +23,7 @@ import { FaCaretRight } from "react-icons/fa";
 
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
+import { post } from "@/utils/fetch";
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   // Extract slug from params
@@ -35,6 +36,38 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
   const handleStartFreeTrial = () => {
     router.push("/sign-up");
+  };
+
+  // State to control visibility of the ResourcePlayerButton section
+  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
+
+   //* Updating User Reading stats
+   const updateUserReadingStats = (pageNumber: string) => {
+    post(`${process.env.API_URL}users-stats/update-book-read-stats`, {
+      id: slug,
+      page_number: pageNumber,
+    })
+      .then((data) => {})
+      .catch((error) => {});
+  };
+
+  //* Updating User and book stats
+  const updateUserAndBookStats = (time: string) => {
+    post(`${process.env.API_URL}users-stats/update-book-stats`, {
+      id: slug,
+      read_time: time,
+    })
+      .then((data) => {})
+      .catch((error) => {});
+  };
+
+  const togglePlayerVisibility = () => {
+    setIsPlayerVisible((prev) => !prev); // Toggle the visibility state
+  };
+
+  // Handler to close the player container
+  const handleClosePlayer = () => {
+    setIsPlayerVisible(false); // Set the player visibility to false
   };
   
   return (

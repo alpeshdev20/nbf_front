@@ -22,6 +22,7 @@ import { FaCaretRight } from "react-icons/fa";
 
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
+import { post } from "@/utils/fetch";
 // import Ereader from "@/components/heightlight/Heighlight";
 // import Ereader2 from "@/components/Ereader-backup/Ereader";
 // import Ereader_b from "@/components/Ereader-backup/Ereader";
@@ -44,8 +45,33 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
     router.push("/sign-up");
   };
 
+   //* Updating User Reading stats
+   const updateUserReadingStats = (pageNumber: string) => {
+    post(`${process.env.API_URL}users-stats/update-book-read-stats`, {
+      id: slug,
+      page_number: pageNumber,
+    })
+      .then((data) => {})
+      .catch((error) => {});
+  };
+
+  //* Updating User and book stats
+  const updateUserAndBookStats = (time: string) => {
+    post(`${process.env.API_URL}users-stats/update-book-stats`, {
+      id: slug,
+      read_time: time,
+    })
+      .then((data) => {})
+      .catch((error) => {});
+  };
+
   const togglePlayerVisibility = () => {
     setIsPlayerVisible((prev) => !prev); // Toggle the visibility state
+  };
+
+  // Handler to close the player container
+  const handleClosePlayer = () => {
+    setIsPlayerVisible(false); // Set the player visibility to false
   };
 
   return (
@@ -95,33 +121,59 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
                   {/* Toggle Player Button */}
                   {session.isLoggedIn ? (
-                    <div>
-                      <ResourcePlayerButton
-                        format={resourceInfo.format ?? ""}
-                        btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
-                        resourceLink={resourceInfo.resource ?? ""}
-                        resourceId={slug ?? ""}
-                      />
-                      
-                      {/* This button triggers the visibility toggle */}
-                      {/* <button
-                        onClick={togglePlayerVisibility}
-                        className={styles.togglePlayerButton}
+                      <div>
+                        {resourceInfo.format === "pdf" ? (
+                          <>
+                            <button
+                              onClick={togglePlayerVisibility}
+                              className={styles.ready_now_btn}
+                            >
+                              {isPlayerVisible ? 'Close Player' : 'Read Now'}
+                            </button>
+
+                            {isPlayerVisible && (
+                              <div className={styles.playerContainer}>
+                                <button
+                                  style={{
+                                    background: 'var(--secondary-color)',
+                                    color: 'var(--white)',
+                                  }}
+                                  onClick={togglePlayerVisibility}
+                                  className={styles.togglePlayerButton}
+                                >
+                                  Close Player
+                                </button>
+
+                                <div style={{ marginTop: '13px' }}>
+                                  <PDF_E_reader
+                                    fileUrl={resourceInfo.resource ?? ""}
+                                    resource={slug}
+                                    book_id={slug ?? ""}
+                                    resourceId={slug ?? ""}
+                                    updateUserReadingStats={updateUserReadingStats}
+                                    updateUserAndBookStats={updateUserAndBookStats}
+                                  />
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <ResourcePlayerButton
+                            format={resourceInfo.format ?? ""}
+                            btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
+                            resourceLink={resourceInfo.resource ?? ""}
+                            resourceId={slug ?? ""}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <button 
+                        onClick={handleStartFreeTrial}
+                        className={styles.ready_now_btn}
                       >
-                        {isPlayerVisible ? "Close Player" : "Open Player"}
-                      </button> */}
-
-                      {/* Conditionally render the player section based on state */}
-
-                    </div>
-                  ) : (
-                    <button
-                      onClick={handleStartFreeTrial}
-                      className={styles.startFreeTrialButton}
-                    >
-                      Start Free Trial
-                    </button>
-                  )}
+                        Start Free Trial
+                      </button>
+                    )}
 
                   <ul className="resource_other_info">
                     <li>ISBN Product Code - {resourceInfo.tags}</li>
