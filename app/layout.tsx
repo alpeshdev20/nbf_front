@@ -103,23 +103,25 @@ export default function RootLayout({
               gtag('config', 'G-3FG9Q2BZJH');`
           }}
           />
+
+        {/* <!-- New Google tag (gtag.js) for 'G-G4CNMD0E6R' --> */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-G4CNMD0E6R"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-G4CNMD0E6R');`
+          }}
+        />
+
+        {/* Google Site Verification Meta Tag */}
+        <meta name="google-site-verification" content="3QiaS_EW9XYkOwpcsEhu0rMu3y4biRhlIH2UNuCicnM" />
+      
       </head>
-      {/* <GoogleAnalytics /> */}
-
-      {/* <!-- Google Tag Manager (noscript) --> */}
     
-      <body>
-
-      {/* <noscript>
-          <iframe
-           src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript> */}
-        {/* <!-- End Google Tag Manager (noscript) --> */}
-
+      <body>    
         <TanStackProvider>
           <SessionProvider>{children}</SessionProvider>
         </TanStackProvider>
