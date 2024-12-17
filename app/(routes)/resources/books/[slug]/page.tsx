@@ -1,5 +1,5 @@
 "use client";
-
+import 'regenerator-runtime/runtime';
 import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
@@ -15,7 +15,7 @@ import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/Re
 import { useRouter } from "next/navigation";
 import styles from "./BookInfo.module.css";
 import { useSession } from "@/providers/SessionProvider";
-
+import E_pub_Reader from "@/components/Players/Epubs/containers/Reader"
 
 //* Icons
 import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
@@ -24,6 +24,7 @@ import { FaCaretRight } from "react-icons/fa";
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
 import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
+import { errorToast } from "@/utils/toast_helper";
 import { post } from "@/utils/fetch";
 import { MdMargin } from "react-icons/md";
 // import Ereader from "@/components/heightlight/Heighlight";
@@ -47,13 +48,27 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
 
+  const [showFormat, setShowFormat] = useState<string>("");
+
   const handleStartFreeTrial = () => {
     router.push("/sign-up");
   };
 
-  const togglePlayerVisibility = () => {
-    setIsPlayerVisible((prev) => !prev); // Toggle the visibility state
+  const togglePlayerVisibility = (format: string, resourceLink: string) => {
+
+    console.log("togglePlayerVisibility" ,format ,resourceLink);
+    
+    if (!format) {
+      errorToast("Failed to load file, please try again later.");
+      return;
+    }
+    if (!resourceLink) {
+      errorToast("Please upgrade your plan to access this resource.");
+      return;
+    }
+    setIsPlayerVisible((prev) => !prev); // Toggle the player visibility
   };
+
   
   //* Updating User Reading stats
   const updateUserReadingStats = (pageNumber: string) => {
@@ -73,11 +88,6 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
     })
       .then((data) => {})
       .catch((error) => {});
-  };
-
-  // Handler to close the player container
-  const handleClosePlayer = () => {
-    setIsPlayerVisible(false); // Set the player visibility to false
   };
 
   return (
@@ -131,11 +141,16 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                         {resourceInfo.format === "pdf" ? (
                           <>
                             <button
-                              onClick={togglePlayerVisibility}
-                              className={styles.ready_now_btn}
-                            >
-                              {isPlayerVisible ? 'Close Player' : 'Read Now'}
-                            </button>
+                        onClick={() =>
+                          togglePlayerVisibility(
+                            resourceInfo.format ?? "",
+                            resourceInfo.resource ?? ""
+                          )
+                        }
+                        className={styles.ready_now_btn}
+                      >
+                        {isPlayerVisible ? "Close Player" : "Read Now"}
+                      </button>
 
                             {isPlayerVisible && (
                               <div className={styles.playerContainer}>
@@ -144,7 +159,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                                     background: 'var(--secondary-color)',
                                     color: 'var(--white)',
                                   }}
-                                  onClick={togglePlayerVisibility}
+                                  onClick={() => setIsPlayerVisible(false)}
                                   className={styles.togglePlayerButton}
                                 >
                                   Close Player
@@ -163,7 +178,53 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                               </div>
                             )}
                           </>
-                        ) : (
+                        ) :
+                        // resourceInfo.format === "epub" ? (
+                        //   <>
+                        //    <button
+                        //     style={{
+                        //       background: 'var(--secondary-color)',
+                        //       color: 'var(--white)',
+                        //     }}
+                        //     onClick={() =>
+                        //       togglePlayerVisibility(
+                        //         resourceInfo.format ?? "",
+                        //         resourceInfo.resource ?? ""
+                        //       )}
+                          
+                        //       className={styles.ready_now_btn}>
+                        //       {isPlayerVisible ? 'Close Player' : 'Read Now'}
+                        //     </button>
+                            
+
+                        //     {isPlayerVisible && (
+                        //       <div className={styles.playerContainer}>
+                        //         <button
+                        //           style={{
+                        //             background: 'var(--secondary-color)',
+                        //             color: 'var(--white)',
+                        //           }}
+                        //           onClick={() => setIsPlayerVisible(false)}
+                        //           className={styles.togglePlayerButton}
+                        //         >
+                        //           Close Player
+                        //         </button>
+
+                        //         <div className="hello" style={{ marginTop: '13px' }}>
+                        //           <E_pub_Reader
+                        //             url={resourceInfo.resource ?? ""}
+                        //             // resource={slug}
+                        //             book_id={slug ?? ""}
+                        //             // resourceId={slug ?? ""}
+                        //             // updateUserReadingStats={updateUserReadingStats}
+                        //             // updateUserAndBookStats={updateUserAndBookStats}
+                        //           />
+                        //         </div>
+                        //       </div>
+                        //     )}
+                        //   </>
+                        // ): 
+                        (
                           <ResourcePlayerButton
                             format={resourceInfo.format ?? ""}
                             btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text

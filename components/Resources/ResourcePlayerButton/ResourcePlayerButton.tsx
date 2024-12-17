@@ -14,6 +14,7 @@ import { post } from "@/utils/fetch";
 import { isResourceRead } from "@/services/UsersStats";
 import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
 import { useSession } from "@/providers/SessionProvider";
+import E_pub_Reader from "@/components/Players/Epubs/containers/Reader"
 
 //* interface
 interface ResourcePlayerButtonInterface {
@@ -143,12 +144,23 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
         )}
 
         {showFormat === "epub" && (
-          <EpubPlayer
-            resource={resourceLink}
-            resourceId={resourceId}
-            updateUserReadingStats={updateUserReadingStats}
-            updateUserAndBookStats={updateUserAndBookStats}
+          // <EpubPlayer
+          //   resource={resourceLink}
+          //   resourceId={resourceId}
+          //   updateUserReadingStats={updateUserReadingStats}
+          //   updateUserAndBookStats={updateUserAndBookStats}
+          // />
+
+          <div className="hello" style={{ marginTop: '13px' }}>
+          <E_pub_Reader
+            url={resourceLink ?? ""}
+            // resource={slug}
+            book_id={resourceId ?? ""}
+            // resourceId={slug ?? ""}
+            // updateUserReadingStats={updateUserReadingStats}
+            // updateUserAndBookStats={updateUserAndBookStats}
           />
+        </div>
         )}
       </Modal>
 

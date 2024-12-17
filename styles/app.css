@@ -3652,6 +3652,12 @@
   margin-top: 66px;
 }
 
+#modal_pdf_reader {
+  width: 100%; /* Make sure the reader fills the container */
+  max-width: 100%; /* Ensure it doesn't overflow */
+  overflow: auto
+}
+
 #modal_media_player {
   width: 41.666666666666664vw;
   height: 26.041666666666668vw;
