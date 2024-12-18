@@ -28,7 +28,6 @@ import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
 import axios from 'axios';
 import SearchSidebar from './SearchSidebar';
 import { FaBookmark } from 'react-icons/fa';
-import { styleText } from 'util';
 import './styles.css';
 
 interface Note {
