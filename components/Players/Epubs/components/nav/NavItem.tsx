@@ -21,6 +21,7 @@ const Content = styled.button`
   cursor: pointer;
   background-color: ${palette.gray0};
   outline: none;
+  border:none;
   
   & > span {
     transition: .2s ${styles.transition};
