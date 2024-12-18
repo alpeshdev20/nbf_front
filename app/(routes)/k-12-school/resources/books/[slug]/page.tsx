@@ -1,5 +1,6 @@
 "use client";
 
+import 'regenerator-runtime/runtime';
 import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import K12ResourcesLayout from "../../resource-layout";
@@ -23,9 +24,8 @@ import { FaCaretRight } from "react-icons/fa";
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
 import { post } from "@/utils/fetch";
-// import Ereader from "@/components/heightlight/Heighlight";
-// import Ereader2 from "@/components/Ereader-backup/Ereader";
-// import Ereader_b from "@/components/Ereader-backup/Ereader";
+import { errorToast } from "@/utils/toast_helper";
+
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const router = useRouter();
@@ -65,9 +65,18 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
       .catch((error) => {});
   };
 
-  const togglePlayerVisibility = () => {
-    setIsPlayerVisible((prev) => !prev); // Toggle the visibility state
-  };
+   const togglePlayerVisibility = (format: string, resourceLink: string) => {
+      
+      if (!format) {
+        errorToast("Failed to load file, please try again later.");
+        return;
+      }
+      if (!resourceLink) {
+        errorToast("Please upgrade your plan to access this resource.");
+        return;
+      }
+      setIsPlayerVisible((prev) => !prev); // Toggle the player visibility
+    };
 
   // Handler to close the player container
   const handleClosePlayer = () => {
@@ -119,17 +128,22 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     </div>
                   </div>
 
-                  {/* Toggle Player Button */}
-                  {session.isLoggedIn ? (
+                   {/* Toggle Player Button */}
+                   {session.isLoggedIn ? (
                       <div>
                         {resourceInfo.format === "pdf" ? (
                           <>
                             <button
-                              onClick={togglePlayerVisibility}
-                              className={styles.ready_now_btn}
-                            >
-                              {isPlayerVisible ? 'Close Player' : 'Read Now'}
-                            </button>
+                        onClick={() =>
+                          togglePlayerVisibility(
+                            resourceInfo.format ?? "",
+                            resourceInfo.resource ?? ""
+                          )
+                        }
+                        className={styles.ready_now_btn}
+                      >
+                        {isPlayerVisible ? "Close Player" : "Read Now"}
+                      </button>
 
                             {isPlayerVisible && (
                               <div className={styles.playerContainer}>
@@ -138,7 +152,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                                     background: 'var(--secondary-color)',
                                     color: 'var(--white)',
                                   }}
-                                  onClick={togglePlayerVisibility}
+                                  onClick={() => setIsPlayerVisible(false)}
                                   className={styles.togglePlayerButton}
                                 >
                                   Close Player
@@ -157,7 +171,8 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                               </div>
                             )}
                           </>
-                        ) : (
+                        ) :
+                        (
                           <ResourcePlayerButton
                             format={resourceInfo.format ?? ""}
                             btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text

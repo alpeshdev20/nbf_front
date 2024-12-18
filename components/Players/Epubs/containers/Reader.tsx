@@ -1,4 +1,4 @@
-	import { useState, useRef, useEffect } from 'react'
+	import React, { useState, useRef, useEffect } from 'react'
 	import { useSelector, useDispatch } from 'react-redux'
 	import { Provider } from 'react-redux'
 	import { ReactEpubViewer } from 'react-epub-viewer'
@@ -38,7 +38,7 @@
 	import Toc from '../types/toc'
 
 
-	const Reader = ({ url, loadingView ,book_id }: Props) => {
+	const Reader = ({ url, loadingView ,book_id , updateUserAndBookStats }: Props) => {
 
 		// Inside Reader Component
 			
@@ -57,7 +57,36 @@
 		// console.log("book_id in Reader component:", book_id);
 		// const searchQuery = useSelector((state: RootState) => state.search.query);
 
+	 const handleCopyEvent = (event: ClipboardEvent) => {
+		console.log("console handleCopyEvent called");
+		
+			event.preventDefault(); // This will stop the text from being copied
+		};
+	
+		// Set up event listener to block the default copy action (Ctrl + C)
+		React.useEffect(() => {
+			// Listen for the copy event and prevent the default behavior (copying)
+			document.addEventListener('copy', handleCopyEvent);
+	
+			// Cleanup the event listener when the component is unmounted
+			return () => {
+				document.removeEventListener('copy', handleCopyEvent);
+			};
+		}, []);
 
+		//* Use Effect for setInterval
+		useEffect(() => {
+			console.log("users state update");
+			
+			const interval = setInterval(() => {
+			  updateUserAndBookStats("5000");
+			}, 5000);
+		
+			return () => {
+			  clearInterval(interval);
+			};
+		  }, []);
+ 
 
 		const [isContextMenu, setIsContextMenu] = useState<boolean>(false);
 		
@@ -307,14 +336,14 @@
 	</>);
 	}
 
-	const ReaderWrapper = ({ url, loadingView ,book_id }: Props) => {
+	const ReaderWrapper = ({ url, loadingView ,book_id ,updateUserAndBookStats }: Props) => {
 		return (
 			<Provider store={store}>
 				<Reader url={url}
 				book_id={book_id}
-				loadingView={loadingView
-					
-				} />
+				loadingView={loadingView}
+				updateUserAndBookStats={updateUserAndBookStats}
+				/>
 			</Provider>
 		);
 	}
@@ -323,10 +352,14 @@
 		url: string;
 		loadingView?: React.ReactNode;
 		book_id :any;
+		updateUserAndBookStats: (time: string) => void;
+
 	}
 
 	type ViewType = {
 		active: boolean,
 		spread: boolean
 	}
+
+	
 	export default ReaderWrapper

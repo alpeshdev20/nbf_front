@@ -158,7 +158,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
             book_id={resourceId ?? ""}
             // resourceId={slug ?? ""}
             // updateUserReadingStats={updateUserReadingStats}
-            // updateUserAndBookStats={updateUserAndBookStats}
+            updateUserAndBookStats={updateUserAndBookStats}
           />
         </div>
         )}
