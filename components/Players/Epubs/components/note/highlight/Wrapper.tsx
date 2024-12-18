@@ -14,6 +14,7 @@ const Wrapper = styled.button`
   outline: none;
   text-align: left;
   border-bottom: 1px solid ${palette.gray1};
+  border:none;
   
   &:nth-child(2) {
     border-top: 1px solid ${palette.gray1};
