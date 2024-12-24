@@ -19,7 +19,7 @@ const Header = ({
             <ControlBtn message="Contents" onClick={onNavToggle} />
             <ControlBtn message="Setting" onClick={onOptionToggle} />
             <ControlBtn message="Highlights" onClick={onLearningToggle} />
-            {/* <ControlBtn message="Serch" onClick={onSearchToggle} /> */}
+            <ControlBtn message="Serch" onClick={onSearchToggle} />
           </div>
         </AutoLayout>
       </Layout>

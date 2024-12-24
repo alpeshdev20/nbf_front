@@ -3648,8 +3648,9 @@
   height: 100vh;
   max-height: 100vh;
   overflow-x: auto;
+  margin: auto;
   z-index: 999999999999;
-  margin-top: 66px;
+  /* margin-top: 66px; */
 }
 
 #modal_pdf_reader {

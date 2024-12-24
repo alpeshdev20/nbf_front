@@ -15,6 +15,7 @@ import { isResourceRead } from "@/services/UsersStats";
 import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
 import { useSession } from "@/providers/SessionProvider";
 import E_pub_Reader from "@/components/Players/Epubs/containers/Reader"
+import Selection from "@/components/Players/Epubs/Epub_custom/Selection";
 
 //* interface
 interface ResourcePlayerButtonInterface {
@@ -152,14 +153,21 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
           // />
 
           <div className="hello" style={{ marginTop: '13px' }}>
-          <E_pub_Reader
+          {/* <E_pub_Reader
             url={resourceLink ?? ""}
             // resource={slug}
             book_id={resourceId ?? ""}
             // resourceId={slug ?? ""}
             // updateUserReadingStats={updateUserReadingStats}
             updateUserAndBookStats={updateUserAndBookStats}
-          />
+          /> */}
+
+            <Selection 
+                resourceLink={resourceLink ?? ""}   
+                title={resourceId ?? ""}
+                book_id ={resourceId ?? ""}
+      
+            />
         </div>
         )}
       </Modal>

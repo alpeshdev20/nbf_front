@@ -50,13 +50,36 @@
 		const optionRef = useRef<HTMLDivElement | null>(null);
 		const learningRef = useRef<HTMLDivElement | null>(null);
 		const searchRef = useRef<HTMLDivElement | null>(null); // Ref for Search Sidebar
+		const [searchQuery, setSearchQuery] = useState<string>('');
 
 		const [allPagesLoaded, setAllPagesLoaded] = useState<boolean>(false);
 		const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
 
-		// console.log("book_id in Reader component:", book_id);
-		// const searchQuery = useSelector((state: RootState) => state.search.query);
-
+		// Search functionality to search the text within the viewer
+		const handleSearch = () => {
+			if (!searchQuery.trim()) return;
+	
+			if (viewerRef.current) {
+				console.log('viewerRef.current' ,viewerRef)
+				try {
+					// Check if searchText exists before calling it
+					if (typeof viewerRef.current.searchText === 'function') {
+						viewerRef.current.searchText(searchQuery); // Perform search
+						// setSearchError(null); // Clear any previous error messages
+					} else {
+						console.error('searchText method is not available on viewerRef.current');
+						// setSearchError('Search function is not available. Please check the viewer configuration.');
+					}
+				} catch (error) {
+					console.error('Error occurred while searching:', error);
+					// setSearchError('An error occurred during the search. Please try again.');
+				}
+			} else {
+				console.error('viewerRef.current is not available');
+				// setSearchError('Viewer is not ready. Please try again later.');
+			}
+		};
+		
 	 const handleCopyEvent = (event: ClipboardEvent) => {
 		console.log("console handleCopyEvent called");
 		
@@ -304,23 +327,17 @@
 				ref={learningRef}
 				
 			/>
-			{/* Search Sidebar */}
-			{/* <Search
-			control={searchControl}
-			viewerRef={viewerRef}
-			onToggle={onSearchToggle}
-			ref={searchRef}
-			/> */}
+			
 
-			{/* <Search
-			control={searchControl}
-			viewerRef={viewerRef}
-			onToggle={onSearchToggle}
-			searchQuery={searchQuery}
-			setSearchQuery={setSearchQuery}
-			onSearch={handleSearch}
-			/> */}
-
+			<Search
+                control={searchControl}
+                viewerRef={viewerRef}
+                onToggle={onSearchToggle}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                onSearch={handleSearch}
+                ref={searchRef}
+            />
 
 			<ContextMenu
 				active={isContextMenu}
