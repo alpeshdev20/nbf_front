@@ -5,6 +5,7 @@ import type { Contents, Rendition } from 'epubjs'
 import { useSession } from "@/providers/SessionProvider";
 import './style.css'
 import axios from 'axios'
+import { log } from 'console';
 
 type ITextSelection = {
   text: string
@@ -154,16 +155,17 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       console.log("remove api is called");
       
       // API call to remove the highlight on the server
-      // const response = await axios.post(
-      //   `${process.env.API_URL}highlights-epub/remove`,
-      //   {
-      //     cfiRange,
-      //     book_id,
-      //     userIdMain,
-      //   }
-      // );
+      const response = await axios.post(
+        `${process.env.API_URL}highlights-epub/remove`,
+        {
+          cfiRange,
+          book_id,
+          userIdMain,
+        }
+      );
 
-      // if (response.data.success) {
+      if (response.data.message === 204) {
+        console.log("Inside Responce")
       //   console.log('Highlight removed successfully:', cfiRange);
 
         // Remove the highlight from the EPUB rendering
@@ -175,9 +177,9 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
         setSelections((prevSelections) =>
           prevSelections.filter((selection) => selection.cfiRange !== cfiRange)
         );
-      // } else {
-      //   console.error('Failed to remove highlight:', response.data.message);
-      // }
+      } else {
+        console.error('Failed to remove highlight:', response.data.message);
+      }
     } catch (error) {
       console.error('Error removing highlight:', error);
     }
