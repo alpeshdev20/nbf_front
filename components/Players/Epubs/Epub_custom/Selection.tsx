@@ -12,28 +12,148 @@ type ITextSelection = {
   cfiRange: string
 }
 
+// Highlight
 interface SelectionProps {
   resourceLink: string; // Change this to match the prop being passed
   title: string;
   book_id: string;
 }
 
+// Search
+interface SearchResult {
+  cfi: string;
+  excerpt: string;
+}
+
 export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_id }) => {
 
   const [selections, setSelections] = useState<ITextSelection[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('') // For Search Functionality
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [rendition, setRendition] = useState<Rendition | undefined>(undefined)
   const [location, setLocation] = useState<string | number>(0)
   const [activeSidebar, setActiveSidebar] = useState<string>('selections') // For managing which sidebar is open
   const [selectedText, setSelectedText] = useState<ITextSelection | null>(null)
+  const [highlightAnnotations, setHighlightAnnotations] = useState<any[]>([]);
+
 
   const [sidebar, setSidebar] = useState(false)
   const { session } = useSession();
 
   const userIdMain = session?.user?.user_id;
 
+  // Search
+  const handleSearch = async () => {
+    if (!rendition || !searchQuery) {
+      setSearchResults([])
+      return
+    };
 
-  // fetch and Dynamic Highlight
+    try {
+      const results: SearchResult[] = [];
+
+      const highlightText = (text: string, query: string) => {
+        const regex = new RegExp(`(${query})`, "gi");
+        return text.replace(
+          regex,
+          '<mark style="background-color: #FF6F61;">$1</mark>'
+        );
+      };
+
+      //do Search
+      const doSearch = (q: string) => {
+        return Promise.all(
+          (rendition.book.spine as any).spineItems.map((item: any) =>
+            item
+              .load(rendition.book.load.bind(rendition.book))
+              .then(item.find.bind(item, q))
+              .finally(item.unload.bind(item))
+          )
+        ).then((results) => [].concat.apply([], results));
+      };
+
+      const allResults = await doSearch(searchQuery);
+      results.push(...allResults);
+
+      const highlightedResults = results.map((result) => ({
+        ...result,
+        excerpt: highlightText(result.excerpt, searchQuery),
+      }));
+
+      // Update search results
+      setSearchResults(highlightedResults);
+
+      allResults.forEach((result) => {
+        const typedResult = result as SearchResult;
+
+        if (typedResult.cfi) {
+          try {
+            const validCfi = String(typedResult.cfi).trim();
+            if (!validCfi.startsWith("epubcfi(")) {
+              throw new Error("Invalid CFI format");
+            }
+
+          } catch (error) {
+            console.error("Error highlighting result:", typedResult, error);
+          }
+        } else {
+          console.warn("Invalid CFI for result:", typedResult);
+        }
+      });
+
+    } catch (error) {
+      console.error("Error searching the book:", error);
+    }
+  };
+
+  // Handle navigation to a search result
+  const handleNavigateToResult = (result: string) => {
+    try {
+      // Validate the result string
+      if (!result.startsWith("epubcfi(")) {
+        throw new Error("Invalid CFI format");
+      }
+
+      const [href, index] = result.split("#");
+      const validCfi = result.trim(); // Trim any extra spaces
+
+      rendition
+        ?.display(href)
+        .then(() => {
+          // Add the highlight annotation and store it in highlightAnnotations
+          const annotation = rendition.annotations.add(
+            'highlight',
+            validCfi,
+            {},
+            (e: MouseEvent) => console.log("Highlight clicked:", validCfi),
+            'hl',
+            { fill: '#FF6F61', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
+          );
+
+          // Update the highlightAnnotations state
+          setHighlightAnnotations(prevAnnotations => [...prevAnnotations, annotation]);
+        })
+        .catch((error) => {
+          console.error("Error navigating or highlighting:", error);
+        });
+    } catch (error) {
+      console.error("Error processing navigation result:", error);
+    }
+  };
+  //Handle Close Sidebar
+  const handleCloseSidebar = () => {
+    setSidebar(false);
+    setSearchResults([]);
+    setSearchQuery('')
+    if (rendition) {
+
+      highlightAnnotations.forEach((annotation) => {
+        rendition.annotations.remove(annotation.cfiRange, 'highlight');
+      });
+    }
+  };
+
+  // fetch Dynamic Highlight
   const fetchHighlights = async () => {
     console.log("fetchHighlights called");
 
@@ -44,21 +164,16 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       });
 
       if (response.data && response.data.message) {
-        console.log("Inside responce if");
 
         response.data.message.forEach((highlightData: any) => {
-          console.log("response.data.message if");
 
           if (rendition) { // Ensure rendition is defined before accessing it
-            console.log("rendition if");
-
-            console.log("Rendition", rendition);
 
             rendition.annotations.add(
               'highlight',
               highlightData.cfi_range,
               {},
-              (e: MouseEvent) => console.log('Click on existing highlight:', highlightData.cfi_range, e),
+              (e: MouseEvent) => console.log(""),
               'hl',
               { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
             );
@@ -87,19 +202,19 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
               'highlight',
               cfiRange,
               {},
-              (e: MouseEvent) => console.log('Click on new highlight:', cfiRange, e),
+              (e: MouseEvent) => console.log(""),
               'hl',
               { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
             );
 
-            setSelections((list) =>
-              list.concat({
-                text: selectedText,
-                cfiRange,
-              })
-            );
+            // setSelections((list) =>
+            //   list.concat({
+            //     text: selectedText,
+            //     cfiRange,
+            //   })
+            // );
 
-            handleAddHighlight(selectedText, cfiRange);
+            // handleAddHighlight(selectedText, cfiRange);
 
             const selection = contents.window.getSelection();
             selection?.removeAllRanges();
@@ -143,7 +258,6 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
         highlight
       );
 
-      console.log('Highlight added successfully:', response.data);
     } catch (error) {
       console.error('Error adding highlight:', error);
     }
@@ -152,8 +266,6 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   const handleRemoveHighlight = async (cfiRange: string) => {
     try {
 
-      console.log("remove api is called");
-      
       // API call to remove the highlight on the server
       const response = await axios.post(
         `${process.env.API_URL}highlights-epub/remove`,
@@ -165,8 +277,6 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       );
 
       if (response.data.message === 204) {
-        console.log("Inside Responce")
-      //   console.log('Highlight removed successfully:', cfiRange);
 
         // Remove the highlight from the EPUB rendering
         if (rendition) {
@@ -205,7 +315,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
             'highlight',
             cfiRange,
             {},
-            (e: MouseEvent) => console.log('click on selection', cfiRange, e),
+            (e: MouseEvent) => console.log(''),
             'hl',
             { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
           );
@@ -224,11 +334,6 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       };
     }
   }, [rendition]);
-  // Handle Search
-  const filteredSelections = selections.filter((selection) =>
-    selection.text.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-
 
   return (
     <div className='wrapper-container'>
@@ -259,8 +364,8 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       {sidebar && (
         <div className="sidebar-drawer">
           <div className="sidebar-header">
-            <div>Highlights</div>
-            <button onClick={() => setSidebar(false)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z" /></svg></button>
+            <div aria-readonly>{activeSidebar == "selections" ? "Highlights" : activeSidebar}</div>
+            <button onClick={handleCloseSidebar}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z" /></svg></button>
           </div>
           <hr />
           <br />
@@ -269,7 +374,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
             {activeSidebar === 'selections' && (
               <div>
                 <ul className="selection-list">
-                  {filteredSelections.map(({ text, cfiRange }, i) => {
+                  {selections && selections.map(({ text, cfiRange }, i) => {
                     // Limit the text to the first 20 characters and add "..." if the text is longer
                     const truncatedText = text.length > 20 ? `${text.slice(0, 20)}...` : text;
 
@@ -299,14 +404,34 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
 
             {activeSidebar === 'search' && (
               <div className="sidebar-search">
-                <h2>Search Results</h2>
-                {/* <ul>
-                    {filteredSelections.map((selection, index) => (
-                      <li key={index}>{selection.text}</li>
-                    ))}
-                  </ul> */}
+                <div className="search-container">
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search in book"
+                    value={searchQuery}
+                    onChange={(e: any) => {
+
+                      setSearchQuery(e.target.value)
+                    }}
+                  />
+                  <button className="search-button" onClick={handleSearch}>
+                    Search
+                  </button>
+                </div>
+
+                <ul className="search-results">
+                  {searchResults.map((result, index) => (
+                    <li key={index} onClick={() => handleNavigateToResult(result.cfi)}>
+                      {/* Use dangerouslySetInnerHTML to render the HTML content with highlighted text */}
+                      <span dangerouslySetInnerHTML={{ __html: result.excerpt }} />
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
+
+
             {activeSidebar === 'bookmarks' && (
               <div>
                 <h2>Bookmarks</h2>
@@ -325,8 +450,6 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
           locationChanged={(loc: string) => setLocation(loc)}
           getRendition={(_rendition: Rendition) => {
             setRendition(_rendition)
-            console.log('Rendition initialized:', _rendition);
-
           }}
         />
 

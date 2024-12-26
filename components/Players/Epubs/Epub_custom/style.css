@@ -217,3 +217,109 @@
     z-index: 100;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
+/* Sidebar Search Styles */
+.sidebar-search {
+    background-color: #f9f9f9;
+    padding: 16px;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    height: 86vh;
+  }
+  
+  /* Search Container */
+  .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s ease;
+  }
+  
+  .search-input:focus {
+    border-color: #007bff;
+  }
+  
+  .search-button {
+    background-color: #ff5718;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    margin-left: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #da3a00;
+  }
+  
+  /* Search Results */
+  .search-results {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 75vh; /* Set a fixed height for the list */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  .search-results li {
+    background-color: white;
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-results li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 600px) {
+    .sidebar-search {
+      max-width: 100%;
+      padding: 12px;
+    }
+  
+    .search-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .search-input {
+      margin-bottom: 8px;
+    }
+  
+    .search-button {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+  
+  /* Additional Styles for Accessibility and Hover Effects */
+  .search-results li span {
+    display: block;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .search-results li:focus {
+    outline: 2px solid #007bff;
+  }
+  
