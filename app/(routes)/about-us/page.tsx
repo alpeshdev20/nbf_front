@@ -1,5 +1,6 @@
 //* Importing Component
 import React from "react";
+import Head from "next/head";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
@@ -12,6 +13,15 @@ import MissionImage from "@/public/images/about-us/mission.png";
 export default function NotFound() {
   return (
     <>
+       {/* Meta Tags */}
+       <Head>
+        <title>About NetbookFlix: Empowering Education Through Innovation</title>
+        <meta
+          name="description"
+          content="Learn more about NetbookFlix, a leading platform transforming education with cutting-edge digital resources and tools. Discover our mission and vision today."
+        />
+      </Head>
+      
       {/* Navbar  */}
       <Navbar
         navType="main"
