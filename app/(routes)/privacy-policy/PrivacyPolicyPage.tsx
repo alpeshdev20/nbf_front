@@ -7,7 +7,7 @@ import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
 import { getPrivacyPolicy } from "@/services/cms";
 
-export default function PrivacyPolicy() {
+export default function PrivacyPolicyPage() {
   const { cmsData, isSuccess } = getPrivacyPolicy();
 
   return (

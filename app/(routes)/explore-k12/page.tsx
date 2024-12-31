@@ -18,7 +18,7 @@ import TickIcon from "@/icons/tick.png";
 //* Metadata
  export const metadata: Metadata = {
   title: "Explore K-12 Solutions: NetbookFlix for Schools and Educato",
-  description: "Discover K-12 education solutions with NetbookFlix. Empower schools and educators with innovative resources and tools tailored for student success",
+  description: "Discover K-12 education solutions with NetbookFlix. Empower schools and educators with innovative resources and tools tailored for student success.",
 };
 
 const ExploreK12 = () => {
