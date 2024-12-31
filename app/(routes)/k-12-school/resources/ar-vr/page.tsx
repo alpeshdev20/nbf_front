@@ -5,7 +5,13 @@ import ResourcesLayout from "../resource-layout";
 // import ContinueWatching from "@/components/Resources/ContinueWatching/ContinueWatching";
 // import ExploreSection from "@/components/Resources/ExploreSection/ExploreSection";
 import ComingSoon from "@/components/ComingSoon/ComingSoon";
+import { Metadata } from "next";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "AR/VR Resources for K-12 Schools: Transforming Learning",
+  description: "Discover cutting-edge AR/VR resources for K-12 schools with NetbookFlix. Enhance classroom learning with immersive and interactive technologies.",
+};
 const ArVr = () => {
   return (
     <ResourcesLayout>

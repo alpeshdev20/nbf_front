@@ -6,21 +6,19 @@ import Navbar from "@/components/layout/Navbar/Navbar";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
 
+import type { Metadata } from "next";
 //* image
 import AboutImage from "@/public/images/about-us/banner.png";
 import MissionImage from "@/public/images/about-us/mission.png";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "About NetbookFlix: Empowering Education Through Innovation",
+  description: "Learn more about NetbookFlix, a leading platform transforming education with cutting-edge digital resources and tools. Discover our mission and vision today.",
+};
 export default function NotFound() {
   return (
     <>
-       {/* Meta Tags */}
-       <Head>
-        <title>About NetbookFlix: Empowering Education Through Innovation</title>
-        <meta
-          name="description"
-          content="Learn more about NetbookFlix, a leading platform transforming education with cutting-edge digital resources and tools. Discover our mission and vision today."
-        />
-      </Head>
       
       {/* Navbar  */}
       <Navbar

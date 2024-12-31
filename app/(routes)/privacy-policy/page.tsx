@@ -1,41 +1,21 @@
-"use client";
 
 //* Importing Component
 import React from "react";
-import Navbar from "@/components/layout/Navbar/Navbar";
-import NewsLetter from "@/components/NewsLetter/NewsLetter";
-import Footer from "@/components/layout/Footer/Footer";
-import { getPrivacyPolicy } from "@/services/cms";
 
+import PrivacyPolicyPage from "./PrivacyPolicyPage";
+// Metdadata
+import { Metadata } from "next";
+
+//* Metadata
+export const metadata: Metadata = {
+  title: "Privacy Policy - NetbookFlix: Protecting Your Data",
+  description: "Read NetbookFlix’s Privacy Policy to learn how we collect, use, and protect your personal information and ensure secure data handling.",
+};
 export default function PrivacyPolicy() {
-  const { cmsData, isSuccess } = getPrivacyPolicy();
-
+ 
   return (
     <>
-      {/* Navbar  */}
-      <Navbar
-        navType="main"
-        btnClass="primary"
-        btnURL="/explore-k12"
-        btnContent="EXPLORE K12/SCHOOL"
-      />
-
-      <div className="cms_container">
-        <div className="app-container">
-          <div
-            className="cms_content"
-            dangerouslySetInnerHTML={{
-              __html: isSuccess ? cmsData?.content : "",
-            }}
-          ></div>
-        </div>
-      </div>
-
-      {/* News Letter  */}
-      <NewsLetter />
-
-      {/* Footer  */}
-      <Footer />
+        <PrivacyPolicyPage />
     </>
   );
 }

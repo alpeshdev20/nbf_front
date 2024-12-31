@@ -16,7 +16,13 @@ import UniversityAchivedIcon3 from "@/images/universities/achieves-3.png";
 import UniversityAchivedIcon4 from "@/images/universities/achieves-4.png";
 import UniversityAchivedIcon5 from "@/images/universities/achieves-5.png";
 import UniversityAchivedIcon6 from "@/images/universities/achieves-6.png";
+import { Metadata } from "next";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "University Press Publishing Services - NetbookFlix",
+  description: "Explore NetbookFlix’s University Press Publishing Services. Partner with us to distribute and amplify your academic content through innovative platforms.",
+};
 const UniversityPublishingServices = () => {
   return (
     <>

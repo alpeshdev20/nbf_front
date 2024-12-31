@@ -9,8 +9,8 @@ import type { Metadata } from "next";
 
 //* Metadata
 export const metadata: Metadata = {
-  title: "Best Audiobooks Online - Listen to Top Audio Books Anytime",
-  description: "Explore audio books online with the best audiobook subscription. Listen to the best audiobooks, including Hindi audio books, free online audio books.",
+  title: "K 12 School Audio Books | Best Resources for Learning",
+  description: "The Top K 12 School Audio Books At Netbookflix. Find The Best Resources For Learning And Help Students Improve Their Education With Engaging Audio Content.",
 };
 const AudioBooks = () => {
   return (

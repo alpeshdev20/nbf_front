@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 
 //* Metadata
 export const metadata: Metadata = {
-  title: "Best Online Learning Videos - Educational and Story Videos",
-  description: "Explore online learning videos, educational videos for students, online story videos, moral stories videos in Hindi, short learning videos, video lectures.",
+  title: "K 12 School Videos | Educational Resources for Learning",
+  description: "A Variety Of K 12 School Videos And Educational Resources For Learning At Netbookflix. Boost Classroom Engagement With Quality Video Content.",
 };
 const Videos = () => {
   return (

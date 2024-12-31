@@ -10,9 +10,16 @@ import Testimonials from "@/components/sliders/Testimonials/Testimonials";
 import RecommondationsK12 from "@/components/sliders/RecommondationsK12/RecommondationsK12";
 // import K12Categories from "@/components/K12Categories/K12Categories";
 import K12Hero from "@/components/K12Hero/K12Hero";
+import { Metadata } from "next";
 
 //* Importing Image
 import TickIcon from "@/icons/tick.png";
+ 
+//* Metadata
+ export const metadata: Metadata = {
+  title: "Explore K-12 Solutions: NetbookFlix for Schools and Educato",
+  description: "Discover K-12 education solutions with NetbookFlix. Empower schools and educators with innovative resources and tools tailored for student success",
+};
 
 const ExploreK12 = () => {
   const isK12 :boolean = true

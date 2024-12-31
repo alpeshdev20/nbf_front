@@ -6,7 +6,14 @@ import Footer from "@/components/layout/Footer/Footer";
 import Plan from "@/components/Plans/Plans";
 import Head from "next/head";
 import Script from "next/script";
+// Metdadata
+import { Metadata } from "next";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "NetbookFlix Plans: Flexible Pricing for All Needs",
+  description: "Explore NetbookFlix’s pricing plans. Find the right package for your educational needs, with options for schools, instructors, and institutions.",
+};
 const ViewPlans = () => {
   return (
     <>

@@ -8,7 +8,14 @@ import Footer from '@/components/layout/Footer/Footer';
 
 //* images
 import InstructorsImage from "@/images/instructors/instructor.png";
+// Metdadata
+import { Metadata } from "next";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "NetbookFlix for Instructors: Transform Your Teaching",
+  description: "Equip yourself with NetbookFlix’s tools for instructors. Enhance lesson delivery, engage students, and simplify classroom manageme",
+};
 const NbfForInstructors = () => {
     return (
         <>

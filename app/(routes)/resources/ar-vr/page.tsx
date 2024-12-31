@@ -5,6 +5,13 @@ import ResourcesLayout from "../resource-layout";
 // import ContinueWatching from "@/components/Resources/ContinueWatching/ContinueWatching";
 // import ExploreSection from "@/components/Resources/ExploreSection/ExploreSection";
 import ComingSoon from "@/components/ComingSoon/ComingSoon";
+import { Metadata } from "next";
+
+//* Metadata
+export const metadata: Metadata = {
+  title: "AR/VR Educational Resources: Redefining Learning",
+  description: "Access immersive AR/VR educational resources on NetbookFlix. Transform traditional learning methods with innovative technologies.",
+};
 
 const ArVr = () => {
   return (

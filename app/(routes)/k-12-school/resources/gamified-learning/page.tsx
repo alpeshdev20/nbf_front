@@ -8,8 +8,8 @@ import type { Metadata } from "next";
 
 //* Metadata
 export const metadata: Metadata = {
-  title: "Online Bookstore - Explore and Read Books Online Anytime",
-  description: "Find the best books online at our online bookstore. Read books online from a vast collection at the ultimate books online store, anytime, anywhere.",
+  title: "K 12 School Gamified Learning | Boost Student Success",
+  description: "Learning With K-12 School Gamified Learning At Netbookflix. Boost Student Success Through Fun, Interactive Games That Enhance Engagement And Foster Growth.",
 };
 const Books = () => {
   return (

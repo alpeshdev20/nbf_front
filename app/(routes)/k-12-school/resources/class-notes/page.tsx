@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 
 //* Metadata
 export const metadata: Metadata = {
-  title: "Class Notes Online - Your Go-To Resource for Easy Study Note",
-  description: "Find comprehensive online class notes and notebooks. Access and study class notes online to enhance your learning experience anytime, anywhere.",
+  title: "K 12 School Class Notes | Comprehensive Study Resources",
+  description: "Get K 12 School Class Notes And Comprehensive Study Resources At Netbookflix. Find Well-Organized, Detailed Notes To Help You Succeed In Your Studies.",
 };
 const ClassNotes = () => {
   return (
