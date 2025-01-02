@@ -640,7 +640,7 @@ const renderHighlights = React.useCallback(
             {
                 content:bookmark,
                 icon: <BookmarkIcon />,
-                title: 'Bookmakr',
+                title: 'Bookmark',
             }, 
         ],
         renderToolbar,
