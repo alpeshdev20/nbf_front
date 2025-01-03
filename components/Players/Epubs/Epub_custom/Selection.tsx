@@ -348,43 +348,42 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       // Add bookmark function
       const handleAddBookmark = () => {
 
-        const currentLocation = rendition.location; // Get the current reading location
+        // const currentLocation = rendition.location; // Get the current reading location
 
-        // Get the content of the current page using the 'rendition' object
-        const pageText = rendition.getRange(currentLocation.start.cfi).toString();
+        // // Get the content of the current page using the 'rendition' object
+        // const pageText = rendition.getRange(currentLocation.start.cfi).toString();
 
-        // Log or process the page content
-        console.log("rendition", rendition);
-        return pageText;
-        // Select the container element that holds the main book text
-        const bookContent = document.querySelector('.reader-content'); // Adjust this selector to match your specific content container
+        // // Log or process the page content
+        // console.log("rendition", rendition);
+        // // Select the container element that holds the main book text
+        // const bookContent = document.querySelector('.reader-content'); // Adjust this selector to match your specific content container
       
-        if (bookContent) {
-          // Get the text content of the selected container
-          const pageText = bookContent.innerText;  // Grabs all text inside the book content
+        // if (bookContent) {
+        //   // Get the text content of the selected container
+        //   const pageText = bookContent.innerText;  // Grabs all text inside the book content
       
-          console.log("pageText", pageText);
+        //   console.log("pageText", pageText);
       
-          // If you want to get a snippet of the text, you can limit the length:
-          const snippet = pageText.length > 100 ? pageText.substring(0, 100) + "..." : pageText;
+        //   // If you want to get a snippet of the text, you can limit the length:
+        //   const snippet = pageText.length > 100 ? pageText.substring(0, 100) + "..." : pageText;
       
-          const bookmark = {
-            cfiRange: location,  // Assuming 'location' tracks the CFI
-            title: title,
-            snippet: snippet,  // Include the snippet of the first paragraph or page
-            timestamp: new Date().toISOString(),
-          };
+        //   const bookmark = {
+        //     cfiRange: location,  // Assuming 'location' tracks the CFI
+        //     title: title,
+        //     snippet: snippet,  // Include the snippet of the first paragraph or page
+        //     timestamp: new Date().toISOString(),
+        //   };
       
-          console.log("bookmark data", bookmark);
-          return  bookmark;
-          // Update the bookmarks state
-          setBookmarks([...bookmarks, bookmark]);
-          saveBookmarksToStorage(bookmark);  // Save the bookmark in localStorage
+        //   console.log("bookmark data", bookmark);
+        //   return  bookmark;
+        //   // Update the bookmarks state
+        //   setBookmarks([...bookmarks, bookmark]);
+        //   saveBookmarksToStorage(bookmark);  // Save the bookmark in localStorage
       
-          console.log("bookmark after update", bookmarks);
-        } else {
-          console.error('No book content found!');
-        }
+        //   console.log("bookmark after update", bookmarks);
+        // } else {
+        //   console.error('No book content found!');
+        // }
       };
 
     // Save bookmarks to localStorage
@@ -411,7 +410,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
 
     //got to bookmark
     const navigateToLocation = (cfiRange :any) => {
-      rendition.display(cfiRange);
+      // rendition.display(cfiRange);
       
     };
     //delete bookmark
@@ -472,7 +471,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       };
 
       const updatePageContent = (content: string) => {
-        handleDisplayed(content)
+        // handleDisplayed(content)
       };
    // Callback function to update the page content
       
