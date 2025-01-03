@@ -14,7 +14,6 @@ import { post } from "@/utils/fetch";
 import { isResourceRead } from "@/services/UsersStats";
 import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
 import { useSession } from "@/providers/SessionProvider";
-import E_pub_Reader from "@/components/Players/Epubs/containers/Reader"
 import Selection from "@/components/Players/Epubs/Epub_custom/Selection";
 
 //* interface

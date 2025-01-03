@@ -15,7 +15,6 @@ import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/Re
 import { useRouter } from "next/navigation";
 import styles from "./BookInfo.module.css";
 import { useSession } from "@/providers/SessionProvider";
-import E_pub_Reader from "@/components/Players/Epubs/containers/Reader"
 
 //* Icons
 import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
