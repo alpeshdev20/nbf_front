@@ -528,3 +528,30 @@ div[aria-controls="rpv-core__modal-body-properties"]  {
 	border: none;
 	cursor: pointer;
 }
+
+.h1-home-screen-seo{
+  text-align: center;
+  /* margin: 20px 0; */
+  padding: 10px 20px;
+  background-color:#fff;
+  color: #ff5718;
+  font-size: 2rem;
+  font-weight: bold;
+  /* border-radius: 8px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
+}
+
+.h1-home-screen-seo-k12{
+  text-align: center;
+  /* margin: 20px 0; */
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #3498db;
+  font-size: 2rem;
+  font-weight: bold;
+  /* border-radius: 8px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
+}
+

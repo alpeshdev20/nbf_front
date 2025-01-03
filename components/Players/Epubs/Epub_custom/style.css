@@ -323,3 +323,221 @@
     outline: 2px solid #007bff;
   }
   
+  .cust-epub-button-bookmark {
+    position: absolute;
+    top: 10px; /* Default vertical alignment */
+    right: 10px; /* Default horizontal alignment */
+    background-color: #ff5718; /* A contrasting color for better visibility */
+    color: #333; /* Text/icon color */
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px; /* Default spacing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for a 3D effect */
+    cursor: pointer;
+    z-index: 99; /* Ensures it stays above the content */
+    display: flex; /* Aligns icon and text horizontally */
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    font-size: 16px; /* Default font size */
+  }
+  
+  .cust-epub-button-bookmark:hover {
+    background-color: #ff7847; /* Lighter orange */
+  }
+  
+  .cust-epub-button-bookmark svg {
+    fill: #333; /* Matches the icon color with text */
+  }
+  
+  /* Responsive adjustments for different devices */
+  
+  /* Mobile devices */
+  @media (max-width: 600px) {
+    .cust-epub-button-bookmark {
+      top: 5px; /* Closer to the top for smaller screens */
+      right: 5px; /* Closer to the edge for smaller screens */
+      padding: 6px 8px; /* Smaller padding */
+      font-size: 14px; /* Smaller font size */
+    }
+  }
+  
+  /* Tablets */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .cust-epub-button-bookmark {
+      top: 8px;
+      right: 8px;
+      padding: 7px 10px;
+      font-size: 15px;
+    }
+  }
+  
+  /* Laptops and desktops */
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    .cust-epub-button-bookmark {
+      top: 10px;
+      right: 10px;
+      padding: 8px 12px;
+      font-size: 16px; /* Default font size */
+    }
+  }
+  
+  /* Large screens (e.g., TVs) */
+  @media (min-width: 1441px) {
+    .cust-epub-button-bookmark {
+      top: 15px; /* Slightly larger spacing for big screens */
+      right: 15px; /* More spacing for larger resolutions */
+      padding: 10px 14px; /* Larger padding */
+      font-size: 18px; /* Larger font size for better visibility */
+    }
+  }
+  .bookmarks-list {
+    list-style: none; /* Removes default list styling */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .bookmarks-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #f9f9f9; /* Light background for contrast */
+    border: 1px solid #ddd; /* Subtle border for separation */
+    border-radius: 8px; /* Rounded corners */
+    padding: 12px 16px;
+    margin-bottom: 10px; /* Space between list items */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth interaction effect */
+    width: 100%;
+  }
+  
+  .bookmarks-list li:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+  }
+  
+  .bookmark-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+    color: #333;
+  }
+  
+  .bookmark-detail {
+    font-size: 0.9rem;
+    margin: 4px 0;
+    color: #555;
+  }
+  
+  .bookmark-actions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 10px; /* Space between buttons */
+  }
+  
+  .bookmark-actions button {
+    background-color: #ff5718;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+  }
+  
+  .bookmark-actions button:hover {
+    background-color: #e04914; /* Slightly darker hover color */
+  }
+  
+  /* Responsive Styles */
+  
+  /* Small screens (phones) */
+  @media (max-width: 576px) {
+    .bookmarks-list li {
+      padding: 10px;
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .bookmark-title {
+      font-size: 0.95rem;
+    }
+  
+    .bookmark-detail {
+      font-size: 0.85rem;
+    }
+  
+    .bookmark-actions {
+      gap: 8px;
+      justify-content: center; /* Center buttons on small screens */
+    }
+  
+    .bookmark-actions button {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      width: 100%; /* Full-width buttons for narrow screens */
+    }
+  }
+  
+  /* Medium screens (tablets) */
+  @media (min-width: 577px) and (max-width: 768px) {
+    .bookmarks-list li {
+      padding: 12px 14px;
+    }
+  
+    .bookmark-title {
+      font-size: 1rem;
+    }
+  
+    .bookmark-detail {
+      font-size: 0.9rem;
+    }
+  
+    .bookmark-actions button {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+    }
+  }
+  
+  /* Large screens (laptops/desktops) */
+  @media (min-width: 769px) and (max-width: 1200px) {
+    .bookmarks-list li {
+      padding: 14px 18px;
+    }
+  
+    .bookmark-title {
+      font-size: 1.1rem;
+    }
+  
+    .bookmark-detail {
+      font-size: 1rem;
+    }
+  
+    .bookmark-actions button {
+      font-size: 0.9rem;
+      padding: 8px 14px;
+    }
+  }
+  
+  /* Extra large screens (TVs, large desktops) */
+  @media (min-width: 1201px) {
+    .bookmarks-list li {
+      padding: 16px 20px;
+    }
+  
+    .bookmark-title {
+      font-size: 1.2rem;
+    }
+  
+    .bookmark-detail {
+      font-size: 1rem;
+    }
+  
+    .bookmark-actions button {
+      font-size: 0.95rem;
+      padding: 10px 16px;
+    }
+  }
+  
+  

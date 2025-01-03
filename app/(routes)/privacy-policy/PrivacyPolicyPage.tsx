@@ -19,7 +19,9 @@ export default function PrivacyPolicyPage() {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+      <h1 className="h1-home-screen-seo">
+                  Privacy Policy | Netbookflix
+      </h1>
       <div className="cms_container">
         <div className="app-container">
           <div

@@ -13,13 +13,17 @@ interface ResourcesLayoutInterface {
   children: ReactNode;
   showAddBanner?: boolean;
   showResourcesHighlights?: boolean;
+  h1Info?: string; 
 }
 
 const ResourcesLayout: React.FC<ResourcesLayoutInterface> = ({
+  h1Info,
   children,
   showAddBanner = true,
   showResourcesHighlights = true,
 }) => {
+  console.log("h1Info:" ,h1Info);
+  
   return (
     <>
       {/* Navbar  */}
@@ -32,7 +36,11 @@ const ResourcesLayout: React.FC<ResourcesLayoutInterface> = ({
 
       {/* Ads Banner  */}
       {showAddBanner && <AdsBanner />}
-
+      
+      {h1Info ? <h1 className="h1-home-screen-seo">
+         {h1Info}
+      </h1>
+      :''}
       <ResourcesTabs />
 
       {/* UI of the resource page will appear here  */}

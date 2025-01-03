@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ReactReader } from './lib/index'
-import type { Contents, Rendition } from 'epubjs'
+import { Contents, NavItem, Rendition } from 'epubjs'
 
 import { useSession } from "@/providers/SessionProvider";
 import './style.css'
@@ -31,11 +31,20 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   const [searchQuery, setSearchQuery] = useState<string>('') // For Search Functionality
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [rendition, setRendition] = useState<Rendition | undefined>(undefined)
+
   const [location, setLocation] = useState<string | number>(0)
   const [activeSidebar, setActiveSidebar] = useState<string>('selections') // For managing which sidebar is open
   const [selectedText, setSelectedText] = useState<ITextSelection | null>(null)
   const [highlightAnnotations, setHighlightAnnotations] = useState<any[]>([]);
+  const [bookmarks, setBookmarks] = useState<any[]>([]); // For Bookmark Functionality
 
+  const [page, setPage] = useState('')
+  const [currentPageContent, setcurrentPageContent] = useState<string>('');
+  const [Contentdata, setContentdata] = useState(0);
+
+  
+  const Userefrendition = useRef<Rendition | undefined>(undefined)
+  const toc = useRef<NavItem[]>([])
 
   const [sidebar, setSidebar] = useState(false)
   const { session } = useSession();
@@ -335,6 +344,139 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
     }
   }, [rendition]);
 
+  
+      // Add bookmark function
+      const handleAddBookmark = () => {
+
+        const currentLocation = rendition.location; // Get the current reading location
+
+        // Get the content of the current page using the 'rendition' object
+        const pageText = rendition.getRange(currentLocation.start.cfi).toString();
+
+        // Log or process the page content
+        console.log("rendition", rendition);
+        return pageText;
+        // Select the container element that holds the main book text
+        const bookContent = document.querySelector('.reader-content'); // Adjust this selector to match your specific content container
+      
+        if (bookContent) {
+          // Get the text content of the selected container
+          const pageText = bookContent.innerText;  // Grabs all text inside the book content
+      
+          console.log("pageText", pageText);
+      
+          // If you want to get a snippet of the text, you can limit the length:
+          const snippet = pageText.length > 100 ? pageText.substring(0, 100) + "..." : pageText;
+      
+          const bookmark = {
+            cfiRange: location,  // Assuming 'location' tracks the CFI
+            title: title,
+            snippet: snippet,  // Include the snippet of the first paragraph or page
+            timestamp: new Date().toISOString(),
+          };
+      
+          console.log("bookmark data", bookmark);
+          return  bookmark;
+          // Update the bookmarks state
+          setBookmarks([...bookmarks, bookmark]);
+          saveBookmarksToStorage(bookmark);  // Save the bookmark in localStorage
+      
+          console.log("bookmark after update", bookmarks);
+        } else {
+          console.error('No book content found!');
+        }
+      };
+
+    // Save bookmarks to localStorage
+    const saveBookmarksToStorage = (bookmark: any) => {
+      const storedBookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+      storedBookmarks.push(bookmark);
+      localStorage.setItem('bookmarks', JSON.stringify(storedBookmarks));
+    };
+
+    // Function to navigate to a bookmark
+    const navigateToBookmark = (bookmark: any) => {
+      if (rendition && bookmark.cfiRange) {
+        rendition.display(bookmark.cfiRange).then(() => {
+          console.log('Navigated to bookmark');
+        });
+      }
+    };
+
+    // Load bookmarks from localStorage when component mounts
+    useEffect(() => {
+      const storedBookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+      setBookmarks(storedBookmarks);
+    }, []);
+
+    //got to bookmark
+    const navigateToLocation = (cfiRange :any) => {
+      rendition.display(cfiRange);
+      
+    };
+    //delete bookmark
+    const handleDeleteBookmark = (index : any) => {
+      const updatedBookmarks = bookmarks.filter((_, i) => i !== index);
+      setBookmarks(updatedBookmarks);
+      // Optionally update storage
+      saveBookmarksToStorage(updatedBookmarks);
+    };
+
+      // useEffect to handle the "displayed" event and update content
+      useEffect(() => {
+        if (rendition) {
+          const handleDisplayed = (section: Contents) => {
+            console.log("handleDisplayed handleDisplayed2");
+            
+            try {
+              // Access the content of the current page
+              const iframeDoc = section.document; // Access the iframe's document
+              const bodyText = iframeDoc.body.innerText; // Get all text content
+              const bodyHTML = iframeDoc.body.innerHTML; // Get all HTML content
+      
+              console.log('Current Page Text:', bodyText); // Log the plain text
+              console.log('Current Page HTML:', bodyHTML); // Log the HTML content
+      
+              setPage(bodyText); // Store the page content in state if needed
+            } catch (error) {
+              console.error('Error fetching current page content:', error);
+            }
+          };
+      
+          // Attach the 'displayed' event listener
+          rendition.on('displayed', handleDisplayed);
+      
+          // Clean up the listener on unmount
+          return () => {
+            rendition.off('displayed', handleDisplayed);
+          };
+        }
+      }, [rendition]);
+
+      const handleDisplayed = (section: Contents) => {
+        console.log("handleDisplayed handleDisplayed2");
+        
+        try {
+          // Access the content of the current page
+          const iframeDoc = section.document; // Access the iframe's document
+          const bodyText = iframeDoc.body.innerText; // Get all text content
+          const bodyHTML = iframeDoc.body.innerHTML; // Get all HTML content
+  
+          console.log('Current Page Text:', bodyText); // Log the plain text
+          console.log('Current Page HTML:', bodyHTML); // Log the HTML content
+  
+          setPage(bodyText); // Store the page content in state if needed
+        } catch (error) {
+          console.error('Error fetching current page content:', error);
+        }
+      };
+
+      const updatePageContent = (content: string) => {
+        handleDisplayed(content)
+      };
+   // Callback function to update the page content
+      
+          
   return (
     <div className='wrapper-container'>
       <div className="side-icons">
@@ -434,26 +576,52 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
 
             {activeSidebar === 'bookmarks' && (
               <div>
-                <h2>Bookmarks</h2>
-                <p>No bookmarks yet.</p>
+                <ul className="bookmarks-list">
+                  {bookmarks.map((bookmark, index) => (
+                    <li key={index}>
+                      <p className="bookmark-title">{bookmark.title || "Untitled Bookmark"}</p>
+                      <div className="bookmark-actions">
+                        <button onClick={() => navigateToLocation(bookmark.cfiRange)}>
+                          Go to Bookmark
+                        </button>
+                        <button onClick={() => handleDeleteBookmark(index)}>
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
         </div>
       )}
 
-      <div className={`reader-content ${!sidebar ? 'full-w' : ''}`}>
-        <ReactReader
-          url={resourceLink}
-          title=""
-          location={location}
-          locationChanged={(loc: string) => setLocation(loc)}
-          getRendition={(_rendition: Rendition) => {
-            setRendition(_rendition)
-          }}
-        />
+        <div className={`reader-content ${!sidebar ? 'full-w' : ''}`} style={{ position: 'relative' }}>
+          {/* <div className='test-location'> Curretpage : {page}</div> */}
+          {/* Add the Bookmark button */}
+          <button className="cust-epub-button-bookmark" onClick={handleAddBookmark}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M7 1h10a1 1 0 0 1 1 1v20l-5-5l-5 5V2a1 1 0 0 1 1-1z" />
+            </svg>
+            Bookmark
+          </button>
 
-      </div>
+          {/* Epub Reader */}
+          <ReactReader
+            url={resourceLink}
+            title=""
+            location={location}
+            updatePageContent={updatePageContent}
+            locationChanged={(loc) => {
+              setLocation(loc);
+              Userefrendition.current;
+            }}
+            getRendition={(_rendition: Rendition) => {
+              setRendition(_rendition);
+            }}
+          />
+        </div>
     </div>
   )
 }

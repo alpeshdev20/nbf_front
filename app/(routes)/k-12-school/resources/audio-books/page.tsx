@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 const AudioBooks = () => {
   return (
-    <K12ResourcesLayout>
+    <K12ResourcesLayout h1Info="K 12 School Audio Books | Best Resources for Learning">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

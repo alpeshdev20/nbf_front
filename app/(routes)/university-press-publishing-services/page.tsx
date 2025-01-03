@@ -32,7 +32,9 @@ const UniversityPublishingServices = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+       <h1 className="h1-home-screen-seo">
+             University Press Publishing Services | Netbookflix
+       </h1>
       {/* Banner section  */}
       <section className="publishing-service-banner-section">
         <div className="publishing-service-banner-container">

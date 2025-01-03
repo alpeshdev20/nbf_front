@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 const Books = () => {
   return (
-    <ResourcesLayout>
+    <ResourcesLayout h1Info="Gamified Learning Platforms | Engaging Education">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

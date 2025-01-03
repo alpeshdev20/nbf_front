@@ -24,7 +24,9 @@ const ViewPlans = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+      <h1 className="h1-home-screen-seo">
+            Plans | Netbookflix
+      </h1>
       <div className="plans-section">
         <Head>
           <meta

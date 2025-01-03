@@ -13,9 +13,11 @@ interface ResourcesLayoutInterface {
   children: ReactNode;
   showAddBanner?: boolean;
   showResourcesHighlights?: boolean;
+  h1Info?:string;
 }
 
 const K12ResourcesLayout: React.FC<ResourcesLayoutInterface> = ({
+  h1Info,
   children,
   showAddBanner = true,
   showResourcesHighlights = true,
@@ -32,6 +34,11 @@ const K12ResourcesLayout: React.FC<ResourcesLayoutInterface> = ({
 
       {/* Ads Banner  */}
       {showAddBanner && <AdsBanner />}
+      
+      {h1Info ? <h1 className="h1-home-screen-seo-k12">
+         {h1Info}
+      </h1>
+      :''}
 
       <K12ResourcesTabs />
 

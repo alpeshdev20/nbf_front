@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 const Videos = () => {
   return (
-    <K12ResourcesLayout>
+    <K12ResourcesLayout h1Info="K 12 School Videos | Educational Resources for Learning">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

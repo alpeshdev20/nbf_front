@@ -143,7 +143,9 @@ const NbfForPublishersAuthors = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+       <h1 className="h1-home-screen-seo">
+             Netbookflix For Publishers Authors
+       </h1>
       <div className="nbf_ecosystem">
         <div className="nbf_ecosystem_container">
           <div className="nbf_ecosystem_content_container">

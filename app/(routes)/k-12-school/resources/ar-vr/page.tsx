@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 const ArVr = () => {
   return (
-    <ResourcesLayout>
+    <ResourcesLayout h1Info="AR VR | Netbookflix">
       {/* <div className="resouses-title books">
         <div className="app-container">
           <h5>

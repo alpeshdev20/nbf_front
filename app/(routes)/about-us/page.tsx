@@ -27,7 +27,9 @@ export default function NotFound() {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+       <h1 className="h1-home-screen-seo">
+           About Us | Netbookflix
+      </h1>
       {/* About  */}
       <div className="about-section">
         <div className="about-image">

@@ -32,10 +32,13 @@ export default function Home() {
           btnContent="EXPLORE K12/SCHOOL"
         />
       </div>
-
+     
       {/* Banner  */}
       <HomeHero />
 
+        <h1 className="h1-home-screen-seo">
+             Best Online Textbook Platform | Audible Books
+        </h1>
       <div className="home-features-section">
         {/* Explore  naisa  */}
         <Naisa />

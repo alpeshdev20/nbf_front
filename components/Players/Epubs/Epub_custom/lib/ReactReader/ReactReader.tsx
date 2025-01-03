@@ -58,6 +58,7 @@ export type IReactReaderProps = IEpubViewProps & {
   epubViewStyles?: IEpubViewStyle
   swipeable?: boolean
   isRTL?: boolean
+  updatePageContent?: (content: string) => void;  // Define the function type
 }
 
 type IReactReaderState = {
@@ -86,18 +87,23 @@ export class ReactReader extends PureComponent<
   }
 
   next = () => {
-    const node = this.readerRef.current
+    const node = this.readerRef.current;
     if (node && node.nextPage) {
-      node.nextPage()
+      node.nextPage();
+      // Safely call updatePageContent if it's defined
+      this.props.updatePageContent?.('next');  // Use optional chaining
     }
-  }
-
+  };
+  
   prev = () => {
-    const node = this.readerRef.current
+    const node = this.readerRef.current;
     if (node && node.prevPage) {
-      node.prevPage()
+      node.prevPage();
+      // Safely call updatePageContent if it's defined
+      this.props.updatePageContent?.('prev');  // Use optional chaining
     }
-  }
+  };
+  
 
   onTocChange = (toc: NavItem[]) => {
     const { tocChanged } = this.props

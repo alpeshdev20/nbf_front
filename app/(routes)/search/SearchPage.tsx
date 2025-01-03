@@ -138,6 +138,9 @@ const SearchPage = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
+      <h1 className="h1-home-screen-seo">
+           Search | Netbookflix
+      </h1>
       <section className="search_section">
         <div className="search_container">
           <div className="app-container">

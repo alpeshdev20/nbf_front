@@ -169,7 +169,7 @@ export class EpubView extends Component<IEpubViewProps, IEpubViewState> {
       this.prevPage()
     }
   }
-
+  
   render() {
     const { isLoaded } = this.state
     const { loadingView = null, epubViewStyles = defaultStyles } = this.props

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 const Videos = () => {
   return (
-    <ResourcesLayout>
+    <ResourcesLayout h1Info="Best Online Learning Videos | Online Education Videos">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

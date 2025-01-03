@@ -24,6 +24,9 @@ const NbfForInstitutions = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
+      <h1 className="h1-home-screen-seo">
+            Netbookflix For Institutions 
+      </h1>
       <div className="institutions_section">
         <div className="app-container">
           <div className="institutions_container">

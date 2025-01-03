@@ -21,7 +21,9 @@ const NaisaPage = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+      <h1 className="h1-home-screen-seo">
+           Naisa | Netbookflix
+      </h1>
       {/* Naisa Section  */}
       <NaisaSection />
 

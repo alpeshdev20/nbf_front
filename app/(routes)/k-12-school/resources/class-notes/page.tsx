@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 const ClassNotes = () => {
   return (
-    <K12ResourcesLayout>
+    <K12ResourcesLayout h1Info="K 12 School Class Notes | Comprehensive Study Resources">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

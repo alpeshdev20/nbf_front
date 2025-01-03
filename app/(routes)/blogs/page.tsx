@@ -21,7 +21,9 @@ const Blogs = () => {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+       <h1 className="h1-home-screen-seo">
+            Blogs | Netbookflix
+       </h1>
       {/* Blogs Section */}
       <div className="blogs-section">
         <div className="app-container">

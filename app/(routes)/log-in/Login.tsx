@@ -107,6 +107,9 @@ const LogInForm = () => {
           params.get("src") === "k12" ? "login-section k12" : "login-section"
         }
       >
+        <h1 className="h1-home-screen-seo">
+            Log In | Netbookflix
+        </h1>
         <div className="app-container">
           <div className="login-container">
             <div className="brand-logo">
