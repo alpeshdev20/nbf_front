@@ -43,6 +43,7 @@
     "react-toastify": "^10.0.4",
     "regenerator-runtime": "^0.14.1",
     "sharp": "^0.33.2",
+    "sitemap": "^8.0.0",
     "slices": "^0.1.4",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.13",

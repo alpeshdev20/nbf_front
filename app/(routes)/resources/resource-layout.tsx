@@ -22,7 +22,6 @@ const ResourcesLayout: React.FC<ResourcesLayoutInterface> = ({
   showAddBanner = true,
   showResourcesHighlights = true,
 }) => {
-  console.log("h1Info:" ,h1Info);
   
   return (
     <>
