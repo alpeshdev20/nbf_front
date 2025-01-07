@@ -1,4 +1,3 @@
-import { useHeAudioSitemap } from '@/services/sitemap';
 import { get } from '@/utils/fetch';
 import axios from 'axios';
 import fs from 'fs';
