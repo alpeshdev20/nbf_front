@@ -30,11 +30,9 @@ export default async function Faqs() {
   try {
     // Using the get function to fetch data
      cmsData = await get(`${apiUrl}faqs`);
-    console.log("CMS Data:", cmsData.content); // Logs in the terminal
   } catch (error) {
     console.error("Failed to fetch FAQs data:", error);
   }
-
 
   return (
     <>

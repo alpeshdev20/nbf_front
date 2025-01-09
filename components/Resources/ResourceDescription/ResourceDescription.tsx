@@ -76,23 +76,32 @@ const ResourceDescription: React.FC<ResourceDescriptionInterface> = ({
       </div>
 
       <div className={Style.resource_description_content}>
-        {tab.summary && (
-          <>
-            <p>{summary}</p>
-          </>
-        )}
+          {tab.summary && (
+            <p
+              dangerouslySetInnerHTML={{
+                __html: summary.replace(/\n/g, "<br />"),
+              }}
+            />
+          )}
 
         {tab.toc_tab && (
-          <>
-            <p>{toc ? toc : "No Details Available...."}</p>
-          </>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: toc ? toc.replace(/\n/g, "<br />") : "No Details Available....",
+            }}
+          />
         )}
 
         {tab.author && (
-          <>
-            <p>{authorDetails ? authorDetails : "No Details Available...."}</p>
-          </>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: authorDetails
+                ? authorDetails.replace(/\n/g, "<br />")
+                : "No Details Available....",
+            }}
+          />
         )}
+
       </div>
     </div>
   );

@@ -1,9 +1,13 @@
 /* Ensure the sidebar and reader content fit together */
+/* Base styles for the wrapper container */
 .wrapper-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  top: 0;
 }
+
 .sidebar-drawer {
     position: absolute;
     background-color: white;
@@ -322,12 +326,15 @@
   .search-results li:focus {
     outline: 2px solid #007bff;
   }
-  
-  .cust-epub-button-bookmark {
+  .cust-bookmark-timer {
+    position: relative; /* Ensure buttons are aligned properly inside the container */
+    display: flex; /* Align children in a row */
+    flex-wrap: wrap; /* Wrap items if needed for responsiveness */
+    gap: 10px; /* Space between buttons */
     position: absolute;
     top: 10px; /* Default vertical alignment */
     right: 10px; /* Default horizontal alignment */
-    background-color: #ff5718; /* A contrasting color for better visibility */
+    background-color: #ffffff; /* A contrasting color for better visibility */
     color: #333; /* Text/icon color */
     border: none;
     border-radius: 5px;
@@ -339,9 +346,38 @@
     align-items: center;
     gap: 8px; /* Space between icon and text */
     font-size: 16px; /* Default font size */
+    margin: 5px;
+  }
+
+  .timer-plus-minus-button{
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px 10px !important;
+    cursor: pointer;
+  }
+  .timer-plus-minus-button:hover{
+    background-color: #a19997;
   }
   
-  .cust-epub-button-bookmark:hover {
+  .cust-epub-button-bookmark,
+  .cust-epub-button-timer {
+    background-color: #ffffff;
+    color: #ff5718; /* Text/icon color */
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px; /* Spacing for buttons */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: flex; /* Align icon and text horizontally */
+    align-items: center; /* Center items vertically */
+    gap: 8px; /* Space between icon and text */
+    font-size: 16px; /* Default font size */
+    z-index: 99; /* Ensure buttons stay on top */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .cust-epub-button-timer:hover,.cust-epub-button-bookmark:hover {
     background-color: #ff7847; /* Lighter orange */
   }
   
@@ -391,10 +427,89 @@
     }
   }
   .bookmarks-list {
-    list-style: none; /* Removes default list styling */
+    list-style: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto; /* Enables vertical scrolling */
+    max-height: 300px; /* Default height for medium to large screens */
+    border: 1px solid #ccc; /* Optional: Add a border for better visual distinction */
+    background-color: #f9f9f9; /* Optional: Set a background color for the list */
+    width: 100%; /* Ensures the list takes full width of the parent container */
+    max-height: 567px;
+}
+
+.timer-modal {
+  position: absolute;
+  top: 17%;
+  left: calc(100% - 230px);
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1000;
+  width: 300px;
+}
+@media (min-width:230px) and (max-width:680px) {
+  .timer-modal {
+    top: 19%;
+    left: calc(100% - 176px);
   }
+}
+
+@media (min-width:681px) and (max-width:1024px) {
+  .timer-modal {
+    top: 11%;
+    left: calc(100% - 236px);
+  }
+}
+.timer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.timer-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.timer-controls button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.timer-controls-button:hover{
+  background-color: #a19997;
+}
+.timer-start button {
+  width: 100%;
+  background-color: #ff5718;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.timer-start button:hover {
+  background-color: #dd6235;
+}
+
   
   .bookmarks-list li {
     display: flex;
@@ -409,6 +524,7 @@
     transition: transform 0.2s, box-shadow 0.2s; /* Smooth interaction effect */
     width: 100%;
   }
+  
   
   .bookmarks-list li:hover {
     transform: translateY(-2px); /* Slight lift on hover */
