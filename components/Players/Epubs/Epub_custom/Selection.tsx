@@ -47,10 +47,11 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
 
   const userIdMain = session?.user?.user_id;
 
-
+  // Timer
   const [isTimerVisible, setIsTimerVisible] = useState(false);
   const [time, setTime] = useState(20 * 60); // Initial time in seconds (20 minutes)
   const [isRunning, setIsRunning] = useState(false);
+  const [isTimeUp, setIsTimeUp] = useState(false); // To show the "Time Up" notification
 
   const formatTime = (time: any) => {
     const minutes = Math.floor(time / 60);
@@ -67,14 +68,18 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   };
 
   useEffect(() => {
-    let timer: any;
+    let timer: NodeJS.Timeout;
     if (isRunning && time > 0) {
       timer = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (!isRunning && timer) {
-      clearInterval(timer);
     }
+
+    if (time === 0 && isRunning) {
+      setIsRunning(false); // Stop the timer
+      setIsTimeUp(true); // Show the "Time Up" notification
+    }
+
     return () => clearInterval(timer);
   }, [isRunning, time]);
 
@@ -460,8 +465,10 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
     // handleDisplayed(content)
   };
   // Callback function to update the page content
-
-
+  // Close notification
+  const closeNotification = () => {
+    setIsTimeUp(false);
+  };
   return (
     <div className='wrapper-container'>
       <div className="side-icons">
@@ -625,6 +632,15 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
                 {isRunning ? "Pause" : "Start"}
               </button>
             </div>
+          </div>
+        )}
+
+        
+         {/* Time Up Notification */}
+        {isTimeUp && (
+          <div className="time-up-notification">
+            <p>Time's up!</p>
+            <button onClick={closeNotification}>Close</button>
           </div>
         )}
 
