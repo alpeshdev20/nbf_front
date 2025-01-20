@@ -2,12 +2,16 @@ import { useState, useEffect, useRef } from 'react'
 import { ReactReader } from './lib/index'
 import { Contents, NavItem, Rendition } from 'epubjs'
 import { get, post, getWithParam } from '@/utils/fetch';
+import Image from "next/image";
 
 
 import { useSession } from "@/providers/SessionProvider";
 import './style.css'
 import axios from 'axios'
 import { log } from 'console';
+
+// NBf Logo For E pubreader
+import nbfLogo from "@/public/icons/NetBookFlix_Logo.png";
 
 type ITextSelection = {
   text: string
@@ -472,7 +476,10 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   return (
     <div className='wrapper-container'>
       <div className="side-icons">
-        <br /><br /><br /><br />
+        <br />
+        <a href="https://netbookflix.com/" className='cust-epub-button-nbf'>  <Image style={{ width:"41px",height: "51px" }} src={nbfLogo} alt="NBF" /></a>
+        <br /><br />
+        <br />
         <button className='cust-epub-button' onClick={() => {
           setSidebar(true)
           setActiveSidebar('selections')

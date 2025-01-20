@@ -21,6 +21,9 @@ export interface IReactReaderStyle {
   tocButtonBarTop: CSSProperties
   loadingView: CSSProperties
   tocButtonBottom: CSSProperties
+  footer :CSSProperties
+  nextPrevButton : CSSProperties
+  PrevButton :CSSProperties
 }
 
 export const ReactReaderStyle: IReactReaderStyle = {
@@ -166,4 +169,49 @@ export const ReactReaderStyle: IReactReaderStyle = {
     textAlign: 'center',
     marginTop: '-.5em',
   },
+
+  footer: {
+    backgroundColor: "#E4F1F5",
+    position: "absolute",
+    width: "100%", // Set to 100% for dynamic width
+    height: "36.3px",
+    zIndex: 100000000000000000000000000, // Large z-index value
+    bottom: 0,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 20px", // Add padding for spacing
+    boxShadow: "0 -2px 4px rgba(0, 0, 0, 0.1)", // Optional: subtle shadow for separation
+  },
+
+  nextPrevButton: {
+    position: "absolute",
+    width: "140.1px",
+    height: "28.5px",
+    fontFamily: "Barlow, sans-serif", // Added a fallback for font-family
+    fontSize: "18px",
+    fontWeight: "normal",
+    lineHeight: "36px",
+    fontStyle: "normal",
+    textAlign: "left",
+    color: "#212121",
+    top: "12px",
+  },
+
+  PrevButton: {
+    position: "absolute",
+    width: "140.1px",
+    height: "28.5px",
+    fontFamily: "Barlow, sans-serif", // Added a fallback for font-family
+    fontSize: "18px",
+    fontWeight: "normal",
+    lineHeight: "36px",
+    fontStyle: "normal",
+    textAlign: "left",
+    color: "#212121",
+    top: "12px",
+    right: "-44px",
+  },
+
+  
 }

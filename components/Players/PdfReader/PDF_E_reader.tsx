@@ -108,6 +108,45 @@ const PDF_E_reader: React.FC<HighlightExampleProps> = ({ fileUrl  ,
     const hasFetchedBookmarks = useRef(false); // Track if fetchBookmarks has been called
    const [pageIndexB, setPageIndexB] = useState<number>(0)
 
+    // Timer
+    const [isTimerVisible, setIsTimerVisible] = useState(false);
+    const [time, setTime] = useState(20 * 60); // Initial time in seconds (20 minutes)
+    const [isRunning, setIsRunning] = useState(false);
+    const [isTimeUp, setIsTimeUp] = useState(false); // To show the "Time Up" notification
+
+    const formatTime = (time: any) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    };
+
+    const handleStartPause = () => {
+        setIsRunning(!isRunning);
+    };
+
+    const handleAddTime = (seconds: any) => {
+        setTime((prevTime) => Math.max(prevTime + seconds, 0)); // Prevent negative time
+    };
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (isRunning && time > 0) {
+            timer = setInterval(() => {
+                setTime((prevTime) => prevTime - 1);
+            }, 1000);
+        }
+
+        if (time === 0 && isRunning) {
+            setIsRunning(false); // Stop the timer
+            setIsTimeUp(true); // Show the "Time Up" notification
+        }
+
+        return () => clearInterval(timer);
+    }, [isRunning, time]);
+
+    const closeNotification = () => {
+        setIsTimeUp(false);
+      };
     // Function to add a bookmark
     const addBookmark =  async (pageIndex: number) => {
             try {
@@ -691,12 +730,62 @@ const renderHighlights = React.useCallback(
         </Worker>
         
         {/* Bookmark Icon */}
-        <div className="bookmark-icon">
-            <FaBookmark
+      
+        <div className="cust-bookmark-timer-pdf">
+          {/* Bookmark button */}
+          {/* <div className="bookmark-icon-test"> */}
+
+          <button className="pdf-cust-epub-button-bookmark" onClick={() => currentDoc && addBookmark(currentPage)}
+            style={{ cursor: 'pointer', color: '#ff5718' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 21l-7-5l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
+          </button>
+            {/* <FaBookmark
             onClick={() => currentDoc && addBookmark(currentPage)}
             style={{ cursor: 'pointer', color: 'blue' }}
-            />
+            /> */}
+         {/* </div> */}
+
+
+          {/* Timer button */}
+          <button className="cust-epub-button-timer" onClick={() => setIsTimerVisible(!isTimerVisible)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="m20.145 8.27l1.563-1.563l-1.414-1.414L18.586 7c-1.05-.63-2.274-1-3.586-1c-3.859 0-7 3.14-7 7s3.141 7 7 7s7-3.14 7-7a6.97 6.97 0 0 0-1.855-4.73M15 18c-2.757 0-5-2.243-5-5s2.243-5 5-5s5 2.243 5 5s-2.243 5-5 5" />
+              <path fill="currentColor" d="M14 10h2v4h-2zm-1-7h4v2h-4zM3 8h4v2H3zm0 8h4v2H3zm-1-4h3.99v2H2z" />
+            </svg>
+          </button>
+                {isTimerVisible && (
+                <div className="timer-modal">
+                    <div className="timer-header">
+                    <h3>Timer</h3>
+                    <button onClick={() => setIsTimerVisible(false)}>X</button>
+                    </div>
+                    <div className="timer-display">
+                    <button className='timer-plus-minus-button' onClick={() => handleAddTime(-60)}>-1</button>
+                    <span>{formatTime(time)}</span>
+                    <button className='timer-plus-minus-button' onClick={() => handleAddTime(60)}>+1</button>
+                    </div>
+                    <div className="timer-controls">
+                    <button className="timer-controls-button" onClick={() => handleAddTime(10 * 60)}>10 min</button>
+                    <button className="timer-controls-button" onClick={() => handleAddTime(20 * 60)}>20 min</button>
+                    <button className="timer-controls-button" onClick={() => handleAddTime(30 * 60)}>30 min</button>
+                    </div>
+                    <div className="timer-start">
+                    <button onClick={handleStartPause}>
+                        {isRunning ? "Pause" : "Start"}
+                    </button>
+                    </div>
+                </div>
+                )}
         </div>
+
+    
+         {/* Time Up Notification */}
+        {isTimeUp && (
+          <div className="time-up-notification">
+            <p>Time's up!</p>
+            <button onClick={closeNotification}>Close</button>
+          </div>
+        )}
       </div>  
     );
     

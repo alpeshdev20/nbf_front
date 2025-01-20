@@ -65,6 +65,8 @@ type IReactReaderState = {
   isLoaded: boolean
   expandedToc: boolean
   toc: NavItem[]
+  currentChapter: string; // Add this property
+
 }
 
 export class ReactReader extends PureComponent<
@@ -75,6 +77,8 @@ export class ReactReader extends PureComponent<
     isLoaded: false,
     expandedToc: false,
     toc: [],
+    currentChapter: '', // Add current chapter to state
+
   }
   readerRef = React.createRef<EpubView>()
   constructor(props: IReactReaderProps) {
@@ -139,6 +143,16 @@ export class ReactReader extends PureComponent<
     )
   }
 
+  locationChanged = (location: string) => {
+    const { toc } = this.state;
+    const currentChapter = toc.find((item) => location.includes(item.href))?.label || 'Unknown Chapter';
+    console.log("currentChapter");
+    this.setState({ currentChapter });
+    
+    // Call external locationChanged prop if needed
+    this.props.locationChanged?.(location);
+  };
+
   setLocation = (loc: string) => {
     const { locationChanged } = this.props
     this.setState(
@@ -180,6 +194,8 @@ export class ReactReader extends PureComponent<
   }
 
   render() {
+    const { currentChapter } = this.state;
+
     const {
       title,
       showToc = true,
@@ -238,18 +254,21 @@ export class ReactReader extends PureComponent<
               {swipeable && <div style={readerStyles.swipeWrapper} />}
             </div>
           </SwipeWrapper>
-          <button
-            style={Object.assign({}, readerStyles.arrow, readerStyles.prev)}
-            onClick={isRTL ? this.next : this.prev}
-          >
-            ‹
-          </button>
-          <button
-            style={Object.assign({}, readerStyles.arrow, readerStyles.next)}
-            onClick={isRTL ? this.prev : this.next}
-          >
-            ›
-          </button>
+          <div  className="e-pub-reader-footer"   style={readerStyles.footer}>
+    
+              <button
+                style={Object.assign({}, readerStyles.arrow, readerStyles.prev)}
+                onClick={isRTL ? this.next : this.prev}
+              >
+                <span style={readerStyles.nextPrevButton}>‹ Previous Page</span> 
+              </button>
+              <button
+                style={Object.assign({}, readerStyles.arrow, readerStyles.next)}
+                onClick={isRTL ? this.prev : this.next}
+              >
+                <span style={readerStyles.PrevButton}>Next Page ›</span>  
+              </button>
+          </div>
         </div>
         {showToc && toc && this.renderToc()}
       </div>

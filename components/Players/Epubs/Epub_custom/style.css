@@ -17,22 +17,84 @@
     z-index: 100;
     width: 20%;
     height:100vh;
-}
-.side-icons {
-    width: 5%;
-    background-color: #ff5718;
-    padding: 20px 10px 20px 5px;
-    height: 100vh;
-    display: flex;
-    padding-left:10px;
-    flex-direction: column;
+}.side-icons {
+  /* width: 5%; */
+  background-color: #363843;
+  padding: 20px 10px 20px 5px;
+  /* height: 100vh; */
+  display: flex;
+  padding-left: 10px;
+  flex-direction: column;
 }
 
-.cust-epub-button{
-    background-color: #ff5718;
-    border: none;
-
+.cust-epub-button-nbf {
+  color: transparent;
+  width: 29px;
+  height: 35px;
+  padding: 7px;
 }
+
+/* Medium screens (tablets, 768px and smaller) */
+@media (max-width: 768px) {
+  .cust-epub-button-nbf {
+    width: 24px;
+    /* Slightly smaller */
+    height: 30px;
+    /* Adjust height */
+    padding: 5px;
+    /* Reduce padding */
+  }
+}
+
+/* Small screens (mobile devices, 480px and smaller) */
+@media (max-width: 480px) {
+  .cust-epub-button-nbf {
+    width: 20px;
+    height: 25px;
+    padding: 1px;
+    margin: -7px;
+  }
+}
+
+/* Extra-small screens (320px and smaller) */
+@media (max-width: 320px) {
+  .cust-epub-button-nbf {
+    width: 18px;
+    /* Even smaller for very small screens */
+    height: 22px;
+    padding: 3px;
+  }
+}
+    .cust-epub-button {
+      background-color: #FFFFFF;
+      border: none;
+      border-radius: 4px;
+      width: 44px;
+      height: 44px;
+      max-width: 50px;
+      padding: 9px;
+    }
+  
+    /* Media Queries for Different Screen Sizes */
+    @media (max-width: 768px) {
+      .cust-epub-button {
+        width: 15%;
+        /* Slightly larger for smaller screens */
+        max-width: 40px;
+        padding: 4px;
+        border-radius: 2px;
+      }
+    }
+  
+    @media (max-width: 480px) {
+      .cust-epub-button {
+        width: 28px;
+        max-width: 35px;
+        padding: 3px;
+        border-radius: 2px;
+      }
+    }
+  
 .sidebar-header {
     display: flex;
     gap: 10px;
@@ -93,8 +155,8 @@
     margin-left:10px;
    }
    .side-icons {
-    width: 8%;
-    padding-left:2px;
+    width: 13%;
+    /* padding-left:2px; */
    }
    .reader-content {
     margin-left: 0;
@@ -339,7 +401,7 @@
     border: none;
     border-radius: 5px;
     padding: 8px 12px; /* Default spacing */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for a 3D effect */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); Subtle shadow for a 3D effect */
     cursor: pointer;
     z-index: 99; /* Ensures it stays above the content */
     display: flex; /* Aligns icon and text horizontally */
@@ -362,7 +424,7 @@
   
   .cust-epub-button-bookmark,
   .cust-epub-button-timer {
-    background-color: #ffffff;
+    background-color: #f0f3f4;
     color: #ff5718; /* Text/icon color */
     border: none;
     border-radius: 5px;
@@ -375,7 +437,11 @@
     font-size: 16px; /* Default font size */
     z-index: 99; /* Ensure buttons stay on top */
     transition: background-color 0.3s ease; /* Smooth hover effect */
+    filter: drop-shadow(0px 3px 3px #000000);
+
   }
+
+  
   
   .cust-epub-button-timer:hover,.cust-epub-button-bookmark:hover {
     background-color: #ff7847; /* Lighter orange */
@@ -392,7 +458,6 @@
     .cust-epub-button-bookmark {
       top: 5px; /* Closer to the top for smaller screens */
       right: 5px; /* Closer to the edge for smaller screens */
-      padding: 6px 8px; /* Smaller padding */
       font-size: 14px; /* Smaller font size */
     }
   }
@@ -402,7 +467,6 @@
     .cust-epub-button-bookmark {
       top: 8px;
       right: 8px;
-      padding: 7px 10px;
       font-size: 15px;
     }
   }
@@ -412,7 +476,6 @@
     .cust-epub-button-bookmark {
       top: 10px;
       right: 10px;
-      padding: 8px 12px;
       font-size: 16px; /* Default font size */
     }
   }
@@ -422,7 +485,6 @@
     .cust-epub-button-bookmark {
       top: 15px; /* Slightly larger spacing for big screens */
       right: 15px; /* More spacing for larger resolutions */
-      padding: 10px 14px; /* Larger padding */
       font-size: 18px; /* Larger font size for better visibility */
     }
   }
