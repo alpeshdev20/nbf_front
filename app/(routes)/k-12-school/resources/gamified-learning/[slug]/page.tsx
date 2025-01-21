@@ -79,7 +79,14 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
         }
       };
     }, [showGame, resourceInfo?.resource_id]);
-    
+
+  // Check if resourceInfo is available before accessing the resource field
+  useEffect(() => {
+    if (resourceInfo) {
+      const resource = resourceInfo.resource; // Access the resource field
+    }
+
+  }, [resourceInfo]); // Runs whenever resourceInfo changes
 
   return (
     <ResourcesLayout>
@@ -91,8 +98,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
               &times;
             </button>
             <iframe
-                // src="/games/mcq-final/index.html"
-                src={`/games/${resourceInfo.folder_name}/index.html`}
+              src={`${resourceInfo.resource}`}
 
               style={{ width: "100%", height: "500px", border: "none" }}
               title="Feed the Bee Game"
