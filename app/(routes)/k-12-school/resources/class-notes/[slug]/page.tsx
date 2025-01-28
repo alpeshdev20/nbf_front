@@ -2,7 +2,7 @@
 
 //* Importing components
 import 'regenerator-runtime/runtime';
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
 import ResourceDescription from "@/components/Resources/ResourceDescription/ResourceDescription";
@@ -27,13 +27,17 @@ import { FaCaretRight } from "react-icons/fa";
 import DefaultResourceImage from "@/images/common/recommendation.png";
 import { post } from "@/utils/fetch";
 import { errorToast } from "@/utils/toast_helper";
+import { decryption } from '@/services/decryption';
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   // Extract slug from params
   const { slug } = params;
   const router = useRouter();
   const { session } = useSession();
-
+  
+  //Decrpt url State
+  const [decryptedurl, Setdecryptedurl] = useState<string | null>(null);
+  
   // Fetch resource info based on slug
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
 
@@ -54,6 +58,17 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
       .catch((error) => {});
   };
 
+  useEffect(() => {
+      // Check if resourceInfo is not null and has the resource property
+      if (resourceInfo && resourceInfo.resource) {
+        const decryptedurlData = decryption(resourceInfo.resource)
+  
+        Setdecryptedurl(decryptedurlData);
+  
+      } else {
+        console.warn('resourceInfo is null or does not have a resource property');
+      }
+    }, [resourceInfo]);
   //* Updating User and book stats
   const updateUserAndBookStats = (time: string) => {
     post(`${process.env.API_URL}users-stats/update-book-stats`, {
@@ -163,7 +178,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
                                 <div style={{ marginTop: '13px' }}>
                                   <PDF_E_reader
-                                    fileUrl={resourceInfo.resource ?? ""}
+                                    fileUrl={decryptedurl ?? ""}
                                     resource={slug}
                                     book_id={slug ?? ""}
                                     resourceId={slug ?? ""}
@@ -179,7 +194,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                           <ResourcePlayerButton
                             format={resourceInfo.format ?? ""}
                             btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
-                            resourceLink={resourceInfo.resource ?? ""}
+                            resourceLink={decryptedurl ?? ""}
                             resourceId={slug ?? ""}
                           />
                         )}

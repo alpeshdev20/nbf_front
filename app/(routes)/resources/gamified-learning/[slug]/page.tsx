@@ -18,10 +18,15 @@ import { post } from "@/utils/fetch";
 
 // import images
 import ResourceTypeIcon from "@/images/categories/class-card-icon.png";
+import { decryption } from "@/services/decryption";
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const { session } = useSession(); // Get session context
   const [showGame, setShowGame] = useState(false);
+  
+  //Decrpt url State
+  const [decryptedurl, Setdecryptedurl] = useState<string | null>(null);
+  
   const { slug } = params;
   const handleShowGame = () => {
     setShowGame(true);
@@ -41,6 +46,18 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
       document.body.style.overflow = "auto"; // Cleanup
     };
   }, []);
+
+  useEffect(() => {
+      // Check if resourceInfo is not null and has the resource property
+      if (resourceInfo && resourceInfo.resource) {
+        const decryptedurlData = decryption(resourceInfo.resource)
+  
+        Setdecryptedurl(decryptedurlData);
+  
+      } else {
+        console.warn('resourceInfo is null or does not have a resource property');
+      }
+    }, [resourceInfo]);
 
     //* Updating User and book stats
     const updateUserAndBookStats = (slug : any) => {
@@ -97,7 +114,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
               &times;
             </button>
             <iframe
-                src={`${resourceInfo.resource}`}
+                src={`${decryptedurl}`}
               style={{ width: "100%", height: "500px", border: "none" }}
               title="Feed the Bee Game"
             ></iframe>

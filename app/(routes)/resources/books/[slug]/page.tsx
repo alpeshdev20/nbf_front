@@ -1,6 +1,6 @@
 "use client";
 import 'regenerator-runtime/runtime';
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
 import StarRating from "@/components/StarRating/StarRating";
@@ -15,7 +15,7 @@ import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/Re
 import { useRouter } from "next/navigation";
 import styles from "./BookInfo.module.css";
 import { useSession } from "@/providers/SessionProvider";
-
+import { decryption } from "@/services/decryption";
 //* Icons
 import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
 import { FaCaretRight } from "react-icons/fa";
@@ -34,6 +34,8 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const router = useRouter();
   const { slug } = params;
 
+  //decrpte url State
+  const [decryptedurl, Setdecryptedurl] = useState<string | null>(null);
   // State to check user login status
   const { session } = useSession();
 
@@ -53,9 +55,19 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
     router.push("/sign-up");
   };
 
-  const togglePlayerVisibility = (format: string, resourceLink: string) => {
+  useEffect(() => {  
+    // Check if resourceInfo is not null and has the resource property
+    if (resourceInfo && resourceInfo.resource) {
+       const decryptedurlData =  decryption(resourceInfo.resource)
 
-    console.log("togglePlayerVisibility" ,format ,resourceLink);
+       Setdecryptedurl(decryptedurlData);
+      
+    } else {
+      console.warn('resourceInfo is null or does not have a resource property');
+    }
+  }, [resourceInfo]);
+  
+  const togglePlayerVisibility = (format: string, resourceLink: string) => {
     
     if (!format) {
       errorToast("Failed to load file, please try again later.");
@@ -166,7 +178,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
                                 <div style={{ marginTop: '13px' }}>
                                   <PDF_E_reader
-                                    fileUrl={resourceInfo.resource ?? ""}
+                                    fileUrl={decryptedurl ?? ""}
                                     resource={slug}
                                     book_id={slug ?? ""}
                                     resourceId={slug ?? ""}
@@ -178,56 +190,11 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                             )}
                           </>
                         ) :
-                        // resourceInfo.format === "epub" ? (
-                        //   <>
-                        //    <button
-                        //     style={{
-                        //       background: 'var(--secondary-color)',
-                        //       color: 'var(--white)',
-                        //     }}
-                        //     onClick={() =>
-                        //       togglePlayerVisibility(
-                        //         resourceInfo.format ?? "",
-                        //         resourceInfo.resource ?? ""
-                        //       )}
-                          
-                        //       className={styles.ready_now_btn}>
-                        //       {isPlayerVisible ? 'Close Player' : 'Read Now'}
-                        //     </button>
-                            
-
-                        //     {isPlayerVisible && (
-                        //       <div className={styles.playerContainer}>
-                        //         <button
-                        //           style={{
-                        //             background: 'var(--secondary-color)',
-                        //             color: 'var(--white)',
-                        //           }}
-                        //           onClick={() => setIsPlayerVisible(false)}
-                        //           className={styles.togglePlayerButton}
-                        //         >
-                        //           Close Player
-                        //         </button>
-
-                        //         <div className="hello" style={{ marginTop: '13px' }}>
-                        //           <E_pub_Reader
-                        //             url={resourceInfo.resource ?? ""}
-                        //             // resource={slug}
-                        //             book_id={slug ?? ""}
-                        //             // resourceId={slug ?? ""}
-                        //             // updateUserReadingStats={updateUserReadingStats}
-                        //             // updateUserAndBookStats={updateUserAndBookStats}
-                        //           />
-                        //         </div>
-                        //       </div>
-                        //     )}
-                        //   </>
-                        // ): 
                         (
                           <ResourcePlayerButton
                             format={resourceInfo.format ?? ""}
                             btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
-                            resourceLink={resourceInfo.resource ?? ""}
+                            resourceLink={decryptedurl ?? ""}
                             resourceId={slug ?? ""}
                           />
                         )}

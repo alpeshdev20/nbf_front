@@ -1,7 +1,7 @@
 "use client";
 
 //* importing component;
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import ResourcesLayout from "../../resource-layout";
 import StarRating from "@/components/StarRating/StarRating";
@@ -18,6 +18,7 @@ import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/Re
 import { useRouter } from "next/navigation";
 import styles from "./BookInfo.module.css";
 import { useSession } from "@/providers/SessionProvider";
+import { decryption } from "@/services/decryption";
 
 //* Icons
 import ResourceTypeIcon from "@/images/categories/audio-card-icon.png";
@@ -27,16 +28,33 @@ import { FaCaretRight } from "react-icons/fa";
 import DefaultResourceImage from "@/images/common/recommendation.png";
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
-    // Extract slug from params
-    const { slug } = params;
-    const router = useRouter();
-    const { session } = useSession();
+  // Extract slug from params
+  const { slug } = params;
+  const router = useRouter();
+  const { session } = useSession();
+  //decryptedurl State
+  const [decryptedurl, Setdecryptedurl] = useState<string | null>(null);
 
-    // Fetch resource info based on slug
-    const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
-    const handleStartFreeTrial = () => {
-      router.push("/sign-up");
-    };
+  
+  // Fetch resource info based on slug
+  const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
+
+  useEffect(() => {
+      console.log("resourceInfo", resourceInfo);
+    
+      // Check if resourceInfo is not null and has the resource property
+      if (resourceInfo && resourceInfo.resource) {
+         const decryptedurlData =  decryption(resourceInfo.resource)
+  
+         Setdecryptedurl(decryptedurlData);
+        
+      } else {
+        console.warn('resourceInfo is null or does not have a resource property');
+      }
+    }, [resourceInfo]);
+  const handleStartFreeTrial = () => {
+    router.push("/sign-up");
+  };
   return (
     <>
       <ResourcesLayout showAddBanner={false} showResourcesHighlights={false}>
@@ -94,7 +112,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     <ResourcePlayerButton
                       format={resourceInfo.format ?? ""}
                       btnContext="Listen Now"
-                      resourceLink={resourceInfo.resource ?? ""}
+                      resourceLink={decryptedurl ?? ""}
                       resourceId={slug ?? ""}
                     />
                      ) : (

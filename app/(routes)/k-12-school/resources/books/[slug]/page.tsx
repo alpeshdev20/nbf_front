@@ -1,7 +1,7 @@
 "use client";
 
 import 'regenerator-runtime/runtime';
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import Image from "next/image";
 import K12ResourcesLayout from "../../resource-layout";
 import StarRating from "@/components/StarRating/StarRating";
@@ -25,6 +25,7 @@ import { FaCaretRight } from "react-icons/fa";
 import DefaultResourceImage from "@/images/common/recommendation.png";
 import { post } from "@/utils/fetch";
 import { errorToast } from "@/utils/toast_helper";
+import { decryption } from '@/services/decryption';
 
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
@@ -41,10 +42,24 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
 
+  //Decrpt url State
+  const [decryptedurl, Setdecryptedurl] = useState<string | null>(null);
+
   const handleStartFreeTrial = () => {
     router.push("/sign-up");
   };
 
+  useEffect(() => {
+    // Check if resourceInfo is not null and has the resource property
+    if (resourceInfo && resourceInfo.resource) {
+      const decryptedurlData = decryption(resourceInfo.resource)
+
+      Setdecryptedurl(decryptedurlData);
+
+    } else {
+      console.warn('resourceInfo is null or does not have a resource property');
+    }
+  }, [resourceInfo]);
    //* Updating User Reading stats
    const updateUserReadingStats = (pageNumber: string) => {
     post(`${process.env.API_URL}users-stats/update-book-read-stats`, {
@@ -160,7 +175,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
 
                                 <div style={{ marginTop: '13px' }}>
                                   <PDF_E_reader
-                                    fileUrl={resourceInfo.resource ?? ""}
+                                    fileUrl={decryptedurl ?? ""}
                                     resource={slug}
                                     book_id={slug ?? ""}
                                     resourceId={slug ?? ""}
@@ -176,7 +191,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                           <ResourcePlayerButton
                             format={resourceInfo.format ?? ""}
                             btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
-                            resourceLink={resourceInfo.resource ?? ""}
+                            resourceLink={decryptedurl ?? ""}
                             resourceId={slug ?? ""}
                           />
                         )}

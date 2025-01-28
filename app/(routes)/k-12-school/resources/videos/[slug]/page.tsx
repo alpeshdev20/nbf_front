@@ -1,7 +1,7 @@
 "use client";
 
 //* Importing components
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import K12ResourcesLayout from "../../resource-layout";
 import ResourceDescription from "@/components/Resources/ResourceDescription/ResourceDescription";
@@ -24,15 +24,28 @@ import { FaCaretRight } from "react-icons/fa";
 
 //* Image
 import DefaultResourceImage from "@/images/common/recommendation.png";
+import { decryption } from "@/services/decryption";
 
 const ResourceDetails = ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
   const router = useRouter();
   const { session } = useSession();
 
+  //Decrpt url State
+  const [decryptedurl, Setdecryptedurl] = useState<string | null>(null);
 
   // Fetch resource info based on slug
   const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
+  //Decrpt
+  useEffect(() => {
+   // Check if resourceInfo is not null and has the resource property
+    if (resourceInfo && resourceInfo.resource) {
+      const decryptedurlData = decryption(resourceInfo.resource)
+      Setdecryptedurl(decryptedurlData);
+     } else {
+        console.warn('resourceInfo is null or does not have a resource property');
+      }
+  }, [resourceInfo]);
 
   const handleStartFreeTrial = () => {
     router.push("/sign-up");
@@ -90,7 +103,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     <ResourcePlayerButton
                       format={resourceInfo.format ?? ""}
                       btnContext="Watch Now"
-                      resourceLink={resourceInfo.resource ?? ""}
+                      resourceLink={decryptedurl ?? ""}
                       resourceId={slug ?? ""}
                     />
                   ) : (
