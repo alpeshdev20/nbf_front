@@ -2163,7 +2163,6 @@
 }
 
 .partner_conditions .form-checkbox input[type="checkbox"] {
-  /* box-shadow: inset 0px 0px 6px #000000a1; */
   border: none !important;
   border-radius: 6px !important;
 }
