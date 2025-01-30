@@ -44,7 +44,7 @@ export default async function Faqs() {
         btnContent="EXPLORE K12/SCHOOL"
       />
       <h1 className="h1-home-screen-seo">
-           Faqs | Netbookflix
+           FAQs | Netbookflix
       </h1>
 
       {/* Banner Section */}
