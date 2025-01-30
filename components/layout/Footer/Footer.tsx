@@ -130,14 +130,14 @@ const Footer: React.FC = () => {
                     +919821466399
                   </Link>
 
-                  <Link href="mailto:support@netbookflix.com">
+                  <Link href="mailto:info@netbookflix.com">
                     <Image
                       src={Email}
                       alt="Mobile Icon"
                       width={33}
                       height={23}
                     />
-                    support@netbookflix.com
+                    info@netbookflix.com
                   </Link>
                 </div>
               </div>

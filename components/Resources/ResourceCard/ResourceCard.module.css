@@ -19,7 +19,7 @@
 
 .book_image {
   width: 100%;
-  box-shadow: 10px 8px 6px #0000003b;
+  /* box-shadow: 10px 8px 6px #0000003b; */
   margin-bottom: 1.0671875vw;
   position: relative;
 }
@@ -80,6 +80,19 @@
   width: 100%;
 }
 
+.related__resource .book_image {
+  /* width: 100%; */
+  width: 176px !important;
+  height: 272px !important; 
+  /* margin: 10px !important; */
+}
+
+.related__resource .book_info h6 {
+  text-align: center !important;
+  align-items: center !important;
+  margin-left: 6px;
+}
+
 .related__resource img:not([alt="Resource icon"]) {
   width: 100% !important;
 }
@@ -122,5 +135,21 @@
     font-size: 16px;
     line-height: 16px;
     margin-bottom: 8px;
+  }
+
+  .related__resource .book_image {
+    /* width: 100%; */
+    text-align: center !important;
+    align-items: center !important;
+    width: 176px !important;
+    height: 200px !important; 
+    margin-left: 35px !important;
+  }
+
+  .related__resource .book_info h6 {
+    text-align: center !important;
+    align-items: center !important;
+    margin-left: 06px;
+    margin-bottom: 0 !important;
   }
 }
