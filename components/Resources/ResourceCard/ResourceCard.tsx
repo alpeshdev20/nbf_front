@@ -54,6 +54,7 @@ const ResourceCard: React.FC<ResourceCardInterface> = ({
           className={`${Style.book_card} ${
             relatedSliderClass ? Style.related__resource : ""
           }`}
+          // className={`${Style.book_card} ${relatedSliderClass ? Style.related__resource : ""}`}
         >
           <div className={Style.book_icon}>
             {resourceType === "Audio Books" && (

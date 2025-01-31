@@ -19,7 +19,6 @@
 
 .book_image {
   width: 100%;
-  /* box-shadow: 10px 8px 6px #0000003b; */
   margin-bottom: 1.0671875vw;
   position: relative;
 }
@@ -80,24 +79,27 @@
   width: 100%;
 }
 
-.related__resource .book_image {
-  /* width: 100%; */
-  width: 176px !important;
-  height: 272px !important; 
-  /* margin: 10px !important; */
-}
-
 .related__resource .book_info h6 {
   text-align: center !important;
   align-items: center !important;
-  margin-left: 6px;
+  margin-left: 49px;
+}
+.related__resource .book_image {
+  box-shadow: 0.5vw 0.40104166666vw 0.25vw #0000003b;
 }
 
-.related__resource img:not([alt="Resource icon"]) {
+.related__resource .book_info p {
+  text-align: center !important;
+  align-items: center !important;
+  margin-left: 49px;
+}
+
+
+/* .related__resource img:not([alt="Resource icon"]) {
   width: 100% !important;
-}
+} */
 
-@media (max-width: 767px) {
+@media  (min-width:320px) and (max-width: 680px) {
   .book_card {
     width: 100%;
   }
@@ -134,22 +136,50 @@
   .book_info h6 {
     font-size: 16px;
     line-height: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 109px;
+    
   }
 
   .related__resource .book_image {
     /* width: 100%; */
     text-align: center !important;
     align-items: center !important;
-    width: 176px !important;
-    height: 200px !important; 
-    margin-left: 35px !important;
+    width: 132px !important;
+    height: 184px !important; 
+    margin-left: 84px !important;
   }
 
   .related__resource .book_info h6 {
     text-align: center !important;
     align-items: center !important;
-    margin-left: 06px;
+    margin-left: 25px;
     margin-bottom: 0 !important;
   }
+}
+
+@media (min-width:681) and (max-width:1024px){
+  .related__resource .book_image {
+    width: 100% !important;
+    height: 100% !important; 
+  }
+
+  
+  .book_info h6 {
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 8px;
+    
+  }
+
+}
+
+@media (min-width: 1025px) {
+  .related__resource .book_image {
+    /* width: 100%; */
+    width: 176px !important;
+    height: 272px !important; 
+    /* margin: 10px !important; */
+    margin-bottom: 0 !important;
+    box-shadow: 0.5vw 0.40104166666vw 0.25vw #0000003b;
+  }  
 }

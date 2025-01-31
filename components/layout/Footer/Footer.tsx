@@ -120,14 +120,14 @@ const Footer: React.FC = () => {
                 <h6>CONTACT US</h6>
                 <h6>Get In Touch With Us</h6>
                 <div className={Style.contact_information}>
-                  <Link href="tel:+9818195778">
+                  <Link href="tel:+919818195778">
                     <Image
                       src={Mobile}
                       alt="Mobile Icon"
                       width={33}
                       height={33}
                     />
-                    +919821466399
+                    +919818195778
                   </Link>
 
                   <Link href="mailto:info@netbookflix.com">
