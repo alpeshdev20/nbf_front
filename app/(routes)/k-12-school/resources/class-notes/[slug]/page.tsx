@@ -149,7 +149,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
                     {/* Toggle Player Button */}
                     {session.isLoggedIn ? (
                       <div>
-                        {resourceInfo.format === "pdf" ? (
+                        {resourceInfo.format === "PDF" ? (
                           <>
                             <button
                         onClick={() =>

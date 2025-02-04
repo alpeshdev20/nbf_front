@@ -103,14 +103,14 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
         center
         closeOnOverlayClick={false}
         modalId={
-          format === "pdf" || format === "epub"
+          format === "PDF" || format === "EPUB"
             ? "modal_pdf_epub_reader"
-            : format === "mp3"
+            : format === "MP3"
             ? "modal_audio_player"
             : "modal_media_player"
         }
       >
-        {showFormat === "pdf" && (
+        {showFormat === "PDF" && (
           // <PdfReader
           //   resource={resourceLink}
           //   resourceId={resourceId}
@@ -127,7 +127,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
             updateUserAndBookStats={updateUserAndBookStats}
             />
         )}
-        {showFormat === "mp3" && (
+        {showFormat === "MP3" && (
           <AudioPlayer resource={resourceLink} 
            format={format} 
            resourceId={resourceId}
@@ -135,7 +135,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
            updateUserAndBookStats={updateUserAndBookStats}
           />
         )}
-        {showFormat === "mp4" && (
+        {showFormat === "MP4" && (
           <VideoPlayer resource={resourceLink} 
           format={format} 
           resourceId={resourceId}
@@ -143,7 +143,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
           />
         )}
 
-        {showFormat === "epub" && (
+        {showFormat === "EPUB" && (
           // <EpubPlayer
           //   resource={resourceLink}
           //   resourceId={resourceId}
