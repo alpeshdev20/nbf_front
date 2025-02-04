@@ -16,11 +16,11 @@
 
 .books__slider_image {
   width: 100%;
+  box-shadow: 0.5vw 0.40104166666vw 0.25vw #0000003b;
   width: 8.795833333333333vw !important;
   height: 13.292708333333334vw !important;
-  object-fit: contain;
+  /* object-fit: contain; */
 }
-/* box-shadow: 0.5vw 0.40104166666vw 0.25vw #0000003b; */
 
 @media (max-width:767px){
 

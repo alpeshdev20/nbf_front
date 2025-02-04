@@ -82,7 +82,7 @@
 .related__resource .book_info h6 {
   text-align: center !important;
   align-items: center !important;
-  margin-left: 49px;
+  /* margin-left: 49px; */
 }
 .related__resource .book_image {
   box-shadow: 0.5vw 0.40104166666vw 0.25vw #0000003b;
@@ -91,7 +91,7 @@
 .related__resource .book_info p {
   text-align: center !important;
   align-items: center !important;
-  margin-left: 49px;
+  /* margin-left: 49px; */
 }
 
 
@@ -152,8 +152,13 @@
   .related__resource .book_info h6 {
     text-align: center !important;
     align-items: center !important;
-    margin-left: 25px;
+    margin-left: 35px;
     margin-bottom: 0 !important;
+  }
+
+
+  .related__resource .book_info p {
+    margin-left: 35px;
   }
 }
 

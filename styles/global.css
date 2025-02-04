@@ -555,3 +555,49 @@ div[aria-controls="rpv-core__modal-body-properties"]  {
   letter-spacing: 1px;
 }
 
+.ready_now_btn {
+  color: var(--white);
+  width: auto;
+  height: auto;
+  font-size: 16px; /* Default font size for large screens */
+  line-height: 18px;
+  padding: 20px;
+  border-radius: 12px;
+  font-weight: 600; /* Default weight */
+}
+
+/* Tablets (Portrait & Smaller) */
+@media (max-width: 1024px) {
+  .ready_now_btn {
+    font-size: 15px;
+    padding: 18px;
+    border-radius: 10px;
+  }
+}
+
+/* Large Phones */
+@media (max-width: 768px) {
+  .ready_now_btn {
+    font-size: 14px;
+    padding: 16px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .ready_now_btn {
+    font-size: 13px;
+    padding: 14px;
+  }
+}
+
+/* Extra Small Phones */
+@media (max-width: 360px) {
+  .ready_now_btn {
+    font-size: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700; /* Make text bolder only for extra small screens */
+  }
+}
+

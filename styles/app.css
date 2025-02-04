@@ -3867,12 +3867,13 @@
   }
 }
 
-/* Styles for related resources section */
-.releated_resources_section .ResourceCard_book_card__IaENN {
-  width: 67% !important;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
+@media (max-width: 768px) { /* Applies to screens smaller than 1024px (tablets & mobiles) */
+  .releated_resources_section .ResourceCard_book_card__IaENN {
+    width: 67% !important; 
+    margin-right: auto;
+    margin-left: auto;
+  
+  }
 }
 
 /* Mobile Css for Naisa  */
