@@ -145,7 +145,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className={Style.footer_copyright_cotainer}>
-            <p>Copyright &copy; 2024 NETBOOKFLIX. All Rights Reserved.</p>
+            <p>Copyright &copy; {new Date().getFullYear()}  NETBOOKFLIX. All Rights Reserved.</p>
           </div>
         </div>
       </footer>
