@@ -39,7 +39,7 @@ const ExploreK12 = () => {
       <K12Hero />
       
       <h1 className="h1-home-screen-seo-k12">
-           Explore K12 | Netbookflix
+             Best online Learning Resources subscription platform
       </h1>
       <div className="home-features-section">
         {/* Explore  naisa  */}

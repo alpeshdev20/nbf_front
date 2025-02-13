@@ -37,7 +37,7 @@ export default function Home() {
       <HomeHero />
 
         <h1 className="h1-home-screen-seo">
-             Best Online Textbook Platform | Audible Books
+             Best online Learning Resources subscription platform
         </h1>
       <div className="home-features-section">
         {/* Explore  naisa  */}
