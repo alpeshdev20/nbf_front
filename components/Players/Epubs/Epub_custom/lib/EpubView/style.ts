@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 export interface IEpubViewStyle {
   viewHolder: CSSProperties
   view: CSSProperties
+  body?: CSSProperties  
 }
 
 export const EpubViewStyle: IEpubViewStyle = {

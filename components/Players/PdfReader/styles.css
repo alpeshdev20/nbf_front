@@ -185,3 +185,18 @@
   transition: background-color 0.3s ease; /* Smooth hover effect */
   filter: drop-shadow(0px 3px 3px #000000);
 }
+
+.cust-ereader-pdf-popup-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  margin: 2px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  width: 40px;
+  height: 40px;
+}

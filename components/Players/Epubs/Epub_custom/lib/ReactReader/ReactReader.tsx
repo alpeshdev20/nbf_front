@@ -58,6 +58,7 @@ export type IReactReaderProps = IEpubViewProps & {
   epubViewStyles?: IEpubViewStyle
   swipeable?: boolean
   isRTL?: boolean
+  theme? :string
   updatePageContent?: (content: string) => void;  // Define the function type
 }
 
@@ -205,6 +206,7 @@ export class ReactReader extends PureComponent<
       swipeable,
       epubViewStyles,
       isRTL = false,
+      theme,
       ...props
     } = this.props
     const { toc, expandedToc } = this.state
@@ -254,19 +256,19 @@ export class ReactReader extends PureComponent<
               {swipeable && <div style={readerStyles.swipeWrapper} />}
             </div>
           </SwipeWrapper>
-          <div  className="e-pub-reader-footer"   style={readerStyles.footer}>
+          <div  className={`${theme === 'dark' ? 'dark-theme' : ''}`}  style={readerStyles.footer}>
     
-              <button
+              <button className={`${theme === 'dark' ? 'dark-theme' : ''}`}
                 style={Object.assign({}, readerStyles.arrow, readerStyles.prev)}
                 onClick={isRTL ? this.next : this.prev}
               >
-                <span style={readerStyles.nextPrevButton}>‹ Previous Page</span> 
+                <span className={`${theme === 'dark' ? 'dark-theme' : ''}`} style={readerStyles.nextPrevButton}>‹ Previous Page</span> 
               </button>
-              <button
+              <button className={`${theme === 'dark' ? 'dark-theme' : ''}`}
                 style={Object.assign({}, readerStyles.arrow, readerStyles.next)}
                 onClick={isRTL ? this.prev : this.next}
               >
-                <span style={readerStyles.PrevButton}>Next Page ›</span>  
+                <span className={`${theme === 'dark' ? 'dark-theme' : ''}`} style={readerStyles.PrevButton}>Next Page ›</span>  
               </button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { ReactReader } from './lib/index'
+import { ReactReader ,ReactReaderStyle , type IReactReaderStyle } from './lib/index'
 import { Contents, NavItem, Rendition } from 'epubjs'
 import { get, post, getWithParam } from '@/utils/fetch';
 import Image from "next/image";
@@ -41,9 +41,20 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   const [location, setLocation] = useState<string | number>(0)
   const [activeSidebar, setActiveSidebar] = useState<string>('selections') // For managing which sidebar is open
   const [selectedText, setSelectedText] = useState<ITextSelection | null>(null)
+  const [showPopup, setShowPopup] = useState(false);
+  const [showTextToSpeeshPopup, TextToSpeeshPopup] = useState(false);
+  const [selectionPosition, setSelectionPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [addNoteActive ,SetaddNoteActive] = useState(false);
   const [highlightAnnotations, setHighlightAnnotations] = useState<any[]>([]);
   const [bookmarks, setBookmarks] = useState<any[]>([]); // For Bookmark Functionality
-
+  const [lineHeight, setLineHeight] = useState(1.6); // Initial value for Setting Line Height
+  const [EpubfontSize, setFontSize] = useState(18); //Epub Font size
+  const [EpubfontFamity, setFontFamily] = useState(""); //Epub Font Family
+  const [horizontalMargin, setHorizontalMargin] = useState(10);
+  const [verticalMargin, setVerticalMargin] = useState(10);
+  const [scrollMode, setScrollMode] = useState<'paginated' | 'scrolled'>('scrolled'); //Scrooling Mode
+  const [theme, setTheme] = useState<ITheme>('light');
+  const [dictionaryModal, setShowdictionaryModal] = useState(false); //Dictionary Modal  
   const Userefrendition = useRef<Rendition | undefined>(undefined)
 
   const [sidebar, setSidebar] = useState(false)
@@ -62,11 +73,222 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
     const seconds = time % 60;
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
+  
+  // text to speeach
+  const [isPaused, setIsPaused] = useState(false);
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null); // Updated type
+  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [pitch, setPitch] = useState(1);
+  const [rate, setRate] = useState(1);
+  const [volume, setVolume] = useState(1);
 
+  //  pronounce selected text
+  const handlePlay = () => {
+   
+      if (selectedText?.text) {
+        const synth = window.speechSynthesis;
+        const textChunks = selectedText.text.split(/(\n|\.)/).filter(Boolean); // Split by new lines or periods
+        const utterances: SpeechSynthesisUtterance[] = [];
+    
+        textChunks.forEach((chunk) => {
+          const u = new SpeechSynthesisUtterance(chunk.trim());
+    
+          u.pitch = pitch;
+          u.rate = rate;
+          u.volume = volume;
+          if (voice) u.voice = voice;
+    
+          utterances.push(u);
+        });
+    
+        // Chain utterances to speak sequentially
+        for (let i = 0; i < utterances.length - 1; i++) {
+          utterances[i].onend = () => synth.speak(utterances[i + 1]);
+        }
+    
+        // Speak first utterance
+        if (utterances.length > 0) {
+          synth.speak(utterances[0]);
+        }
+    
+        setUtterance(utterances[0]); // Store first utterance reference
+      }
+  };
+  // speakText(selectedText?.text || '');
+  const handlePause = () => {
+    const synth = window.speechSynthesis;
+
+    synth.pause();
+
+    setIsPaused(true);
+  };
+
+  const handleStop = () => {
+    const synth = window.speechSynthesis;
+
+    synth.cancel();
+
+    setIsPaused(false);
+  };
+  //Voice Change
+  const handleVoiceChange = (event: any) => {
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices.find((v) => v.name === event.target.value) || null; // Ensure null fallback
+    setVoice(selectedVoice);
+  };
+
+  //Pithch Change
+  const handlePitchChange = (event :any) => {
+    setPitch(parseFloat(event.target.value));
+  };
+  //Rate change
+  const handleRateChange = (event :any) => {
+    setRate(parseFloat(event.target.value));
+  };
+  //Volume Change
+  const handleVolumeChange = (event: any) => {
+    setVolume(parseFloat(event.target.value));
+  };
+  // Line Height Increase
+  const handleIncrease = () => {
+    if (lineHeight < 2.0) {
+      setLineHeight(prev => parseFloat((prev + 0.1).toFixed(1)));
+    }
+  };
+
+  // Line Line Increase
+  const handleDecrease = () => {
+    if (lineHeight > 1.0) {
+      setLineHeight(prev => parseFloat((prev - 0.1).toFixed(1)));
+    }
+  };
+  //Font Increase
+  const handleFontIncrease = () => {
+    if (EpubfontSize) {
+      setFontSize(prev => parseFloat((prev + 0.1).toFixed(1)));
+    }
+  };
+  
+  //Font Decrease
+  const handleFontDecrease = () => {
+    if (EpubfontSize) {
+      setFontSize(prev => parseFloat((prev - 0.1).toFixed(1)));
+    }
+  };
+
+  //  Apply Epub reader styles dynamically
+  useEffect(() => {
+    if (rendition) {
+      rendition.themes.override("font-size", `${EpubfontSize}px`);
+      rendition.themes.override("font-family", `${EpubfontFamity}`);
+      rendition.themes.override("line-height", `${lineHeight}`);
+      rendition.themes.override("padding-top", `${verticalMargin}px`);
+      rendition.themes.override("padding-bottom", `${verticalMargin}px`);
+      rendition.themes.override("padding-left", `${horizontalMargin}px`);
+      rendition.themes.override("padding-right", `${horizontalMargin}px`);  
+          // toggleTheme();
+      // applyTheme(rendition, theme); // Apply the selected theme
+
+
+    }
+  }, [EpubfontSize, EpubfontFamity  ,lineHeight, ,verticalMargin ,horizontalMargin ,rendition ,theme]); // Runs whenever font size ,family , line ,margin  or rendition changes
+
+  //vertical margin Increase
+  const handleHorizontalMarginIncrease = () => {
+    if (horizontalMargin < 50) {
+      setHorizontalMargin(prev => Number((prev + 1).toFixed(1)));
+    }
+  };
+
+  type ITheme = 'light' | 'dark'
+
+  function updateTheme(rendition: Rendition, theme: ITheme) {
+    const themes = rendition.themes
+    const modal = document.getElementById('modal_pdf_epub_reader')
+  
+    // Register themes first (if not already registered)
+    themes.register('light', {
+      body: { color: '#000', 'background-color': '#fff' },
+    })
+    themes.register('dark', {
+      body: { color: '#fff', 'background-color': '#000' },
+    })
+  
+    switch (theme) {
+      case 'dark': {
+        themes.select('dark') // Apply dark theme
+        themes.override('color', '#fff')
+        themes.override('background-color', '#000')
+  
+        // Update modal styling
+        if (modal) {
+          modal.style.color = '#fff'
+          modal.style.backgroundColor = '#000'
+        }
+        break
+      }
+      case 'light': {
+        themes.select('light') // Apply light theme
+        themes.override('color', '#000')
+        themes.override('background-color', '#fff')
+  
+        // Update modal styling
+        if (modal) {
+          modal.style.color = '#000'
+          modal.style.backgroundColor = '#fff'
+        }
+        break
+      }
+      default:
+        console.warn(`Unknown theme: ${theme}`)
+    }
+  }
+  
+  // Update Theme
+   useEffect(() => {
+    if (rendition) {
+      updateTheme(rendition, theme)
+    }
+  }, [theme])
+
+  //Update Scroll Mode
+  useEffect(() => {
+    if (rendition) {
+      rendition.flow(scrollMode); // Apply scrolling mode dynamically
+    }
+  }, [scrollMode, rendition]); // Re-run when scrollMode changes
+
+  //vertical margin Decrease
+  const handleHorizontalMarginDecrease = () => {
+    if (horizontalMargin > 0) {
+      setHorizontalMargin(prev => Number((prev - 1).toFixed(1)));
+    }
+  };
+
+  //vertical margin Increase
+  const handleVerticalMarginIncrease = () => {
+    if (verticalMargin < 50) {
+      setVerticalMargin(prev => Number((prev + 1).toFixed(1)));
+    }
+  };
+
+  //vertical margin Decrease
+  const handleVerticalMarginDecrease = () => {
+    if (verticalMargin > 0) {
+      setVerticalMargin(prev => Number((prev - 1).toFixed(1)));
+    }
+  };
+
+  // Button click handler
+  const handleTextToSpeech = () => {
+    TextToSpeeshPopup(true);
+    console.log("handleTextToSpeech called");
+  };
+  // 
   const handleStartPause = () => {
     setIsRunning(!isRunning);
   };
-
+  //Handle add Time 
   const handleAddTime = (seconds: any) => {
     setTime((prevTime) => Math.max(prevTime + seconds, 0)); // Prevent negative time
   };
@@ -307,7 +529,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       console.error('Error adding highlight:', error);
     }
   };
-
+  // Remove Highlight
   const handleRemoveHighlight = async (cfiRange: string) => {
     try {
 
@@ -340,33 +562,170 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
     }
   };
 
+  // Render Selecetd text
+  function setRenderSelection_2(cfiRange: string) {
+    console.log("setRenderSelection_2 called");
+    if (rendition) {
+      const selectedText = rendition.getRange(cfiRange).toString();
+
+      setSelections((list) =>
+        list.concat({
+          text: selectedText,
+          cfiRange,
+        })
+      );
+
+      // Add the highlight to the EPUB rendering
+      rendition.annotations.add(
+        'highlight',
+        cfiRange,
+        {},
+        (e: MouseEvent) => console.log(''),
+        'hl',
+        { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
+      );
+
+      setSelectedText({
+        text: selectedText,
+        cfiRange,
+      });
+      // setSelectionPosition({ x: rect?.left || 0, y: rect?.top || 0 });
+
+      // Send the highlight to the API
+      handleAddHighlight(selectedText, cfiRange);
+
+      // const selection = contents.window.getSelection();
+      // selection?.removeAllRanges();
+      setShowPopup(false); //close selected text modal
+
+    }
+  }
 
   // Function to add selections and highlight text
   useEffect(() => {
+    // Ensure both are available before running
+    if (!rendition || !addNoteActive) return; 
+
     if (rendition) {
+      console.log("setRenderSelection_3 outside");
+
+      console.log("selectedText" ,selectedText);
+
+      // Extract cfiRange into a variable
+      const cfiRangeValue = selectedText!.cfiRange;
+
+      console.log("Extracted cfiRange:", cfiRangeValue);
+      
+      function setRenderSelection_3(cfiRange: string, contents: Contents) {
+        console.log("setRenderSelection_3 inside");
+
+        if (!cfiRange || !rendition) {
+          console.warn("Invalid cfiRange or rendition is undefined");
+          return;
+        }
+      
+        const selectedText = rendition.getRange(cfiRange).toString();
+        console.log("Selected Text:", selectedText);
+      
+        // Save the selection
+        setSelections((prev) => [...prev, { text: selectedText, cfiRange }]);
+      
+        // Highlight the text
+        rendition.annotations.add(
+          'highlight',
+          cfiRange,
+          {},
+          (e: MouseEvent) => console.log('Highlight clicked'),
+          'hl',
+          { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
+        );
+      
+        // if (rendition) {
+        //   const selectedText = rendition.getRange(cfiRange).toString();
+
+        //   setSelections((list) =>
+        //     list.concat({
+        //       text: selectedText,
+        //       cfiRange,
+        //     })
+        //   );
+
+        //   // Add the highlight to the EPUB rendering
+        //   rendition.annotations.add(
+        //     'highlight',
+        //     cfiRange,
+        //     {},
+        //     (e: MouseEvent) => console.log(''),
+        //     'hl',
+        //     { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
+        //   );
+
+        //   setSelectedText({
+        //     text: selectedText,
+        //     cfiRange,
+        //   });
+        //   // setSelectionPosition({ x: rect?.left || 0, y: rect?.top || 0 });
+    
+        //   // Show the popup with options
+         
+        //   // Send the highlight to the API
+        //   // handleAddHighlight(selectedText, cfiRange);
+
+        //   const selection = contents.window.getSelection();
+        //   selection?.removeAllRanges();
+        // }
+      }
+      // setRenderSelection_3(cfiRangeValue);
+
+      rendition.on('rendered', setRenderSelection_3);
+      return () => {
+        rendition?.off('rendered', setRenderSelection_3);
+      };
+    } 
+  }, [rendition ,addNoteActive]);
+
+  //show pop on select text
+  useEffect(()=>{
+    setShowPopup(true);
+  } ,[selectedText]);
+
+  useEffect(() => {
+
+    if (rendition) {
+      setShowPopup(true);
+      console.log("text is selecetd");
+      
       function setRenderSelection(cfiRange: string, contents: Contents) {
+        // console.log("testdata" ,testdata);
         if (rendition) {
           const selectedText = rendition.getRange(cfiRange).toString();
 
-          setSelections((list) =>
-            list.concat({
-              text: selectedText,
-              cfiRange,
-            })
-          );
+          // setSelections((list) =>
+          //   list.concat({
+          //     text: selectedText,
+          //     cfiRange,
+          //   })
+          // );
 
           // Add the highlight to the EPUB rendering
-          rendition.annotations.add(
-            'highlight',
-            cfiRange,
-            {},
-            (e: MouseEvent) => console.log(''),
-            'hl',
-            { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
-          );
+          // rendition.annotations.add(
+          //   'highlight',
+          //   cfiRange,
+          //   {},
+          //   (e: MouseEvent) => console.log(''),
+          //   'hl',
+          //   { fill: 'yellow', 'fill-opacity': '0.5', 'mix-blend-mode': 'multiply' }
+          // );
 
+          setSelectedText({
+            text: selectedText,
+            cfiRange,
+          });
+          // setSelectionPosition({ x: rect?.left || 0, y: rect?.top || 0 });
+    
+         
           // Send the highlight to the API
-          handleAddHighlight(selectedText, cfiRange);
+          // handleAddHighlight(selectedText, cfiRange);
 
           const selection = contents.window.getSelection();
           selection?.removeAllRanges();
@@ -374,13 +733,23 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
       }
 
       rendition.on('selected', setRenderSelection);
-      return () => {
-        rendition?.off('selected', setRenderSelection);
-      };
-    }
+      // return () => {
+      //   rendition?.off('selected', setRenderSelection);
+      // };
+    } 
   }, [rendition]);
 
-
+  const handleDictionary = () => {
+    console.log('Dictionary for:', selectedText?.text);
+    // Open a dictionary lookup for the selected text
+    setShowdictionaryModal(true) // Close the popup after the action
+  };
+  
+  const handleTranslate = () => {
+    console.log('Translate:', selectedText?.text);
+    // Open a translation service for the selected text
+    setShowPopup(false); // Close the popup after the action
+  };
   // Add bookmark function
   const handleAddBookmark = async () => {
     try {
@@ -473,9 +842,30 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   const closeNotification = () => {
     setIsTimeUp(false);
   };
+
+  const applyTheme = (rendition: any, mode: any) => {
+    if (mode === "dark") {
+      rendition.themes.register("dark", {
+        body: { "background-color": "#121212", color: "#ffffff" },
+        p: { color: "#ffffff" },
+      });
+    } else if (mode === "light") {
+      rendition.themes.register("light", {
+        body: { "background-color": "#ffffff", color: "#000000" },
+        p: { color: "#000000" },
+      });
+    }
+  };
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    applyTheme(rendition, newTheme); // Apply the selected theme
+  };
+
   return (
     <div className='wrapper-container'>
-      <div className="side-icons">
+      <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} side-icons`}>
         <br />
         <a href="https://netbookflix.com/" className='cust-epub-button-nbf'>  <Image style={{ width:"41px",height: "51px" }} src={nbfLogo} alt="NBF" /></a>
         <br /><br />
@@ -500,10 +890,19 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
         }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 21l-7-5l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
         </button>
+        <br />
+        {/* Setting Button */}
+        <button className='cust-epub-button' onClick={() => {
+          setSidebar(true)
+          setActiveSidebar('settings')
+        }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M8 10.5a2.5 2.5 0 0 1 0-5a2.5 2.5 0 0 1 0 5m0-4c-.83 0-1.5.67-1.5 1.5S7.17 9.5 8 9.5S9.5 8.83 9.5 8S8.83 6.5 8 6.5"/><path fill="currentColor" d="M8.85 15h-1.7c-.32 0-.6-.22-.67-.53l-.41-1.79l-1.56.98c-.27.17-.62.13-.85-.1l-1.2-1.2a.68.68 0 0 1-.1-.85l.98-1.56l-1.79-.41a.686.686 0 0 1-.53-.67v-1.7c0-.32.22-.6.53-.67l1.79-.41l-.98-1.56a.68.68 0 0 1 .1-.85l1.2-1.2c.23-.23.58-.27.85-.1l1.56.98l.41-1.79c.07-.31.35-.53.67-.53h1.7c.32 0 .6.22.67.53l.41 1.79l1.56-.98c.27-.17.62-.13.85.1l1.2 1.2c.23.23.27.58.1.85l-.98 1.56l1.79.41c.31.07.53.35.53.67v1.7c0 .32-.22.6-.53.67l-1.79.41l.98 1.56c.17.27.13.62-.1.85l-1.2 1.2c-.23.23-.58.27-.85.1l-1.56-.98l-.41 1.79c-.07.31-.35.53-.67.53M7.4 14h1.2l.67-2.92l2.54 1.59l.85-.85l-1.59-2.54l2.92-.67v-1.2l-2.92-.67l1.59-2.54l-.85-.85l-2.54 1.59l-.67-2.92H7.4l-.67 2.92l-2.54-1.59l-.85.85l1.59 2.54l-2.92.67v1.2l2.92.67l-1.59 2.54l.85.85l2.54-1.59zm6.84-6.55"/></svg>
+        </button>
+        <br />
       </div>
 
       {sidebar && (
-        <div className="sidebar-drawer">
+        <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} sidebar-drawer`}>
           <div className="sidebar-header">
             <div aria-readonly>{activeSidebar == "selections" ? "Highlights" : activeSidebar}</div>
             <button onClick={handleCloseSidebar}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z" /></svg></button>
@@ -514,18 +913,19 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
             {/* list highlight  in sidebar  */}
             {activeSidebar === 'selections' && (
               <div>
-                <ul className="selection-list">
+                <ul className={`${theme ==='dark' ? 'dark-theme' : ''} selection-list` }>
+
                   {selections && selections.map(({ text, cfiRange }, i) => {
                     // Limit the text to the first 20 characters and add "..." if the text is longer
                     const truncatedText = text.length > 20 ? `${text.slice(0, 20)}...` : text;
 
                     return (
-                      <li key={i} className="selection-item" onClick={() => {
+                      <li key={i} className={`${theme ==='dark' ? 'dark-theme' : ''} selection-item` }  onClick={() => {
                         rendition?.display(cfiRange);
                         setSelectedText({ text, cfiRange }); // Set selected text to show in the sub-sidebar
                         setSidebar(false); // Close the sidebar when a selection is clicked
                       }}>
-                        <span>{truncatedText}</span>
+                        <span className={`${theme ==='dark' ? 'dark-theme' : ''}` }>{truncatedText}</span>
 
                         <button
                           className="action-btn"
@@ -544,8 +944,8 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
             )}
 
             {activeSidebar === 'search' && (
-              <div className="sidebar-search">
-                <div className="search-container">
+            <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} sidebar-search`}>
+                <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} search-container`}>
                   <input
                     type="text"
                     className="search-input"
@@ -561,25 +961,24 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
                   </button>
                 </div>
 
-                <ul className="search-results">
+                <ul className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} search-results`}>
                   {searchResults.map((result, index) => (
-                    <li key={index} onClick={() => handleNavigateToResult(result.cfi)}>
+                    <li className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} key={index} onClick={() => handleNavigateToResult(result.cfi)}>
                       {/* Use dangerouslySetInnerHTML to render the HTML content with highlighted text */}
-                      <span dangerouslySetInnerHTML={{ __html: result.excerpt }} />
+                      <span className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} dangerouslySetInnerHTML={{ __html: result.excerpt }} />
                     </li>
                   ))}
                 </ul>
               </div>
             )}
 
-
             {activeSidebar === 'bookmarks' && (
               <div>
-                <ul className="bookmarks-list">
+                <ul className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} bookmarks-list`}>
                   {bookmarks.map((bookmark, index) => (
-                    <li key={index}>
-                      <p className="bookmark-title">{bookmark.title || "Untitled Bookmark"}</p>
-                      <div className="bookmark-actions">
+                    <li  className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} key={index}>
+                      <p className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} bookmark-title`} >{bookmark.title || "Untitled Bookmark"}</p>
+                      <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} bookmark-actions`} >
                         <button onClick={() => {
                           navigateToLocation(bookmark.cfiRange);
                           setSidebar(false);
@@ -595,14 +994,138 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
                 </ul>
               </div>
             )}
+            {/* Setting Sidebar */}
+            {activeSidebar === 'settings' && (
+              <div>
+                <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} cust-epub-reader-settings-option`}>
+                  <button className="cust-epub-reader-close-btn"><i className="fa fa-times"></i></button>
+                     <h2>Setting</h2>
+                     <div className="cust-epub-reader-settings-option">
+                         <label className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>View Direction</label>
+                         <div className="cust-epub-reader-icon-buttons">
+                             <button className={`cust-epub-reader-icon-button ${scrollMode === 'scrolled' ? 'active' : ''}`} onClick={() => setScrollMode('scrolled')}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg></button>
+                             <button className={`cust-epub-reader-icon-button ${scrollMode === 'paginated' ? 'active' : ''}`} onClick={() => setScrollMode('paginated')}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="14" stroke-dashoffset="14" d="M15 7h-11.5M9 17h11.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="14;0"/></path><path stroke-dasharray="8" stroke-dashoffset="8" d="M3 7l4 4M3 7l4 -4M21 17l-4 4M21 17l-4 -4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.3s" dur="0.2s" values="8;0"/></path></g></svg></button>
+                         </div>
+                     </div>
+                      {/* theme Change Button */}
+                     <div className="cust-epub-reader-settings-option">
+                         <label className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>Theme</label>
+                         <div className="cust-epub-reader-plus-minus-container">
+                         <button className={`cust-epub-reader-toggle-btn ${theme === "dark" ? "dark" : ""}`}
+                                onClick={toggleTheme} >
+                                {theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+                          </button>
+                          </div>
+                     </div>
+
+                      {/* Font type */}
+                     <div className="cust-epub-reader-settings-option">
+                         <label className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} >Font</label>
+                         <select className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} id="font" onChange={(event)=>setFontFamily(event.target.value)}>
+                         <option value="">Original</option>
+                          {/* <!-- Sans-serif Fonts --> */}
+                          <option value="Arial, sans-serif">Arial</option>
+                          <option value="Helvetica', 'Arial', sans-serif">Helvetica</option>
+                          <option value="Verdana, sans-serif">Verdana</option>
+                          <option value="Tahoma, sans-serif">Tahoma</option>
+                          <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+                          <option value="Gill Sans, sans-serif">Gill Sans</option>
+                          <option value="Futura, sans-serif">Futura</option>
+                          <option value="Impact, sans-serif">Impact</option>
+                          <option value="Franklin Gothic Medium, sans-serif">Franklin Gothic Medium</option>
+                          <option value="Segoe UI, sans-serif">Segoe UI</option>
+                          <option value="Roboto, sans-serif">Roboto</option>
+                          <option value="Open Sans, sans-serif">Open Sans</option>
+                          <option value="Ubuntu, sans-serif">Ubuntu</option>
+                          {/* <!-- Serif Fonts --> */}
+                          <option value="Times New Roman, serif">Times New Roman</option>
+                          <option value="Georgia, serif">Georgia</option>
+                          <option value="Garamond, serif">Garamond</option>
+                          <option value="Baskerville, serif">Baskerville</option>
+                          <option value="Palatino Linotype, serif">Palatino Linotype</option>
+                          <option value="Book Antiqua, serif">Book Antiqua</option>
+                          <option value="Didot, serif">Didot</option>
+                          <option value="Playfair Display, serif">Playfair Display</option>
+                          <option value="Merriweather, serif">Merriweather</option>
+                          <option value="EB Garamond, serif">EB Garamond</option>
+                          <option value="Crimson Text, serif">Crimson Text</option>
+                          {/* <!-- Monospace Fonts --> */}
+                          <option value="Courier New, monospace">Courier New</option>
+                          <option value="Lucida Console, monospace">Lucida Console</option>
+                          <option value="Monaco, monospace">Monaco</option>
+                          <option value="Consolas, monospace">Consolas</option>
+                          <option value="Source Code Pro, monospace">Source Code Pro</option>
+                          <option value="IBM Plex Mono, monospace">IBM Plex Mono</option>
+                          <option value="Inconsolata, monospace">Inconsolata</option>
+                          <option value="JetBrains Mono, monospace">JetBrains Mono</option>
+                          <option value="Comic Sans MS, cursive">Comic Sans MS</option>
+                          <option value="Brush Script MT, cursive">Brush Script MT</option>
+                          <option value="Lucida Handwriting, cursive">Lucida Handwriting</option>
+                          <option value="Dancing Script, cursive">Dancing Script</option>
+                          <option value="Pacifico, cursive">Pacifico</option>
+                          <option value="Great Vibes, cursive">Great Vibes</option>
+                          <option value="Satisfy, cursive">Satisfy</option>
+                          <option value="Kaushan Script, cursive">Kaushan Script</option>
+                          <option value="Lobster, cursive">Lobster</option>
+                          <option value="Amatic SC, cursive">Amatic SC</option>
+                          {/* <!-- Fantasy Fonts --> */}
+                          <option value="Papyrus, fantasy">Papyrus</option>
+                          <option value="Copperplate, fantasy">Copperplate</option>
+                          <option value="Marker Felt, fantasy">Marker Felt</option>
+                          <option value="Jokerman, fantasy">Jokerman</option>
+                          <option value="Algerian, fantasy">Algerian</option>
+                          <option value="Curlz MT, fantasy">Curlz MT</option>
+                         </select>
+                     </div>
+                      {/* Font Size */}
+                      <div className="cust-epub-reader-settings-option">
+                          <label className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} >Font Size</label>
+                            <div className='cust-epub-reader-plus-minus-container'>
+                                <button className='cust-epub-reader-button-plus-minus' onClick={handleFontDecrease}>−</button>
+                                    <span>{EpubfontSize}</span>
+                                <button className='cust-epub-reader-button-plus-minus' onClick={handleFontIncrease}>+</button>
+                            </div> 
+                     </div>
+                     {/* Line Height */}
+                     <div className="cust-epub-reader-settings-option">
+                     <label  className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>Line Height</label>
+                        <div className='cust-epub-reader-plus-minus-container'>
+                            <button className='cust-epub-reader-button-plus-minus' onClick={handleDecrease}>−</button>
+                            <span>{lineHeight}</span>
+                            <button className='cust-epub-reader-button-plus-minus' onClick={handleIncrease}>+</button>
+                         </div>
+                     </div>
+                     {/* Horizontal Margin */}
+                     <div className="cust-epub-reader-settings-option">
+                            <label className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>Horizontal Margin</label>
+                            <div className='cust-epub-reader-plus-minus-container'>
+                              <button className='cust-epub-reader-button-plus-minus' onClick={handleHorizontalMarginDecrease}>−</button>
+                                <span>{horizontalMargin}</span>
+                              <button className='cust-epub-reader-button-plus-minus' onClick={handleHorizontalMarginIncrease}>+</button>
+                           </div>
+                     </div>
+                     {/* {Vertical Margin} */}
+                     <div className="cust-epub-reader-settings-option">
+                         <label className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>Vertical Margin</label>
+                         <div className='cust-epub-reader-plus-minus-container'>
+                              <button className='cust-epub-reader-button-plus-minus' onClick={handleVerticalMarginDecrease}>−</button>
+                                <span>{verticalMargin}</span>
+                              <button className='cust-epub-reader-button-plus-minus' onClick={handleVerticalMarginIncrease}>+</button>
+                           </div>
+                     </div>
+                  </div>    
+               
+              </div>
+            )}
+            
           </div>
         </div>
       )}
 
-      <div className={`reader-content ${!sidebar ? 'full-w' : ''}`} style={{ position: 'relative' }}>
+      <div className={`${!sidebar ? 'full-w' : ''} ${theme === 'dark' ? 'dark-theme' : 'light-theme'} reader-content`} style={{ position: 'relative' }}>
         {/* <div className='test-location'> Curretpage : {page}</div> */}
 
-        <div className="cust-bookmark-timer">
+        <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} cust-bookmark-timer`}>
           {/* Bookmark button */}
           <button className="cust-epub-button-bookmark" onClick={handleAddBookmark}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 21l-7-5l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /></svg>
@@ -650,24 +1173,304 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
             <button onClick={closeNotification}>Close</button>
           </div>
         )}
+        {/*  render a pop-up with the options when the user selects text */}
+        {showPopup && selectedText && (
+          <div
+            className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} selection-popup`}
+            style={{
+              position: 'absolute',
+              top: `${Math.min(
+                selectionPosition.y + window.scrollY,
+                window.innerHeight - 220
+              )}px`, // Prevent overflow
+              left: `${Math.min(
+                selectionPosition.x + window.scrollX,
+                window.innerWidth - 360
+              )}px`, // Prevent overflow
+              background: '#fff',
+              padding: '10px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              zIndex: 1000,
+              width: 'auto',
+              maxWidth: '350px',
+              minWidth: '250px',
+            }}
+          >
+            {/* Close Button */}
+            <button className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} select-modal-popup-button-text-selected-close-btn`}
+              onClick={() => setShowPopup(false)} // Hide popup when clicked 
+              >
+              ✕
+            </button>
+            <br />
+            <br />
+            {/* Buttons */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <button className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} select-modal-popup-button-text`}
+                   onClick={() => { 
+                    setRenderSelection_2(selectedText!.cfiRange); 
+                    setSelectedText(null);
+                    setShowPopup(false);
+                    
+                }}
+              >
+                Add to Note
+              </button>
 
+              <a className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} select-modal-popup-button-text`}
+                href="https://www.oxfordlearnersdictionaries.com/definition/english/fact?q=fact"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  textAlign:'center',
+                }}
+              >
+                Open Dictionary
+              </a>
+
+              <button className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} select-modal-popup-button-text`}
+                onClick={handleTextToSpeech}
+              >
+                Text to Speech
+              </button>
+            </div>
+
+            {/* Selected Text */}
+            {showPopup && (
+              <div
+              className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} popup select-modal-popup-button-text-selected`}
+              >
+                {selectedText?.text || 'No text selected'}
+              </div>
+            )}
+          </div>
+        )}
+
+
+        {/* Text to speeach */}
+         {showTextToSpeeshPopup &&
+          <div
+            className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} selection-popup-text-to-speech`}
+            style={{
+              position: 'absolute',
+              top: `${selectionPosition.y + window.scrollY}px`, // Adjust for page scroll
+              right: `${selectionPosition.x + window.scrollX}px`, // Adjust for page scroll
+              background: '#fff',
+              padding: '10px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              zIndex: 1001,
+              width: '350',
+            }}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                TextToSpeeshPopup(prev => !prev);
+                handleStop();
+              }} // Hide popup when clicked and stop Text to voice
+              style={{
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '14px',
+                width: '25px',
+                height: '25px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              ✕
+            </button>
+            <br />
+            <label>
+              Voice:
+              <select className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`} value={voice?.name} onChange={handleVoiceChange}>
+                {window.speechSynthesis.getVoices().map((voice) => (
+                  <option key={voice.name} value={voice.name}>
+                    {voice.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <br />
+
+            <label>
+              Pitch:
+              <input
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={pitch}
+                onChange={handlePitchChange}
+              />
+            </label>
+
+            <br />
+
+            <label>
+              Speed:
+              <input
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={rate}
+                onChange={handleRateChange}
+              />
+            </label>
+            <br />
+            <label>
+              Volume:
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={volume}
+                onChange={handleVolumeChange}
+              />
+            </label>
+            <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}</button>
+            <button onClick={handlePause}>Pause</button>
+            <button onClick={handleStop}>Stop</button>
+
+          </div>
+        } 
+
+      {/* Dictionary Modal */}
+      {dictionaryModal && (
+        <div className="dictionary-modal-overlay" onClick={() => setShowdictionaryModal(false)}>
+        <div className="dictionary-modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="dictionary-close-button" onClick={() => setShowdictionaryModal(false)}>dict-close</button>
+            <iframe className="ytplayer"  width="100%" height="360" src="https://www.oxfordlearnersdictionaries.com/?igu=1" ></iframe>
+
+          {/* </iframe> */}
+          </div>
+        </div>
+      )}
         {/* Epub Reader */}
         <ReactReader
           url={resourceLink}
           title=""
           location={location}
+          theme={theme}
           updatePageContent={updatePageContent}
           locationChanged={(loc) => {
             setLocation(loc);
             Userefrendition.current;
           }}
+          epubOptions={{
+            flow: scrollMode, //// Dynamically set scroll mode
+            manager: 'continuous',
+          }}
+          readerStyles={theme === 'dark' ? darkReaderTheme : lightReaderTheme}
           getRendition={(_rendition: Rendition) => {
             setRendition(_rendition);
+            applyTheme(_rendition, theme); // Apply default theme
           }}
         />
       </div>
     </div>
   )
+}
+const darkReaderTheme: IReactReaderStyle = {
+  ...ReactReaderStyle,
+  arrow: {
+    ...ReactReaderStyle.arrow,
+    color: 'white',
+  },
+  arrowHover: {
+    ...ReactReaderStyle.arrowHover,
+    color: '#ccc',
+  },
+  readerArea: {
+    ...ReactReaderStyle.readerArea,
+    backgroundColor: '#000',
+    transition: undefined,
+  },
+  titleArea: {
+    ...ReactReaderStyle.titleArea,
+    color: '#ccc',
+  },
+  tocArea: {
+    ...ReactReaderStyle.tocArea,
+    background: '#111',
+  },
+  tocButtonExpanded: {
+    ...ReactReaderStyle.tocButtonExpanded,
+    background: '#222',
+  },
+  tocButtonBar: {
+    ...ReactReaderStyle.tocButtonBar,
+    background: '#fff',
+  },
+  tocButton: {
+    ...ReactReaderStyle.tocButton,
+    color: 'white',
+  },
+  container: {
+    ...ReactReaderStyle.container,
+    background: '#000',
+  },
+  loadingView: {
+    ...ReactReaderStyle.loadingView,
+    color: 'white',
+  },
+}
+
+const lightReaderTheme: IReactReaderStyle = {
+  ...ReactReaderStyle,
+  arrow: {
+    ...ReactReaderStyle.arrow,
+    color: 'black',
+  },
+  arrowHover: {
+    ...ReactReaderStyle.arrowHover,
+    color: '#555',
+  },
+  readerArea: {
+    ...ReactReaderStyle.readerArea,
+    backgroundColor: '#fff',
+    transition: undefined,
+  },
+  titleArea: {
+    ...ReactReaderStyle.titleArea,
+    color: '#000',
+  },
+  tocArea: {
+    ...ReactReaderStyle.tocArea,
+    background: '#f7f7f7',
+  },
+  tocButtonExpanded: {
+    ...ReactReaderStyle.tocButtonExpanded,
+    background: '#ddd',
+  },
+  tocButtonBar: {
+    ...ReactReaderStyle.tocButtonBar,
+    background: '#333',
+  },
+  tocButton: {
+    ...ReactReaderStyle.tocButton,
+    color: 'black',
+  },
+  container: {
+    ...ReactReaderStyle.container,
+    background: '#fff',
+  },
+  loadingView: {
+    ...ReactReaderStyle.loadingView,
+    color: 'black',
+  },
 }
 
 export default Selection;
