@@ -87,12 +87,10 @@ const K12Filters: React.FC<FiltersInterface> = ({
     }
   }, [isSuccess]);
 
-  //Make S.T.E.A.M As Default Genre Options
+  //Make ALL As Default Genre Options
   useEffect(() => {
     if (genresOptions.length > 0) {
-      // Find the option with the desired default ID (127)
-      const defaultGenre = genresOptions.find((option) => option.value === 127);
-      setselectedGenres(defaultGenre || genresOptions[0]); // Fallback to the first option if not found
+      setselectedGenres(genresOptions[0]); 
     }
   }, [genreSuccess]);
 
