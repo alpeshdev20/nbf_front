@@ -36,5 +36,7 @@ const nextConfig = {
   },
   crossOrigin: "anonymous",
 };
-
+module.exports = {
+  output: 'standalone',
+};
 module.exports = nextConfig;
