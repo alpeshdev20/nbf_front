@@ -13,14 +13,17 @@ const SearchSuggestion: React.FC<{
         <div className="search_result_resource_suggestion">
           {suggestions?.map((data) => {
             let url = "/";
-            if (data.material_type === "Videos") {
-              url = `/resources/videos/info?id=${data.resource_id}`;
+            if (data.material_type === "Videos Lectures & Video Podcast") {
+              url = `/resources/videos/${data.slug}`;
             } else if (data.material_type === "Class Notes") {
-              url = `/resources/class-notes/info?id=${data.resource_id}`;
-            } else if (data.material_type === "Audio Books") {
-              url = `/resources/audio-books/info?id=${data.resource_id}`;
-            } else if (data.material_type === "Books") {
-              url = `/resources/books/info?id=${data.resource_id}`;
+              url = `/resources/class-notes/${data.slug}`;
+            } else if (data.material_type === "Audio Books & Audio Podcast") {
+              url = `/resources/audio-books/${data.slug}`;
+            } else if (data.material_type === "Books" || data.material_type === "e-Books") {
+              url = `/resources/books/${data.slug}`;
+            }
+            else if (data.material_type === "Gamified Learning") {
+              url = `/resources/books/${data.slug}`;
             } else {
               url = "/";
             }

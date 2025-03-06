@@ -73,11 +73,11 @@ const K12RelatedResources: React.FC<RelatedResourcesInterface> = ({
             <div className={Style.related_resources_contianer}>
               {relatedResources?.map((data) => {
                 let url = "/";
-                if (data.material_type === "Videos") {
+                if (data.material_type === "Videos Lectures & Video Podcast") {
                   url = `/k-12-school/resources/videos/${data.slug}`;
                 } else if (data.material_type === "Class Notes") {
                   url = `/k-12-school/resources/class-notes/${data.slug}`;
-                } else if (data.material_type === "Audio Books") {
+                } else if (data.material_type === "Audio Books & Audio Podcast") {
                   url = `/k-12-school/resources/audio-books/${data.slug}`;
                 } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                   url = `/k-12-school/resources/books/${data.slug}`;
@@ -112,11 +112,11 @@ const K12RelatedResources: React.FC<RelatedResourcesInterface> = ({
               <Slider {...settings}>
                 {relatedResources?.map((data) => {
                   let url = "/";
-                  if (data.material_type === "Videos") {
+                  if (data.material_type === "Videos Lectures & Video Podcast") {
                     url = `/k-12-school/resources/videos/${data.slug}`;
                   } else if (data.material_type === "Class Notes") {
                     url = `/k-12-school/resources/class-notes/${data.slug}`;
-                  } else if (data.material_type === "Audio Books") {
+                  } else if (data.material_type === "Audio Books & Audio Podcast") {
                     url = `/k-12-school/resources/audio-books/${data.slug}`;
                   } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                     url = `/k-12-school/resources/books/${data.slug}`;

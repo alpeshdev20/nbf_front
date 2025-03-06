@@ -8,7 +8,7 @@
   cursor: pointer; /* Cursor style */
   transition: background-color 0.3s ease; /* Smooth transition */
   font-weight: 766;
-  font-size: 9375vw;
+  /* font-size: 9375vw; */
 }
 
 .startFreeTrialButton:hover {
