@@ -23,7 +23,7 @@ const SearchSuggestion: React.FC<{
               url = `/resources/books/${data.slug}`;
             }
             else if (data.material_type === "Gamified Learning") {
-              url = `/resources/books/${data.slug}`;
+              url = `/resources/gamified-learning/${data.slug}`;
             } else {
               url = "/";
             }

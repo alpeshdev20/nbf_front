@@ -70,14 +70,16 @@ function BooksSlider({ title, slidesToShow, data, titleColor }: BooksSlider) {
           {data?.map((item) => {
             let url = "/log-in";
             if (!isLoading && session?.isLoggedIn) {
-              if (item.material_type === "Videos") {
-                url = `/resources/videos/info?id=${item.resource_id}`;
+              if (item.material_type === "Videos Lectures & Video Podcast") {
+                url = `/resources/videos/${item.slug}`;
               } else if (item.material_type === "Class Notes") {
-                url = `/resources/class-notes/info?id=${item.resource_id}`;
-              } else if (item.material_type === "Audio Books") {
-                url = `/resources/audio-books/info?id=${item.resource_id}`;
-              } else if (item.material_type === "Books") {
-                url = `/resources/books/info?id=${item.resource_id}`;
+                url = `/resources/class-notes/${item.slug}`;
+              } else if (item.material_type === "Audio Books & Audio Podcast") {
+                url = `/resources/audio-books/${item.slug}`;
+              } else if (item.material_type === "Books" || item.material_type === "e-Books") {
+                url = `/resources/books/${item.slug}`;
+              }else if (item.material_type === "Gamified Learning") {
+                url = `/resources/gamified-learning/${item.slug}`;
               } else {
                 url = "/log-in";
               }
@@ -86,7 +88,7 @@ function BooksSlider({ title, slidesToShow, data, titleColor }: BooksSlider) {
               <Link
                 href={url}
                 className={Style.books__slide}
-                key={item.resource_id}
+                key={item.slug}
               >
                 <Image
                   src={

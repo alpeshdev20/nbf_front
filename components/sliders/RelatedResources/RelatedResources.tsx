@@ -82,7 +82,7 @@ const RelatedResources: React.FC<RelatedResourcesInterface> = ({
                 } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                   url = `/resources/books/${data.slug}`;
                 } else if (data.material_type === "Gamified Learning") {
-                  url = `/resources/books/${data.slug}`;
+                  url = `/resources/gamified-learning/${data.slug}`;
                 }else {
                   url = "/";
                 }
@@ -123,9 +123,9 @@ const RelatedResources: React.FC<RelatedResourcesInterface> = ({
                   } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                     url = `/resources/books/${data.slug}`;
                   } else if (data.material_type === "Ar/Vr") {
-                    url = `/resources/books/info?id=${data.resource_id}`;
+                    url = `/resources/books/${data.slug}`;
                   } else if (data.material_type === "Gamified Learning") {
-                    url = `/resources/books/info?id=${data.resource_id}`;
+                    url = `/resources/gamified-learning/${data.slug}`;
                   } else {
                     url = "/";
                   }

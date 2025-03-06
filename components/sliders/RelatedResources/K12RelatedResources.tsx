@@ -121,9 +121,9 @@ const K12RelatedResources: React.FC<RelatedResourcesInterface> = ({
                   } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                     url = `/k-12-school/resources/books/${data.slug}`;
                   } else if (data.material_type === "Ar/Vr") {
-                    url = `/k-12-school/resources/books/info?id=${data.resource_id}`;
+                    url = `/k-12-school/resources/books/${data.slug}`;
                   } else if (data.material_type === "Gamified Learning") {
-                    url = `/k-12-school/resources/books/info?id=${data.resource_id}`;
+                    url = `/k-12-school/resources/gamified-learning/${data.slug}`;
                   } else {
                     url = "/";
                   }
