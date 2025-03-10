@@ -47,6 +47,44 @@ export function getResourcesInfo(slug: string) {
   return { resourceInfo, isLoading, isError, isSuccess };
 }
 
+//get meta info 
+export async function getResourcesMetaInfo(slug: string) {
+  let isLoading = true;
+  let isError = false;
+  let isSuccess = false;
+  let resourceInfo: ResourcesInterface | null = null;
+
+  try {
+    const response = await fetch(`${process.env.API_URL}resources/${slug}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-API-Key": process.env.API_KEY ?? "",
+        Authorization: `Basic ${Buffer.from(
+          `${process.env.AUTH_USER}:${process.env.AUTH_PASSWORD}`
+        ).toString("base64")}`,
+      },
+    });
+    const responseData = await response.json();
+    resourceInfo = responseData?.response ?? null; // Ensure it matches the expected format
+
+    isSuccess = true;
+  } catch (error) {
+    isError = true;
+  } finally {
+    isLoading = false;
+    console.log("Resource info fetch complete. Loading:", isLoading, "Success:", isSuccess); // Log loading status
+  }
+
+  return { resourceInfo, isLoading, isError, isSuccess };
+}
+
+
+
+
+ 
 //* Get Related Resources
 export function getRelatedResources(id: string) {
   const {
