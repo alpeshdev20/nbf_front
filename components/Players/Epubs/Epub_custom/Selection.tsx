@@ -12,6 +12,7 @@ import { log } from 'console';
 
 // NBf Logo For E pubreader
 import nbfLogo from "@/public/icons/NetBookFlix_Logo.png";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 type ITextSelection = {
   text: string
@@ -56,6 +57,8 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   const [theme, setTheme] = useState<ITheme>('light');
   const [dictionaryModal, setShowdictionaryModal] = useState(false); //Dictionary Modal  
   const Userefrendition = useRef<Rendition | undefined>(undefined)
+  const [MainsidebarOpen, MainsetSidebarOpen] = useState(false); // State for sidebar visibility
+
 
   const [sidebar, setSidebar] = useState(false)
   const { session } = useSession();
@@ -82,6 +85,11 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
 
+
+  // Function to toggle the sidebar
+  const toggleMainSidebar = () => {
+    MainsetSidebarOpen(!MainsidebarOpen);
+  };
   //  pronounce selected text
   const handlePlay = () => {
    
@@ -865,6 +873,18 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
 
   return (
     <div className='wrapper-container'>
+         
+      {/* Toggle Button */}
+      { <button
+        onClick={toggleMainSidebar}
+        style={{ color: "#ff5718", backgroundColor: "#363843" }}
+        className="fixed top-1/2 left-0 transform -translate-y-1/2 bg-blue-500 text-white 
+                   w-10 h-16 flex items-center justify-center rounded-r-lg shadow-lg transition-all"
+      >
+        {MainsidebarOpen ? <FaChevronLeft size={24} /> : <FaChevronRight size={24} />}
+      </button> }
+
+    {MainsidebarOpen && (
       <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} side-icons`}>
         <br />
         <a href="https://netbookflix.com/" className='cust-epub-button-nbf'>  <Image style={{ width:"41px",height: "51px" }} src={nbfLogo} alt="NBF" /></a>
@@ -900,7 +920,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
         </button>
         <br />
       </div>
-
+   )} 
       {sidebar && (
         <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} sidebar-drawer`}>
           <div className="sidebar-header">
@@ -1124,7 +1144,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
 
       <div className={`${!sidebar ? 'full-w' : ''} ${theme === 'dark' ? 'dark-theme' : 'light-theme'} reader-content`} style={{ position: 'relative' }}>
         {/* <div className='test-location'> Curretpage : {page}</div> */}
-
+        {MainsidebarOpen && (
         <div className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} cust-bookmark-timer`}>
           {/* Bookmark button */}
           <button className="cust-epub-button-bookmark" onClick={handleAddBookmark}>
@@ -1139,6 +1159,7 @@ export const Selection: React.FC<SelectionProps> = ({ resourceLink, title, book_
             </svg>
           </button>
         </div>
+        )}
 
         {/* Timer Modal */}
         {isTimerVisible && (

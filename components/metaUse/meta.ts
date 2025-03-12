@@ -1,6 +1,6 @@
 export async function getResourcesInfoServer(slug: string) {
   try {
-    const response = await fetch(`${process.env.API_URL}resources/test/${slug}`, {
+    const response = await fetch(`${process.env.API_URL}resources/${slug}`, {
       method: "GET",
       credentials: "include",
       headers: {

@@ -16,7 +16,7 @@
     left: 5%;
     z-index: 100;
     width: 20%;
-    height:100vh;
+    height:97vh;
     border :groove;
     overflow-y: auto;
 }.side-icons {
@@ -1083,4 +1083,10 @@ bookmarks-list-dark{
 
 .react-responsive-modal-closeButton{
   background: #ff5718;
+}
+@media only screen and (max-device-width: 480px) and (orientation: portrait) {    
+  #book iframe {
+     width: 256px;
+     height: 432px;
+  }
 }
