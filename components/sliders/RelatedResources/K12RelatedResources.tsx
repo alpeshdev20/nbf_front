@@ -129,9 +129,6 @@ const K12RelatedResources: React.FC<RelatedResourcesInterface> = ({
                   }
                   return (
                     <div className={Style.slick_slider} key={data.resource_id}>
-                        
-                        <div className={Style.resource_label}>{data.material_type}</div>
-
                       <ResourceCard
                         image={
                           data.resource_image
