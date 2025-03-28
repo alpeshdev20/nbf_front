@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@/components/ui/Button/Button";
 import { useSession } from "@/providers/SessionProvider";
+import { post } from "@/utils/fetch";
 
 //* css
 import Style from "@/components/Plans/Plans.module.css";
@@ -13,7 +14,7 @@ import { FaCaretRight, FaRupeeSign } from "react-icons/fa";
 
 import { getPlans } from "@/services/resources";
 import { Root } from "@/interfaces/PaymentResponse";
-import { errorToast } from "@/utils/toast_helper";
+import { errorToast, successToast } from "@/utils/toast_helper";
 import initiatePayment from "@/services/payment";
 
 const Plan = () => {
@@ -23,6 +24,8 @@ const Plan = () => {
   const { planData } = getPlans();
   const [activeCategoryTab, setCategoryMainTab] = useState(1);
   const [activeSubCategoryTab, setActiveSubCategoryTab] = useState(1);
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [discount, setDiscount] = useState<number>(0);
 
   const invokePaymentPage = (paymentData: Root) => {
     console.log(
@@ -46,12 +49,18 @@ const Plan = () => {
       },
     };
 
-    {/* @ts-ignore */ }
+    {
+      /* @ts-ignore */
+    }
     if (window.Paytm) {
-      {/* @ts-ignore */ }
+      {
+        /* @ts-ignore */
+      }
       window.Paytm.CheckoutJS.init(config)
         .then(function onSuccess() {
-          {/* @ts-ignore */ }
+          {
+            /* @ts-ignore */
+          }
           window.Paytm.CheckoutJS.invoke();
         })
         .catch(function onError(error: any) {
@@ -70,7 +79,7 @@ const Plan = () => {
     }
 
     try {
-      const result = await initiatePayment(user_id, planId);
+      const result = await initiatePayment(user_id, planId, couponCode);
       if (result?.success) {
         invokePaymentPage(result);
       } else {
@@ -92,12 +101,48 @@ const Plan = () => {
   const handleSubCategoryTab = (subCategoryId: number) => {
     setActiveSubCategoryTab(subCategoryId);
   };
+  //apply coupon code
+  const applyCoupon = async () => {
+    if (!couponCode) {
+      errorToast("Please enter a coupon code!");
+      return;
+    }
+
+    try {
+      let data = await post(`${process.env.API_URL}apply-coupon`, {
+        couponCode,
+      });
+
+      console.log("Parsed Data:", data); // Log the returned data
+
+      if (data.success) {
+        setDiscount(data.discount);
+        successToast(`Coupon Applied! Discount: ${data.discount}%`);
+      } else {
+        errorToast("Invalid Coupon Code.");
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      errorToast("Something went wrong. Try again later.");
+    }
+  };
+
+  const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCouponCode(value);
+
+    if (value === "") {
+      setDiscount(0); // Reset discount when input is cleared
+    }
+  };
 
   const tabsColorsClasses = [Style.voilet, Style.green, Style.cyan];
 
   useEffect(() => {
     // Ensure this code only runs on the client side
-    {/* @ts-ignore */ }
+    {
+      /* @ts-ignore */
+    }
     if (typeof window !== "undefined" && window.Paytm) {
       console.log("Paytm is available on window object");
     } else {
@@ -170,7 +215,12 @@ const Plan = () => {
                           <h6>{subscription.title}</h6>
                           <h3>
                             <FaRupeeSign />
-                            {subscription.price}
+                            {discount > 0
+                              ? (
+                                  subscription.price -
+                                  (subscription.price * discount) / 100
+                                ).toFixed(2)
+                              : subscription.price.toFixed(2)}
                           </h3>
                         </div>
                         <div className={Style.subscription_content}>
@@ -185,11 +235,32 @@ const Plan = () => {
                                 )
                               )}
                           </div>
+                          <div className={Style.coupon_container}>
+                            <div className={Style.input_wrapper}>
+                              <input
+                                type="text"
+                                placeholder="Enter Coupon Code"
+                                value={couponCode}
+                                onChange={(e) => { 
+                                  setCouponCode(e.target.value); 
+                                  handleCouponChange(e); 
+                                }}                                
+                                className={Style.coupon_input}
+                              />
+                              <button
+                                className={Style.btn_apply}
+                                onClick={() => applyCoupon()}
+                              >
+                                APPLY
+                              </button>
+                            </div>
+                          </div>
 
                           <Button
                             clickEventName={() =>
                               handleButtonClick(subscription.id)
                             }
+                            otherClass={Style.btn_buy_now}
                             btnType="button"
                             btnColor="secondary"
                             content="BUY NOW"
