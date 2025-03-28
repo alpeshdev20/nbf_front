@@ -48,19 +48,12 @@ const Plan = () => {
         },
       },
     };
-
-    {
-      /* @ts-ignore */
-    }
+    {/* @ts-ignore */ }
     if (window.Paytm) {
-      {
-        /* @ts-ignore */
-      }
+      {/* @ts-ignore */ }
       window.Paytm.CheckoutJS.init(config)
         .then(function onSuccess() {
-          {
-            /* @ts-ignore */
-          }
+          {/* @ts-ignore */ }
           window.Paytm.CheckoutJS.invoke();
         })
         .catch(function onError(error: any) {
@@ -140,9 +133,7 @@ const Plan = () => {
 
   useEffect(() => {
     // Ensure this code only runs on the client side
-    {
-      /* @ts-ignore */
-    }
+    {/* @ts-ignore */ }
     if (typeof window !== "undefined" && window.Paytm) {
       console.log("Paytm is available on window object");
     } else {
