@@ -59,6 +59,10 @@ const LogInForm = () => {
             isLoggedIn: true,
             user: data?.response,
           });
+
+          if (data?.response?.is_new_user) {
+            localStorage.setItem("new_user", "true"); // Store new user flag
+          }
           router.push("/");
         } else if (data.status === 400) {
           if (data.message.email || data.message.password) {
