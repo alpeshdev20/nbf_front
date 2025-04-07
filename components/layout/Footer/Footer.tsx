@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
 
               <div className={Style.menu_container}>
                 <Link href="/faqs">FAQs</Link>
-                <Link href="/blogs">Blogs</Link>
+                <Link href="/blog">Blogs</Link>
                 <Link href="/privacy-policy">Privacy Policy</Link>
                 {/* <Link href="/help-center">Help Center</Link> */}
                 <Link href="/term-condition">Term & Condition</Link>
