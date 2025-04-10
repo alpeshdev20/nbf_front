@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useSession } from "@/providers/SessionProvider";
 import { post } from "@/utils/fetch";
+// import useOneSignal from 
 // import { metadata } from '@/services/metadata'; // Adjust the path as necessary
 // /var/www/html/nbf_front/services/metadata.ts
 
@@ -28,6 +29,7 @@ import "@/styles/user.css";
 import "@/styles/modal.css";
 import TanStackProvider from "@/providers/TanStackProvider";
 import "react-toastify/dist/ReactToastify.css";
+import useOneSignal from "@/components/OneSignalInitializer/OneSignalInitializer";
 
 // import GoogleAnalytics from '@/components/GoogleAnalytics';
 // import { Inter } from 'next/font/google'; // Importing the font, if needed
@@ -41,6 +43,7 @@ export default function RootLayout({
   
   const { session } = useSession(); // Get session context
 
+  useOneSignal(); //one signal worker
   useEffect(() => {
     let interval;
     if (localStorage.getItem("user_id") != null) {
@@ -118,7 +121,7 @@ export default function RootLayout({
 
         {/* Google Site Verification Meta Tag */}
         <meta name="google-site-verification" content="3QiaS_EW9XYkOwpcsEhu0rMu3y4biRhlIH2UNuCicnM" />
-      
+        
       </head>
     
       <body>    
