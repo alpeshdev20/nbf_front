@@ -21,14 +21,12 @@ export const metadata: Metadata = {
 //* Importing Image
 import TickIcon from "@/icons/tick.png";
 import dynamic from "next/dynamic";
-import useOneSignal from "@/components/OneSignalInitializer/OneSignalInitializer";
 // Lazy load the client-side check
 const CheckNewUserBanner = dynamic(() => import("@/components/CheckNewUserBanner/CheckNewUserBanner"), {
   ssr: false,
 })
 export default function Home() {
   const isNewUser = checkNewUser(); // Call the service function
-  useOneSignal(); //one signal worker
   return (
     <>
       {/* navbar  */}
