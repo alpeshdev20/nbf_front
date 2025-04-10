@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSession } from "@/providers/SessionProvider";
 import { post } from "@/utils/fetch";
 // import { metadata } from '@/services/metadata'; // Adjust the path as necessary
-// /var/www/html/nbf_front/services/metadata.ts
+import OneSignal from 'react-onesignal';
 
 
 import type { Metadata } from "next";
@@ -41,6 +41,36 @@ export default function RootLayout({
   
   const { session } = useSession(); // Get session context
 
+  useEffect(() => {
+    // Ensure this code runs only on the client side
+    if (typeof window !== 'undefined') {
+      OneSignal.init({
+        appId: 'fc640918-198c-4dc9-90c7-e9d0663a66a2',
+        safari_web_id: "web.onesignal.auto.00e855ed-5f66-45b8-ad03-54b1e142944e",
+        notifyButton: {
+          enable: true,
+          prenotify: true,
+          showCredit: false,
+          text: {
+            'tip.state.unsubscribed': 'Subscribe to notifications',
+            'tip.state.subscribed': "You're subscribed to notifications",
+            'tip.state.blocked': 'You have blocked notifications',
+            'message.prenotify': 'Click to subscribe to notifications',
+            'message.action.subscribed': "Thanks for subscribing!",
+            'message.action.resubscribed': "You're subscribed to notifications",
+            'message.action.unsubscribed': "You won't receive notifications again",
+            'message.action.subscribing': "Subscribing...",
+            'dialog.main.title': 'Manage Site Notifications',
+            'dialog.main.button.subscribe': 'SUBSCRIBE',
+            'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
+            'dialog.blocked.title': 'Unblock Notifications',
+            'dialog.blocked.message': "Follow these instructions to allow notifications:"
+          }
+        },
+        allowLocalhostAsSecureOrigin: true
+      });
+    }
+  }, []);
   useEffect(() => {
     let interval;
     if (localStorage.getItem("user_id") != null) {
@@ -113,25 +143,6 @@ export default function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-G4CNMD0E6R');`
-          }}
-        />
-        {/* OneSignal SDK */}
-        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-         {/* OneSignal script */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.OneSignalDeferred = window.OneSignalDeferred || [];
-              OneSignalDeferred.push(async function(OneSignal) {
-                await OneSignal.init({
-                  appId: "fc640918-198c-4dc9-90c7-e9d0663a66a2",
-                  safari_web_id: "web.onesignal.auto.00e855ed-5f66-45b8-ad03-54b1e142944e",
-                  notifyButton: {
-                    enable: true,
-                  },
-                });
-              });
-            `,
           }}
         />
         {/* Google Site Verification Meta Tag */}
