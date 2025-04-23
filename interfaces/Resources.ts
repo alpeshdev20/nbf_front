@@ -27,4 +27,6 @@ export default interface ResourcesInterface {
   age_text?:number;
   meta_title?:string;
   meta_description?:string;
+  classId?: number;
+  subjectId?:number;
 }

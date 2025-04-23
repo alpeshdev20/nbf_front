@@ -43,6 +43,8 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
 
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<Option | null>(null);
   const [selectedGenres, setselectedGenres] = useState<Option | null>(null);
+  const [selectedDepartment, setSelectedDepartment] = useState<Option | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<Option | null>(null);
   const [showMoreClicked, setShowMoreClicked] = useState(false);
 
   const { resourceData, isLoading, isError, isSuccess } = getResources(
@@ -50,7 +52,9 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
     36,
     requestURL,
     selectedGenres?.value || 0,
-    selectedAgeGroup?.value || 0
+    selectedAgeGroup?.value || 0,
+    selectedDepartment?.value || 0,
+    selectedSubject?.value || 0,
   );
 
   useEffect(() => {
@@ -68,6 +72,7 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
     isLoading,
     selectedGenres?.value,
     selectedAgeGroup?.value,
+    selectedDepartment?.value
   ]);
 
   const showMore = () => {
@@ -81,8 +86,13 @@ const ExploreSection: React.FC<ResourceCardInterface> = ({
       <Filters
         setSelectedAgeGroup={setSelectedAgeGroup}
         setselectedGenres={setselectedGenres}
+        setSelectedDepartment={setSelectedDepartment} 
+        setSelectedSubject={setSelectedSubject}
         selectedAgeGroup={selectedAgeGroup}
         selectedGenres={selectedGenres}
+        selectedDepartment={selectedDepartment}
+        selectedSubject={selectedSubject}
+
       />
 
       <div className="resources-explore-section">

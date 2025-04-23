@@ -1,6 +1,8 @@
 //* Importing Components
 import { useQuery } from "@tanstack/react-query";
 import { get } from "@/utils/fetch";
+import { post } from "@/utils/fetch";
+
 
 //* interface
 import ResourcesInterface from "@/interfaces/Resources";
@@ -12,17 +14,22 @@ export function getResources(
   limit: number,
   url: string,
   genre: number,
-  age: number
+  age: number,
+  thirdParam?: number,     // could be classId or departmentId
+  fourthParam?: number
+
 ) {
+  const optionalParam1 = thirdParam ?? 0;
+  const optionalParam2 = fourthParam ?? 0;
   const {
     data: responseData,
     isLoading,
     isError,
     isSuccess,
   } = useQuery({
-    queryKey: [`${url}/${start}/${limit}/${genre}/${age}`],
+    queryKey: [`${url}/${start}/${limit}/${genre}/${age}/${optionalParam1}/${optionalParam2}`],
     queryFn: () =>
-      get(`${process.env.API_URL}${url}/${start}/${limit}/${genre}/${age}`),
+      get(`${process.env.API_URL}${url}/${start}/${limit}/${genre}/${age}/${optionalParam1}/${optionalParam2}`),
     // staleTime: 60000 * 60,
   });
 
@@ -153,6 +160,29 @@ export function getUsersLibrary() {
   const libraryData: ResourcesInterface[] = responseData?.response ?? [];
   return { libraryData, isLoading, isError, isSuccess };
 }
+
+//* Get Users reasding lsit
+export function getUsersReadingList(userId: string | null) {
+  const {
+    data: responseData,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery({
+    queryKey: [`user/reading-list`, userId],
+    queryFn: () =>  
+      get(`${process.env.API_URL}user/readind-list?user_id=${userId}`),
+    enabled: !!userId, // Prevent it from running until userId is available
+  });
+
+  const libraryData: ResourcesInterface[] = responseData?.response ?? [];
+  return { libraryData, isLoading, isError, isSuccess };
+}
+
+//join reading list by token
+export const joinReadingListWithToken = (payload: { token: string; user_id: string | null }) => {
+  return post(`${process.env.API_URL}user/join-reading-list`, payload);
+};
 
 //* Search Resources
 export function getSearchData(

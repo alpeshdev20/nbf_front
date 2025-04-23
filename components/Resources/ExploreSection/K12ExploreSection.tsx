@@ -45,13 +45,18 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<Option | null>(null);
   const [selectedGenres, setselectedGenres] = useState<Option | null>(null);
   const [showMoreClicked, setShowMoreClicked] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<Option | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<Option | null>(null);
+
 
   const { resourceData, isLoading, isError, isSuccess } = getResources(
     startFrom,
     36,
     requestURL,
     selectedGenres?.value || 0,
-    selectedAgeGroup?.value || 0
+    selectedAgeGroup?.value || 0,
+    selectedClass?.value || 0 ,
+    selectedSubject?.value || 0 ,
   );
 
   useEffect(() => {
@@ -69,6 +74,7 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
     isLoading,
     selectedGenres?.value,
     selectedAgeGroup?.value,
+    selectedClass?.value,
   ]);
 
   const showMore = () => {
@@ -81,9 +87,13 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
       <K12Filters
         setSelectedAgeGroup={setSelectedAgeGroup}
         setselectedGenres={setselectedGenres}
-        selectedAgeGroup={selectedAgeGroup}
+        setSelectedClass={setSelectedClass}
+        setSelectedSubject={setSelectedSubject}
+        selectedAgeGroup={selectedClass}
         selectedGenres={selectedGenres}
-      />
+        selectedClass={selectedClass} 
+        selectedSubject={selectedSubject}
+        />
 
       <div className="resources-explore-section">
         <div className="app-container">
