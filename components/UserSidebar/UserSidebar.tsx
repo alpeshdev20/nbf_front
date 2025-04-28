@@ -170,8 +170,21 @@ const UserSidebar = () => {
           <div className={Style.sidebar_menus}>
             <p onClick={signOutUser}>Sign Out</p>
           </div>
+         
+          </div>
 
-        </div>
+          <div
+            className={
+              pathname.includes("/user/reading-list")
+                ? `${Style.sidebar_menus} ${Style.menu_active}`
+                : Style.sidebar_menus
+            }
+          >
+            <Link href="/user/reading-list">
+              Reading list
+            </Link>
+          </div>
+
         <div className={Style.sidebar_menus}>
           {/* <Link href="/user/cancel-subscription">Cancel Subscription</Link> */}
           {profile?.remaning_days != null && typeof profile.remaning_days === 'number' && profile.remaning_days > 0 ? (
