@@ -41,7 +41,7 @@ export default function Home() {
      
 
      {/* Client Component for Checking New User */}
-     <CheckNewUserBanner />
+     {/* <CheckNewUserBanner /> */}
       {/* Banner  */}
       <HomeHero />
 

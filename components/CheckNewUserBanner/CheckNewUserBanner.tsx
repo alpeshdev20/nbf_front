@@ -13,8 +13,8 @@ const CheckNewUserBanner = () => {
     if (typeof window !== "undefined") {
       const newUser = localStorage.getItem("new_user") === "true";
       if (newUser) {
-        setIsNewUser(true);
-        setShowModal(true); // Open the modal if the user is new
+        setIsNewUser(false);
+        setShowModal(false); // change this value to open modal
       }
     }
   }, []);
