@@ -8,7 +8,7 @@ const authRoutes = [
   "/forgot-password/reset-password",
   "/forgot-password/reset-password",
   "/forgot-password/response-page",
-  "/sign-up",
+  // "/sign-up",
 ];
 
 const naisaRoutes = ["/naisa"];
