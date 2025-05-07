@@ -67,7 +67,7 @@ export default function NotFound() {
         <div className="about-punchline-section">
           <div className="app-container">
             <div className="about-punchline-container">
-              <h4>PUNCHLINE for NETBOOKFLIX <span>" Stream unlimited knowledge "</span></h4>
+              <h4><span>" Stream unlimited knowledge "</span></h4>
             </div>
           </div>
         </div>
