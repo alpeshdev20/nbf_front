@@ -33,25 +33,25 @@ export function getClasses() {
 
 
 // * Get Subjects
-export function getSubjects() {
-  const { data: responseData } = useQuery({
-    queryKey: ["subjects"],
-    queryFn: () => get(`${process.env.API_URL}get-subjects`),
+export function getSubjects(departmentId: number) {
+  return useQuery({
+    queryKey: ["subjects", departmentId],
+    queryFn: () =>
+      get(`${process.env.API_URL}get-subjects?department_id=${departmentId}`),
+    enabled: !!departmentId && departmentId !== 0, // Prevent fetching if invalid
+    select: (data) => data.response as SubjectInterface[],
   });
-
-  const subjectsData: SubjectInterface[] = responseData?.response ?? [];
-  return { subjectsData };
 }
 
 // * Get Departments
-export function getDepartments() {
-  const { data: responseData } = useQuery({
-    queryKey: ["departments"],
-    queryFn: () => get(`${process.env.API_URL}get-departments`),
+export function getDepartments(genreId: number) {
+  return useQuery({
+    queryKey: ["departments", genreId],
+    queryFn: () =>
+      get(`${process.env.API_URL}get-departments?genre_id=${genreId}`),
+    enabled: !!genreId && genreId !== 0, // Prevent fetching if genreId is invalid
+    select: (data) => data.response as DepartmentInterface[],
   });
-
-  const departmentsData: DepartmentInterface[] = responseData?.response ?? [];
-  return { departmentsData };
 }
 
 //* Get Age Groups

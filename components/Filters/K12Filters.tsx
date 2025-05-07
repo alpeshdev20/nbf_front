@@ -12,6 +12,7 @@ import {
   getClasses,
   K12getGenres,
   getSubjects,
+  getDepartments,
 } from "@/services/general";
 
 //* css
@@ -33,23 +34,23 @@ interface Option {
 interface FiltersInterface {
   setselectedGenres: (option: Option | null) => void;
   setSelectedAgeGroup: (option: Option | null) => void;
-  setSelectedClass: (option: Option | null) => void;
   setSelectedSubject: (option: Option | null) => void;
+  setSelectedDepartment: (option: Option | null) => void;
   selectedGenres: Option | null;
   selectedAgeGroup: Option | null;
-  selectedClass: Option | null;
   selectedSubject: Option | null;
+  selectedDepartment: Option | null;
 }
 
 const K12Filters: React.FC<FiltersInterface> = ({
   selectedAgeGroup,
   selectedGenres,
-  selectedClass,
+  selectedDepartment,
   selectedSubject,
   setSelectedAgeGroup,
   setselectedGenres,
-  setSelectedClass,
   setSelectedSubject,
+  setSelectedDepartment,
 }) => {
   const customStyles: CustomStyles = {
     control: (provided) => ({
@@ -64,7 +65,14 @@ const K12Filters: React.FC<FiltersInterface> = ({
   const { ageGroupData, isSuccess } = getAgeGroups();
   const { genreSuccess, genresData } = K12getGenres();
   const { classesData } = getClasses();
-  const { subjectsData } = getSubjects();
+  const [genreId, setGenreId] = useState<number>(-1);
+  const { data: departmentsData = [] } = getDepartments(genreId);
+  const [subjetId, setsubjetId] = useState<number>(-1);
+  const { data: subjectsData = [] } = getSubjects(subjetId);
+  const [filteredDepartments, setFilteredDepartments] = React.useState<
+    Option[]
+  >([]);
+  const [FilteredSubjects, setFilteredSubjects] = React.useState<Option[]>([]);
 
   const ageGroupOptions: Option[] = ageGroupData
     ? ageGroupData.map((row) => ({
@@ -72,10 +80,10 @@ const K12Filters: React.FC<FiltersInterface> = ({
         label: row.group,
       }))
     : [];
-    ageGroupOptions.unshift({
-      value: 0,
-      label: "All Age Group",
-    });
+  ageGroupOptions.unshift({
+    value: 0,
+    label: "All Age Group",
+  });
 
   const genresOptions: Option[] = genresData
     ? genresData.map((row) => ({
@@ -89,29 +97,29 @@ const K12Filters: React.FC<FiltersInterface> = ({
     label: "All Genres",
   });
 
-  const classOptions: Option[] = classesData
-    ? classesData.map((row: any) => ({
-        value: row.id,
-        label: row.class_name,
-      }))
-    : [];
+  // const classOptions: Option[] = classesData
+  //   ? classesData.map((row: any) => ({
+  //       value: row.id,
+  //       label: row.class_name,
+  //     }))
+  //   : [];
 
-  classOptions.unshift({
-    value: 0,
-    label: "All Classes",
-  });
+  // classOptions.unshift({
+  //   value: -1,
+  //   label: "Select Class",
+  // });
 
-  const subjectOptions: Option[] = subjectsData
-    ? subjectsData.map((row: any) => ({
-        value: row.id,
-        label: row.subject_name,
-      }))
-    : [];
+  // const subjectOptions: Option[] = subjectsData
+  //   ? subjectsData.map((row: any) => ({
+  //       value: row.id,
+  //       label: row.subject_name,
+  //     }))
+  //   : [];
 
-  subjectOptions.unshift({
-    value: 0,
-    label: "All Subjects",
-  });
+  // subjectOptions.unshift({
+  //   value: -1,
+  //   label: "Select Subject",
+  // });
 
   //* State for selected class
   useEffect(() => {
@@ -126,17 +134,45 @@ const K12Filters: React.FC<FiltersInterface> = ({
     }
   }, [genreSuccess]);
 
-  useEffect(() => {
-    if (classOptions.length > 0) {
-      setSelectedClass(classOptions[0]);
-    }
-  }, [classesData]);
+  // useEffect(() => {
+  //   if (classOptions.length > 0) {
+  //     setSelectedClass(classOptions[0]);
+  //   }
+  // }, [classesData]);
 
   useEffect(() => {
-    if (subjectOptions.length > 0) {
-      setSelectedSubject(subjectOptions[0]);
+    if (selectedDepartment) {
+      setsubjetId(selectedDepartment.value);
+      setSelectedSubject(null);
     }
-  }, [subjectsData]);
+  }, [selectedDepartment]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const mapped = departmentsData.map((row: any) => ({
+        value: row.id,
+        label: row.department_name,
+      }));
+      setFilteredDepartments([
+        { value: 0, label: "Select Department" },
+        ...mapped,
+      ]);
+    } else if (genreId === 0 || genreId === -1) {
+      setFilteredDepartments([{ value: -1, label: "Select Department" }]);
+    }
+  }, [departmentsData, isSuccess, genreId]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const mapped = subjectsData.map((row: any) => ({
+        value: row.id,
+        label: row.subject_name,
+      }));
+      setFilteredSubjects([{ value: 0, label: "Select Subject" }, ...mapped]);
+    } else if (subjetId === 0 || subjetId === -1) {
+      setFilteredSubjects([{ value: -1, label: "Select Subject" }]);
+    }
+  }, [subjectsData, isSuccess, subjetId]);
 
   //* Handlers
   const handleAgeGroupChange = (selectedOption: Option | null) => {
@@ -145,11 +181,15 @@ const K12Filters: React.FC<FiltersInterface> = ({
 
   const handleGenresChange = (selectedOption: Option | null) => {
     setselectedGenres(selectedOption);
+    setSelectedDepartment(null);
+    setSelectedSubject(null);
+    setFilteredDepartments([]);
+    setGenreId(selectedOption?.value ?? -1);
   };
 
-  const handleClassChange = (selectedOption: Option | null) => {
-    setSelectedClass(selectedOption);
-  };
+  // const handleClassChange = (selectedOption: Option | null) => {
+  //   setSelectedClass(selectedOption);
+  // };
 
   const handleSubjectChange = (selectedOption: Option | null) => {
     setSelectedSubject(selectedOption);
@@ -172,34 +212,33 @@ const K12Filters: React.FC<FiltersInterface> = ({
 
             <div className={Style.full_width_filter}>
               <Select
+                options={filteredDepartments}
+                isSearchable
+                placeholder="Select Department"
+                styles={customStyles}
+                value={selectedDepartment}
+                onChange={setSelectedDepartment}
+              />
+            </div>
+
+            <div className={Style.full_width_filter}>
+              <Select
+                options={FilteredSubjects}
+                isSearchable={true}
+                placeholder="Select Subject"
+                styles={customStyles}
+                value={selectedSubject}
+                onChange={handleSubjectChange}
+              />
+            </div>
+            <div className={Style.full_width_filter}>
+              <Select
                 options={ageGroupOptions}
                 isSearchable={true}
                 placeholder="All Age Group"
                 styles={customStyles}
                 value={selectedAgeGroup}
                 onChange={handleAgeGroupChange}
-              />
-            </div>
-
-            <div className={Style.full_width_filter}>
-              <Select
-                options={classOptions}
-                isSearchable={true}
-                placeholder="All Classes"
-                styles={customStyles}
-                value={selectedClass}
-                onChange={handleClassChange}
-              />
-            </div>
-
-            <div className={Style.full_width_filter}>
-              <Select
-                options={subjectOptions}
-                isSearchable={true}
-                placeholder="All Subjects"
-                styles={customStyles}
-                value={selectedSubject}
-                onChange={handleSubjectChange}
               />
             </div>
           </div>

@@ -47,7 +47,7 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
   const [showMoreClicked, setShowMoreClicked] = useState(false);
   const [selectedClass, setSelectedClass] = useState<Option | null>(null);
   const [selectedSubject, setSelectedSubject] = useState<Option | null>(null);
-
+  const [selectedDepartment, setSelectedDepartment] = useState<Option | null>(null);
 
   const { resourceData, isLoading, isError, isSuccess } = getResources(
     startFrom,
@@ -55,8 +55,8 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
     requestURL,
     selectedGenres?.value || 0,
     selectedAgeGroup?.value || 0,
-    selectedClass?.value || 0 ,
-    selectedSubject?.value || 0 ,
+    selectedDepartment?.value || 0,
+    selectedSubject?.value || 0,
   );
 
   useEffect(() => {
@@ -74,25 +74,26 @@ const K12ExploreSection: React.FC<ResourceCardInterface> = ({
     isLoading,
     selectedGenres?.value,
     selectedAgeGroup?.value,
-    selectedClass?.value,
+    selectedDepartment?.value
   ]);
 
   const showMore = () => {
     setShowMoreClicked(true);
     setStartFrom((prev) => prev + 36);
-  };
+  };  
   return (
     <>
       {/* Filters  */}
       <K12Filters
-        setSelectedAgeGroup={setSelectedAgeGroup}
-        setselectedGenres={setselectedGenres}
-        setSelectedClass={setSelectedClass}
-        setSelectedSubject={setSelectedSubject}
-        selectedAgeGroup={selectedAgeGroup} 
-        selectedGenres={selectedGenres}
-        selectedClass={selectedClass} 
-        selectedSubject={selectedSubject}
+      setSelectedAgeGroup={setSelectedAgeGroup}
+      setselectedGenres={setselectedGenres}
+      setSelectedDepartment={setSelectedDepartment} 
+      setSelectedSubject={setSelectedSubject}
+      selectedAgeGroup={selectedAgeGroup}
+      selectedGenres={selectedGenres}
+      selectedDepartment={selectedDepartment}
+      selectedSubject={selectedSubject}
+
         />
 
       <div className="resources-explore-section">

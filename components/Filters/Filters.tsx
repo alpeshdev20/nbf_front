@@ -1,7 +1,7 @@
 "use client";
 
 //* importing components
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Select, {
   StylesConfig,
   ControlProps,
@@ -59,8 +59,14 @@ const Filters: React.FC<FiltersInterface> = ({
   //* getting Age Groups
   const { ageGroupData, isSuccess } = getAgeGroups();
   const { genreSuccess, genresData } = getGenres();
-  const { departmentsData } = getDepartments();
-  const { subjectsData } = getSubjects(); 
+  const [genreId, setGenreId] = useState<number>(-1);
+  const { data: departmentsData = [] } = getDepartments(genreId);
+  const [subjetId, setsubjetId] = useState<number>(-1);
+  const { data: subjectsData = [] } = getSubjects(subjetId);
+  const [filteredDepartments, setFilteredDepartments] = React.useState<Option[]>([]);
+  const [FilteredSubjects, setFilteredSubjects] = React.useState<Option[]>([]);
+
+
 
   const ageGroupOptions: Option[] = ageGroupData
     ? ageGroupData.map((row) => ({
@@ -91,18 +97,18 @@ const Filters: React.FC<FiltersInterface> = ({
       label: "All Genres",
     });
 
-    const departmentOptions = [
-      { value: 0, label: "All Departments" },
-      ...(departmentsData?.map((row: any) => ({
-        value: row.id,
-        label: row.department_name,
-      })) ?? [])
-    ];
+    // const departmentOptions = [
+    //   { value: 0, label: "Select Departments" },
+    //   ...(departmentsData?.map((row: any) => ({
+    //     value: row.id,
+    //     label: row.department_name,
+    //   })) ?? [])
+    // ];
   
-    const subjectOptions = [{ value: 0, label: "All Subjects" }, ...(subjectsData?.map(row => ({
-      value: row.id,
-      label: row.subject_name,
-    })) ?? [])];
+    // const subjectOptions = [{ value: 0, label: "All Subjects" }, ...(subjectsData?.map(row => ({
+    //   value: row.id,
+    //   label: row.subject_name,
+    // })) ?? [])];
 
 
   useEffect(() => {
@@ -122,24 +128,61 @@ const Filters: React.FC<FiltersInterface> = ({
     setSelectedAgeGroup(selectedOption);
   };
 
-  //*Handle Category Value
   const handleGenresChange = (selectedOption: Option | null) => {
     setselectedGenres(selectedOption);
+    setSelectedDepartment(null);
+    setSelectedSubject(null);
+    setFilteredDepartments([]); 
+    setGenreId(selectedOption?.value ?? -1);
   };
 
-  //*Handle Department Value
   useEffect(() => {
-    if (departmentOptions.length > 0) {
-      setSelectedDepartment(departmentOptions[0]);
+    if (selectedDepartment) {
+      setsubjetId(selectedDepartment.value);
+      setSelectedSubject(null); 
     }
-  }, [departmentsData]);
+  }, [selectedDepartment]);
+  
+useEffect(() => {
+  if (isSuccess) {
+    const mapped = departmentsData.map((row: any) => ({
+      value: row.id,
+      label: row.department_name,
+    }));
+    setFilteredDepartments([
+      { value: 0, label: "Select Department" },
+      ...mapped,
+    ]);
+  } else if (genreId === 0 || genreId === -1) {
+    setFilteredDepartments([{ value: -1, label: "Select Department" }]);
+  }
+}, [departmentsData, isSuccess, genreId]);
 
-  //*Handle Subject Value
-  useEffect(() => {
-    if (subjectOptions.length > 0) {
-      setSelectedSubject(subjectOptions[0]);
-    }
-  }, [subjectsData]);
+
+
+useEffect(() => {
+  if (isSuccess) {
+    const mapped = subjectsData.map((row: any) => ({
+      value: row.id,
+      label: row.subject_name,
+    }));
+    setFilteredSubjects([
+      { value: 0, label: "Select Subject" },
+      ...mapped,
+    ]);
+  } else if (subjetId === 0 || subjetId === -1) {
+    setFilteredSubjects([{ value: -1, label: "Select Subject" }]);
+  }
+}, [subjectsData, isSuccess, subjetId]);
+
+
+
+  // //*Handle Subject Value
+  // useEffect(() => {
+  //   if (subjectOptions.length > 0) {
+  //     setSelectedSubject(subjectOptions[0]);
+  //   }
+  // }, [subjectsData]);
 
   return (
     <div className={Style.resouses_filters_section}>
@@ -159,18 +202,7 @@ const Filters: React.FC<FiltersInterface> = ({
 
             <div className={Style.full_width_filter}>
               <Select
-                options={ageGroupOptions}
-                isSearchable={true}
-                placeholder="All Age Group"
-                styles={customStyles}
-                value={selectedAgeGroup}
-                onChange={handleAgeGroupChange}
-              />
-            </div>
-
-            <div className={Style.full_width_filter}>
-              <Select
-                options={departmentOptions}
+                options={filteredDepartments}
                 isSearchable
                 placeholder="Select Department"
                 styles={customStyles}
@@ -180,7 +212,7 @@ const Filters: React.FC<FiltersInterface> = ({
             </div>
             <div className={Style.full_width_filter}>
               <Select
-                options={subjectOptions}
+                options={FilteredSubjects}
                 isSearchable
                 placeholder="Select Subject"
                 styles={customStyles}
@@ -188,6 +220,18 @@ const Filters: React.FC<FiltersInterface> = ({
                 onChange={setSelectedSubject}
               />
             </div>
+
+            <div className={Style.full_width_filter}>
+              <Select
+                options={ageGroupOptions}
+                isSearchable={true}
+                placeholder="All Age Group"
+                styles={customStyles}
+                value={selectedAgeGroup}
+                onChange={handleAgeGroupChange}
+              />
+            </div>
+
           </div>
         </div>
       </div>
