@@ -75,11 +75,13 @@ const K12Filters: React.FC<FiltersInterface> = ({
   const [FilteredSubjects, setFilteredSubjects] = React.useState<Option[]>([]);
 
   const ageGroupOptions: Option[] = ageGroupData
-    ? ageGroupData.map((row) => ({
+  ? ageGroupData
+      .filter((row) => row.group !== "Higher Education (18 to 22 Years)")
+      .map((row) => ({
         value: row.id,
         label: row.group,
       }))
-    : [];
+  : [];
   ageGroupOptions.unshift({
     value: 0,
     label: "All Age Group",
@@ -94,7 +96,7 @@ const K12Filters: React.FC<FiltersInterface> = ({
 
   genresOptions.unshift({
     value: 0,
-    label: "All Genres",
+    label: "School Boards",
   });
 
   // const classOptions: Option[] = classesData
@@ -154,11 +156,11 @@ const K12Filters: React.FC<FiltersInterface> = ({
         label: row.department_name,
       }));
       setFilteredDepartments([
-        { value: 0, label: "Select Department" },
+        { value: 0, label: "Class / Department" },
         ...mapped,
       ]);
     } else if (genreId === 0 || genreId === -1) {
-      setFilteredDepartments([{ value: -1, label: "Select Department" }]);
+      setFilteredDepartments([{ value: -1, label: "Class / Department" }]);
     }
   }, [departmentsData, isSuccess, genreId]);
 
@@ -203,7 +205,7 @@ const K12Filters: React.FC<FiltersInterface> = ({
               <Select
                 options={genresOptions}
                 isSearchable={true}
-                placeholder="All Genres"
+                placeholder="School Boards"
                 styles={customStyles}
                 value={selectedGenres}
                 onChange={handleGenresChange}
@@ -214,7 +216,7 @@ const K12Filters: React.FC<FiltersInterface> = ({
               <Select
                 options={filteredDepartments}
                 isSearchable
-                placeholder="Select Department"
+                placeholder="Class / Department"
                 styles={customStyles}
                 value={selectedDepartment}
                 onChange={setSelectedDepartment}
@@ -235,7 +237,7 @@ const K12Filters: React.FC<FiltersInterface> = ({
               <Select
                 options={ageGroupOptions}
                 isSearchable={true}
-                placeholder="All Age Group"
+                placeholder="Select Age Group"
                 styles={customStyles}
                 value={selectedAgeGroup}
                 onChange={handleAgeGroupChange}
