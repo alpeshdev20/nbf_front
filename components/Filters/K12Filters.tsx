@@ -82,10 +82,10 @@ const K12Filters: React.FC<FiltersInterface> = ({
         label: row.group,
       }))
   : [];
-  ageGroupOptions.unshift({
-    value: 0,
-    label: "All Age Group",
-  });
+  // ageGroupOptions.unshift({
+  //   value: -1,
+  //   label: "All Age Group",
+  // });
 
   const genresOptions: Option[] = genresData
     ? genresData.map((row) => ({
