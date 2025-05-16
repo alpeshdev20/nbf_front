@@ -86,7 +86,10 @@ const Library = () => {
           <div className="reading-lists">
             {libraryData.map((list: any, index: number) => (
               <div key={index} className="reading-list-section">
-                <h2 className="reading-list-title">{list.readingListName}</h2>
+                <div className="reading-list-header">
+                  <span className="badge-teacher">👩‍🏫 Teacher's Readling List</span>
+                  <h2 className="reading-list-title">{list.readingListName}</h2>
+                </div>{" "}
                 <div className="reading-list-items">
                   {list.items.map((item: any, idx: number) => {
                     let pageURL = "/log-in"; // Default URL

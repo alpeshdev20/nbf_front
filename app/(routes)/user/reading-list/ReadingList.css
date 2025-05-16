@@ -23,7 +23,8 @@
 }
 
 .token-join-section input:focus {
-  border-color: var(--primary-color); /* Indigo color */
+  border-color: var(--primary-color);
+  /* Indigo color */
   outline: none;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
@@ -46,14 +47,14 @@
   transform: translateY(-2px);
 }
 
-  
-  .token-message {
-    font-size: 14px;
-    color: green;
-    text-align: center;
-  }
-  
-  /* Main container */
+
+.token-message {
+  font-size: 14px;
+  color: green;
+  text-align: center;
+}
+
+/* Main container */
 .library-container {
   padding: 2rem;
 }
@@ -69,10 +70,10 @@
 
 /* Single reading list section */
 .reading-list-section {
-  background: #f9f9f9;
+  border: solid 1px white;
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Reading list title */
@@ -80,52 +81,163 @@
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: white;
+  margin-top: 15px;
 }
 
 /* Items inside reading list */
 .reading-list-items {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1.5rem;
 }
 
-  
-  /* Small Mobile Devices (up to 374px) */
-  @media screen and (max-width: 374px) {
-    .token-join-section {
-      padding: 12px;
-      gap: 8px;
-    }
-  
-    .token-input,
-    .join-button {
-      font-size: 14px;
-      padding: 10px;
-    }
+/* Small Mobile (480px - 599px) */
+@media (min-width: 480px) {
+  .reading-list-items {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
   }
-  
-  /* Medium Mobile Devices (375px to 480px) */
-  @media screen and (min-width: 375px) and (max-width: 480px) {
-    .token-join-section {
-      max-width: 90%;
-    }
-  
-    .token-input,
-    .join-button {
-      font-size: 15px;
-    }
+}
+
+/* Tablet Portrait (600px - 767px) */
+@media (min-width: 600px) {
+  .reading-list-items {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 1.2rem;
   }
-  
-  /* Large Mobile Devices (481px to 599px) */
-  @media screen and (min-width: 481px) and (max-width: 599px) {
-    .token-join-section {
-      max-width: 85%;
-    }
-  
-    .token-input,
-    .join-button {
-      font-size: 16px;
-    }
+}
+
+/* Tablet Landscape (768px - 899px) */
+@media (min-width: 768px) {
+  .reading-list-items {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.2rem;
   }
-  
+}
+
+/* Laptop (900px - 1199px) */
+@media (min-width: 900px) {
+  .reading-list-items {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Desktop (1200px and above) */
+@media (min-width: 1200px) {
+  .reading-list-items {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Base styles (Mobile First: 0px - 479px) */
+.reading-list-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  /* allows wrapping on smaller screens */
+}
+
+.badge-teacher {
+  background-color: #ff5718;
+  color: white;
+  font-size: 16px;
+  padding: 3px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+/* Small Mobile (480px - 599px) */
+@media (min-width: 480px) {
+  .reading-list-header {
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+
+  .badge-teacher {
+    font-size: 17px;
+    padding: 4px 7px;
+  }
+}
+
+/* Tablet Portrait (600px - 767px) */
+@media (min-width: 600px) {
+  .reading-list-header {
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+
+  .badge-teacher {
+    font-size: 18px;
+    padding: 4px 8px;
+  }
+}
+
+/* Tablet Landscape (768px - 899px) */
+@media (min-width: 768px) {
+  .reading-list-header {
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .badge-teacher {
+    font-size: 19px;
+  }
+}
+
+/* Laptop (900px - 1199px) */
+@media (min-width: 900px) {
+  .badge-teacher {
+    font-size: 20px;
+  }
+}
+
+/* Desktop (1200px and up) */
+@media (min-width: 1200px) {
+  .badge-teacher {
+    font-size: 21px;
+  }
+}
+
+/* Small Mobile Devices (up to 374px) */
+@media screen and (max-width: 374px) {
+  .token-join-section {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .token-input,
+  .join-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Medium Mobile Devices (375px to 480px) */
+@media screen and (min-width: 375px) and (max-width: 480px) {
+  .token-join-section {
+    max-width: 90%;
+  }
+
+  .token-input,
+  .join-button {
+    font-size: 15px;
+  }
+}
+
+/* Large Mobile Devices (481px to 599px) */
+@media screen and (min-width: 481px) and (max-width: 599px) {
+  .token-join-section {
+    max-width: 85%;
+  }
+
+  .token-input,
+  .join-button {
+    font-size: 16px;
+  }
+}
