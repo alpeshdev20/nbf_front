@@ -212,11 +212,14 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
         .game-content {
           background-color: rgba(255, 255, 255, 0.9);
           padding: 20px;
-          margin-top:76px;
           border-radius: 8px;
           box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-          width: 76%;
-          position: relative;
+          width: auto;
+          position: absolute;
+          top :0;
+          left :0;
+          right :0;
+          bottom : 0;
         }
 
         .close-game-btn {
