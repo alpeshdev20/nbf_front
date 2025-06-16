@@ -115,7 +115,7 @@ const ResourceDetails = ({ params }: { params: { slug: string } }) => {
             </button>
             <iframe
                 src={`${decryptedurl}`}
-              style={{ width: "100%", height: "500px", border: "none" }}
+              style={{ width: "100%", height: "100%", border: "none" }}
               title="Feed the Bee Game"
             ></iframe>
           </div>
