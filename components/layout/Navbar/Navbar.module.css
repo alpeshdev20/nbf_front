@@ -13,11 +13,14 @@
   position: fixed;
   top: 0;
   transition: all 0.6s;
-  z-index: 9999999;
+  z-index: 100;
 }
 
 .navbar.k12_navbar {
-  background: transparent;
+  /* background: transparent; */
+  /* background-color: var(--secondary-color);  */
+  background: linear-gradient(to right, #f1efee 72.5vw, var(--third-color) 27.5vw) !important;
+  
 }
 
 .navbar.k12_navbar.navbar_fixed {

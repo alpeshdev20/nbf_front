@@ -7,7 +7,7 @@ const nextConfig = {
   env: {
     API_URL:
       process.env.NODE_ENV == "development"
-        ? "http://localhost:8000/api/"
+        ? "https://api.netbookflix.com/api/"
         : "https://api.netbookflix.com/api/",
     API_KEY: "a8c02ffd-128b-448d-9959-9afb05ff08b3",
     AUTH_USER: "netbookflix",
@@ -36,5 +36,7 @@ const nextConfig = {
   },
   crossOrigin: "anonymous",
 };
-
+module.exports = {
+  output: 'standalone',
+};
 module.exports = nextConfig;

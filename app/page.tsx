@@ -11,6 +11,7 @@ import Testimonials from "@/components/sliders/Testimonials/Testimonials";
 import RecommandationHome from "@/components/sliders/RecommandationHome/RecommandationHome";
 import HomeHero from "@/components/HomeHero/HomeHero";
 import type { Metadata } from "next";
+import { checkNewUser } from "@/services/authService"; // Import the service
 
 //* Metadata
 export const metadata: Metadata = {
@@ -19,8 +20,13 @@ export const metadata: Metadata = {
 };
 //* Importing Image
 import TickIcon from "@/icons/tick.png";
-
+import dynamic from "next/dynamic";
+// Lazy load the client-side check
+const CheckNewUserBanner = dynamic(() => import("@/components/CheckNewUserBanner/CheckNewUserBanner"), {
+  ssr: false,
+})
 export default function Home() {
+  const isNewUser = checkNewUser(); // Call the service function
   return (
     <>
       {/* navbar  */}
@@ -32,10 +38,16 @@ export default function Home() {
           btnContent="EXPLORE K12/SCHOOL"
         />
       </div>
+     
 
+     {/* Client Component for Checking New User */}
+     {/* <CheckNewUserBanner /> */}
       {/* Banner  */}
       <HomeHero />
 
+        <h1 className="h1-home-screen-seo">
+             Best online Learning Resources subscription platform
+        </h1>
       <div className="home-features-section">
         {/* Explore  naisa  */}
         <Naisa />

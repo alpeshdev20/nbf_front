@@ -8,12 +8,12 @@ import type { Metadata } from "next";
 
 //* Metadata
 export const metadata: Metadata = {
-  title: "Online Bookstore - Explore and Read Books Online Anytime",
-  description: "Find the best books online at our online bookstore. Read books online from a vast collection at the ultimate books online store, anytime, anywhere.",
+  title: "Gamified Learning | Innovative Education Solutions  ",
+  description: "The Power Of Gamified Learning At Netbookflix! Engage With Interactive Games And Explore A Wide Range Of Books. Visit Our Online Bookstore To Read Anytime, Anywhere.",
 };
 const Books = () => {
   return (
-    <ResourcesLayout>
+    <ResourcesLayout h1Info="Gamified Learning Platforms | Engaging Education">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

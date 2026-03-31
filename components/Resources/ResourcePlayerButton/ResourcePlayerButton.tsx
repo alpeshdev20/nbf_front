@@ -12,6 +12,9 @@ import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import { post } from "@/utils/fetch";
 import { isResourceRead } from "@/services/UsersStats";
+import PDF_E_reader from "@/components/Players/PdfReader/PDF_E_reader";
+import { useSession } from "@/providers/SessionProvider";
+import Selection from "@/components/Players/Epubs/Epub_custom/Selection";
 
 //* interface
 interface ResourcePlayerButtonInterface {
@@ -50,7 +53,12 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
 
   const onCloseModal = () => setOpen(false);
 
-  const handleResourcePlayer = () => {    
+   // State to check user login status
+   const { session } = useSession();  
+  //  console.log("userId in resource player module" ,userId);
+  //  console.log("resourceId in resource player module" ,resourceId);
+
+  const handleResourcePlayer = ({ params }: { params: { slug: string } }) => {    
     setShowFormat(format);
     if (!format) {
       errorToast("Failed to load file, please try again later.");
@@ -61,9 +69,11 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
         return false;
       } else {
         setOpen(true);
+        console.log("show format ", format);
       }
     }
   };
+  
 
   //* Updating User Reading stats
   const updateUserReadingStats = (pageNumber: string) => {
@@ -93,22 +103,31 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
         center
         closeOnOverlayClick={false}
         modalId={
-          format === "pdf" || format === "epub"
+          format === "PDF" || format === "EPUB"
             ? "modal_pdf_epub_reader"
-            : format === "mp3"
+            : format === "MP3"
             ? "modal_audio_player"
             : "modal_media_player"
         }
       >
-        {showFormat === "pdf" && (
-          <PdfReader
-            resource={resourceLink}
-            resourceId={resourceId}
+        {showFormat === "PDF" && (
+          // <PdfReader
+          //   resource={resourceLink}
+          //   resourceId={resourceId}
+          //   updateUserReadingStats={updateUserReadingStats}
+          //   updateUserAndBookStats={updateUserAndBookStats}
+          // />
+          <PDF_E_reader
+           resource={resourceLink}
+           resourceId={resourceId} 
+            fileUrl={resourceLink}
+            // userId={userId}
+            book_id ={resourceId ?? ""}
             updateUserReadingStats={updateUserReadingStats}
             updateUserAndBookStats={updateUserAndBookStats}
-          />
+            />
         )}
-        {showFormat === "mp3" && (
+        {showFormat === "MP3" && (
           <AudioPlayer resource={resourceLink} 
            format={format} 
            resourceId={resourceId}
@@ -116,7 +135,7 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
            updateUserAndBookStats={updateUserAndBookStats}
           />
         )}
-        {showFormat === "mp4" && (
+        {showFormat === "MP4" && (
           <VideoPlayer resource={resourceLink} 
           format={format} 
           resourceId={resourceId}
@@ -124,13 +143,31 @@ const ResourcePlayerButton: React.FC<ResourcePlayerButtonInterface> = ({
           />
         )}
 
-        {showFormat === "epub" && (
-          <EpubPlayer
-            resource={resourceLink}
-            resourceId={resourceId}
-            updateUserReadingStats={updateUserReadingStats}
+        {showFormat === "EPUB" && (
+          // <EpubPlayer
+          //   resource={resourceLink}
+          //   resourceId={resourceId}
+          //   updateUserReadingStats={updateUserReadingStats}
+          //   updateUserAndBookStats={updateUserAndBookStats}
+          // />
+
+          <div className="hello" style={{ marginTop: '13px' }}>
+          {/* <E_pub_Reader
+            url={resourceLink ?? ""}
+            // resource={slug}
+            book_id={resourceId ?? ""}
+            // resourceId={slug ?? ""}
+            // updateUserReadingStats={updateUserReadingStats}
             updateUserAndBookStats={updateUserAndBookStats}
-          />
+          /> */}
+
+            <Selection 
+                resourceLink={resourceLink ?? ""}   
+                title={resourceId ?? ""}
+                book_id ={resourceId ?? ""}
+      
+            />
+        </div>
         )}
       </Modal>
 

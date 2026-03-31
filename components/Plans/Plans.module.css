@@ -230,6 +230,186 @@
   padding-left: 3.822917vw;
 }
 
+.btn_buy_now{
+  /* margin-top: 20px; */
+  margin: 10px auto 0;
+}
+
+/* Coupon container */
+.coupon_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+/* Wrapper to handle button inside input */
+.input_wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+/* Input field */
+.coupon_input {
+  width: 100%;
+  padding: 12px 60px 12px 12px; /* Left padding for text, right for button */
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Focus effect on input */
+.coupon_input:focus {
+  border-color: #ff6b6b;
+  box-shadow: 0 3px 6px rgba(255, 107, 107, 0.2);
+}
+
+/* Apply button inside input */
+.btn_apply {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  font-size: 14px;
+  background: #e84118;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.btn_apply:hover {
+  background: linear-gradient(135deg, #ff4757, #e84118);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* Responsive Adjustments for Tablet (768px) */
+@media (max-width: 1024px) {
+  .coupon_container {
+    max-width: 90%;
+  }
+
+  .coupon_input {
+    font-size: 14px;
+    padding-right: 55px; /* Adjust button space */
+  }
+
+  .btn_apply {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .coupon_container {
+    max-width: 100%;
+    flex-direction: column; /* Stack input & button */
+    align-items: center;
+  }
+
+  .coupon_input {
+    width: 56% !important;
+    font-size: 9px;
+    margin: 0 auto;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .btn_apply {
+    font-size: 7px;
+    padding: 6px 10px;
+    width: 15%;
+    margin-top: 0px; /* Adds space below input */
+    right: 24%;
+  }
+}
+/* Mobile (480px) */
+@media screen and (min-width: 480px) and (max-width: 680px) {
+  .coupon_container {
+    max-width: 100%;
+  }
+
+  .coupon_input {
+    width: 47% !important;
+    font-size: 14px;
+    margin: 0 auto;
+    padding-right: 50px;
+  }
+
+  .btn_apply {
+    font-size: 12px;
+    padding: 5px 8px;
+    margin: 0 auto;
+    right: 28% !important;
+  }
+}
+
+
+/* Tablet (767px) */
+  @media screen and (min-width: 681px) and (max-width: 767px) {
+
+  .coupon_container {
+    max-width: 100%;
+  }
+
+  .coupon_input {
+    width: 30%;
+    margin: 0 auto;
+    font-size: 11px;
+    padding-right: 50px;
+  }
+
+  .btn_apply {
+    font-size: 10px;
+    padding: 5px 8px;
+    margin: 0 auto;
+    right: 36%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .coupon_container {
+    max-width: 90%;
+  }
+
+  .coupon_input {
+    width: 100%;
+    font-size: 7px;
+    padding-right: 55px; /* Adjust button space */
+  }
+
+  .btn_apply {
+    font-size: 8px;
+    padding: 5px 10px;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .coupon_container {
+    max-width: 80%;
+  }
+
+  .coupon_input {
+    width: 100%;
+    font-size: 7px;
+    padding-right: 60px; /* Adjust button space */
+  }
+
+  .btn_apply {
+    font-size: 9px;
+    padding: 6px 12px;
+  }
+}
+
+
 @media (max-width: 767px) {
   .plan_categories_tab_container {
     width: 100%;

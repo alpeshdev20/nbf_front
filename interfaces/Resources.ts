@@ -25,4 +25,8 @@ export default interface ResourcesInterface {
   folder_name?:string;
   mat_category? :number;
   age_text?:number;
+  meta_title?:string;
+  meta_description?:string;
+  classId?: number;
+  subjectId?:number;
 }

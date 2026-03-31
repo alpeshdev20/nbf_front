@@ -1,0 +1,16 @@
+.startFreeTrialButton {
+    background-color: #5044ac; /* Primary button color */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 8px; /* Font size */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    font-weight: 766;
+    /* font-size: 9375vw; */
+  }
+  
+  .startFreeTrialButton:hover {
+    background-color: #5025ac; /* Darker shade on hover */
+  }

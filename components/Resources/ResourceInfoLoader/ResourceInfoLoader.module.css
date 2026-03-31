@@ -43,6 +43,11 @@
 .related_books {
   width: 11.458333333333334vw !important;
   height: 17.708333333333332vw !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center !important;
+  flex-direction: column;
 }
 
 @media (max-width: 767px) {

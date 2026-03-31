@@ -122,7 +122,7 @@ const Testimonials: React.FC = () => {
     </div>
   </SwiperSlide>
 
-  <SwiperSlide className={Style.testimonial_card}>
+  {/* <SwiperSlide className={Style.testimonial_card}>
     <div className={Style.testimonial_content}>
       <RiDoubleQuotesR />
       <iframe
@@ -136,7 +136,7 @@ const Testimonials: React.FC = () => {
         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
       ></iframe>
     </div>
-  </SwiperSlide>
+  </SwiperSlide> */}
 
   <SwiperSlide className={Style.testimonial_card}>
     <div className={Style.testimonial_content}>

@@ -28,7 +28,7 @@ import AISearch from "@/icons/ai-search.png";
 const Footer: React.FC = () => {
   const pathName = usePathname();
   const { session } = useSession(); // Get session context
-  console.log("session" ,session);
+  // console.log("session" ,session);
   const isLoggedIn = session?.isLoggedIn;
 
 
@@ -110,7 +110,7 @@ const Footer: React.FC = () => {
 
               <div className={Style.menu_container}>
                 <Link href="/faqs">FAQs</Link>
-                <Link href="/blogs">Blogs</Link>
+                <Link href="/blog">Blogs</Link>
                 <Link href="/privacy-policy">Privacy Policy</Link>
                 {/* <Link href="/help-center">Help Center</Link> */}
                 <Link href="/term-condition">Term & Condition</Link>
@@ -120,24 +120,24 @@ const Footer: React.FC = () => {
                 <h6>CONTACT US</h6>
                 <h6>Get In Touch With Us</h6>
                 <div className={Style.contact_information}>
-                  <Link href="tel:+9818195778">
+                  <Link href="tel:+919818195778">
                     <Image
                       src={Mobile}
                       alt="Mobile Icon"
                       width={33}
                       height={33}
                     />
-                    +919821466399
+                    +919818195778
                   </Link>
 
-                  <Link href="mailto:support@netbookflix.com">
+                  <Link href="mailto:info@netbookflix.com">
                     <Image
                       src={Email}
                       alt="Mobile Icon"
                       width={33}
                       height={23}
                     />
-                    support@netbookflix.com
+                    info@netbookflix.com
                   </Link>
                 </div>
               </div>
@@ -145,7 +145,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className={Style.footer_copyright_cotainer}>
-            <p>Copyright &copy; 2024 NETBOOKFLIX. All Rights Reserved.</p>
+            <p>Copyright &copy; {new Date().getFullYear()}  NETBOOKFLIX. All Rights Reserved.</p>
           </div>
         </div>
       </footer>

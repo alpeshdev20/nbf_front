@@ -1,17 +1,25 @@
 //* Importing Component
 import React from "react";
+import Head from "next/head";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
 
+import type { Metadata } from "next";
 //* image
 import AboutImage from "@/public/images/about-us/banner.png";
 import MissionImage from "@/public/images/about-us/mission.png";
 
+//* Metadata
+export const metadata: Metadata = {
+  title: "About NetbookFlix: Empowering Education Through Innovation",
+  description: "Learn more about NetbookFlix, a leading platform transforming education with cutting-edge digital resources and tools. Discover our mission and vision today.",
+};
 export default function NotFound() {
   return (
     <>
+      
       {/* Navbar  */}
       <Navbar
         navType="main"
@@ -19,7 +27,9 @@ export default function NotFound() {
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
-
+       <h1 className="h1-home-screen-seo">
+           About Us | Netbookflix
+      </h1>
       {/* About  */}
       <div className="about-section">
         <div className="about-image">

@@ -1,114 +1,79 @@
-// "use client";
-
-// //* Importing Component
-// import React, { useState } from "react";
-// import Image from "next/image";
-// import Navbar from "@/components/layout/Navbar/Navbar";
-// import NewsLetter from "@/components/NewsLetter/NewsLetter";
-// import Footer from "@/components/layout/Footer/Footer";
-// import FaqCard from "@/components/FaqCard/FaqCard";
-
-// //* images
-// import Banner from "@/images/faqs/banner.png";
-
-// //* Faqs Data
-// import FaqsData from "@/data/faqs";
-
-// const Faqs: React.FC = () => {
-//   const [openIndex, setOpenIndex] = useState<number | null>(1);
-
-//   const handleToggle = (index: number) => {
-//     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
-//   };
-
-//   return (
-//     <>
-//       <Navbar
-//         navType="main"
-//         btnClass="primary"
-//         btnURL="/explore-k12"
-//         btnContent="EXPLORE K12/SCHOOL"
-//       />
-
-//       <div className="faqs_section">
-//         <div className="faqs-banner">
-//           <Image src={Banner} alt="Faq Banner" priority />
-//         </div>
-
-//         <div className="app-container">
-//           <div className="faqs-container">
-//             {FaqsData.map((faq) => (
-//               <FaqCard
-//                 key={faq.id}
-//                 title={faq.title}
-//                 content={faq.content}
-//                 id={faq.id}
-//                 isOpen={openIndex === faq.id}
-//                 onToggle={() => handleToggle(faq.id)}
-//               />
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* News Letter  */}
-//       <NewsLetter />
-
-//       {/* Footer  */}
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default Faqs;
-
-"use client";
-
-//* Importing Component
+//* Importing Components
 import React from "react";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
-import { getFaqs } from "@/services/cms";
 import Image from "next/image";
+import { get } from "@/utils/fetch";
+import { Metadata } from "next";
 
-// //* images
+//* images
 import Banner from "@/images/faqs/banner.png";
 
-export default function Faqs() {
-  const { cmsData, isSuccess } = getFaqs();
+//* Interface for CMS Data
+interface CmsInterface {
+  page_name: string;
+  content: string;
+}
+ 
+//* Metadata
+ export const metadata: Metadata = {
+  title: "FAQs - NetbookFlix: Your Questions Answered",
+  description: "Have questions about NetbookFlix? Explore our comprehensive FAQ section to find answers and learn more about our services and features.",
+};
+
+//* FAQs Page Component
+export default async function Faqs() {
+  const apiUrl = process.env.API_URL || ""; // Fallback to empty string if not defined
+  // let cmsData: CmsInterface | null = null;
+  let cmsData;
+  try {
+    // Using the get function to fetch data
+     cmsData = await get(`${apiUrl}faqs`);
+  } catch (error) {
+    console.error("Failed to fetch FAQs data:", error);
+  }
 
   return (
     <>
-      {/* Navbar  */}
+      {/* Navbar */}
       <Navbar
         navType="main"
         btnClass="primary"
         btnURL="/explore-k12"
         btnContent="EXPLORE K12/SCHOOL"
       />
+      <h1 className="h1-home-screen-seo">
+           FAQs | Netbookflix
+      </h1>
 
+      {/* Banner Section */}
       <div className="faqs_section">
         <div className="faqs-banner">
-          <Image src={Banner} alt="Faq Banner" priority />
+          <Image src={Banner} alt="FAQ Banner" priority />
         </div>
       </div>
 
+      {/* CMS Content Section */}
       <div className="cms_container">
         <div className="app-container">
-          <div
-            className="cms_content"
-            dangerouslySetInnerHTML={{
-              __html: isSuccess ? cmsData?.content : "",
-            }}
-          ></div>
+          {cmsData ? (
+            <div
+              className="cms_content"
+              dangerouslySetInnerHTML={{
+                __html: cmsData.response.content, // Ensure cmsData.content is a valid HTML string
+              }}
+            ></div>
+          ) : (
+            <p>Content not available at the moment.</p>
+          )}
         </div>
       </div>
 
-      {/* News Letter  */}
+      {/* Newsletter */}
       <NewsLetter />
 
-      {/* Footer  */}
+      {/* Footer */}
       <Footer />
     </>
   );

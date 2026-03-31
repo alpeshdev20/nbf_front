@@ -1,0 +1,202 @@
+
+
+/* Style for the toggle button */
+.togglePlayerButton {
+    background-color: #4CAF50; /* Green button */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Cursor pointer */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 10px; /* Margin from the top */
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
+  /* Style for the toggle button on hover */
+  .togglePlayerButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  /* Container for the resource player (PDF reader) */
+  .playerContainer {
+    background-color: #f4f4f4; /* Light background color */
+    padding: 20px; /* Padding around the content */
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 20px; /* Margin from the top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for a subtle effect */
+    transition: opacity 0.3s ease; /* Smooth transition for visibility */
+  }
+  /* Show the player container when isPlayerVisible is true */
+  .playerContainer.resource-player {
+    display: block; /* Display as block */
+    opacity: 1; /* Fully visible */
+  }
+  /* Optional: Style for the PDF reader content */
+  .playerContainer .pdf-reader {
+    width: 100%; /* Make sure the reader fills the container */
+    max-width: 100%; /* Ensure it doesn't overflow */
+    height: 500px; /* Adjust height based on your needs */
+    overflow: auto; /* Allow scrolling if content exceeds height */
+  }
+  /* Style for player text */
+  .playerContainer p {
+    font-size: 18px; /* Larger text for the heading */
+    font-weight: bold; /* Make the text bold */
+    color: #333; /* Dark text color */
+    margin-bottom: 20px; /* Space below the text */
+  }
+
+  
+/* Default styles for larger screens (desktops, laptops) */
+.bookmark-icon {
+  position: fixed; /* Relative to the viewerRef container */
+  top: 100px; /* Default top position */
+  right: 95px; /* Default right position */
+  z-index: 1000; /* Ensure it stays above other content */
+  background-color: #fff; /* Light background */
+  padding: 8px; /* Padding for the container */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+  font-size: 24px; /* Default font size for the icon */
+  display: flex; /* Align children in a row */
+  flex-wrap: wrap; /* Wrap items if needed for responsiveness */
+  gap: 10px; /* Space between buttons */
+  top: 10px; /* Default vertical alignment */
+  right: 10px; /* Default horizontal alignment */
+  background-color: #ffffff; /* A contrasting color for better visibility */
+  color: #333; /* Text/icon color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 99; /* Ensures it stays above the content */
+  align-items: center;
+  margin: 5px;
+  width: 132px;
+}
+
+/* For laptops and large tablets */
+@media (max-width: 1024px) {
+  .bookmark-icon {
+    top: 60px; /* Adjust for laptops */
+    right: 70px; /* Slightly closer to the edge */
+    font-size: 22px; /* Slightly smaller icon */
+  }
+}
+
+/* For tablets (portrait and landscape) */
+@media (max-width: 768px) {
+  .bookmark-icon {
+    top: 50px; /* Adjust for tablets */
+    right: 50px; /* Adjust for smaller screens */
+    font-size: 20px; /* Smaller icon */
+    padding: 6px; /* Adjust padding */
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .bookmark-icon {
+    top: 100px; /* Adjust for mobile devices */
+    right: 30px; /* Closer to the edge */
+    font-size: 18px; /* Smaller icon */
+    padding: 5px; /* Less padding */
+  }
+}
+
+/* For foldable phones or very small devices */
+@media (max-width: 360px) {
+  .bookmark-icon {
+    top: 30px; /* Further adjustment for very small screens */
+    right: 20px; /* Even closer to the edge */
+    font-size: 16px; /* Smaller icon size */
+    padding: 4px; /* Minimal padding */
+  }
+}
+
+
+.rpv-default-layout__sidebar.hidden {
+  display: none;
+}
+
+.rpv-default-layout__sidebar.visible {
+  display: block;
+}
+
+.cust-bookmark-timer-pdf {
+  position: fixed !important;
+  display: flex; /* Align children in a row */
+  flex-wrap: wrap; /* Wrap items if needed for responsiveness */
+  gap: 10px; /* Space between buttons */
+  top: 115px;
+  right: 10px; /* Default horizontal alignment */
+  /* background-color: #ffffff; A contrasting color for better visibility */
+  color: #333; /* Text/icon color */
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px; /* Default spacing */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); Subtle shadow for a 3D effect */
+  cursor: pointer;
+  z-index: 99; /* Ensures it stays above the content */
+  align-items: center;
+  font-size: 16px; /* Default font size */
+  margin: 5px;
+  width: 132px;
+}
+
+
+.timer-modal {
+  position: absolute;
+  top: 17%;
+  left: calc(100% - 230px);
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1000;
+  width: 300px;
+}
+@media (min-width:230px) and (max-width:680px) {
+  .timer-modal {
+    top: 19%;
+    left: calc(100% - 176px);
+  }
+}
+
+@media (min-width:681px) and (max-width:1024px) {
+  .timer-modal {
+    top: 11%;
+    left: calc(100% - 236px);
+  }
+}
+
+.pdf-cust-epub-button-bookmark{
+  background-color: #f0f3f4;
+  color: #ff5718; /* Text/icon color */
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px; /* Spacing for buttons */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex; /* Align icon and text horizontally */
+  align-items: center; /* Center items vertically */
+  gap: 8px; /* Space between icon and text */
+  font-size: 16px; /* Default font size */
+  z-index: 99; /* Ensure buttons stay on top */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+  filter: drop-shadow(0px 3px 3px #000000);
+}
+
+.cust-ereader-pdf-popup-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  margin: 2px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  width: 40px;
+  height: 40px;
+}

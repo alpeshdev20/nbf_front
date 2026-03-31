@@ -11,6 +11,15 @@ interface ClassesInterface {
   class_name: string;
 }
 
+interface SubjectInterface {
+  id: number;
+  subject_name: string;
+}
+
+interface DepartmentInterface {
+  id: number;
+  department_name: string;
+}
 //* Get Classes
 export function getClasses() {
   const { data: responseData } = useQuery({
@@ -20,6 +29,29 @@ export function getClasses() {
 
   const classesData: ClassesInterface[] = responseData?.response ?? [];
   return { classesData };
+}
+
+
+// * Get Subjects
+export function getSubjects() {
+  const { data: responseData } = useQuery({
+    queryKey: ["subjects"],
+    queryFn: () => get(`${process.env.API_URL}get-subjects`),
+  });
+
+  const subjectsData: SubjectInterface[] = responseData?.response ?? [];
+  return { subjectsData };
+}
+
+// * Get Departments
+export function getDepartments() {
+  const { data: responseData } = useQuery({
+    queryKey: ["departments"],
+    queryFn: () => get(`${process.env.API_URL}get-departments`),
+  });
+
+  const departmentsData: DepartmentInterface[] = responseData?.response ?? [];
+  return { departmentsData };
 }
 
 //* Get Age Groups
@@ -66,3 +98,20 @@ export function getGenres() {
   const genresData: genresInterface[] = responseData?.response ?? [];
   return { genresData, genreSuccess, isLoading };
 }
+
+export function K12getGenres() {
+
+  const {
+    data: responseData,
+    isLoading,
+    isSuccess: genreSuccess,
+  } = useQuery({
+    queryKey: ["k12-genres"],
+    queryFn: () => get(`${process.env.API_URL}k12-genres/`),
+  });
+
+  const genresData: genresInterface[] = responseData?.response ?? [];
+
+  return { genresData, genreSuccess, isLoading };
+}
+

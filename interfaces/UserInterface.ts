@@ -19,4 +19,5 @@ export default interface UserInterface {
   section?: number | string | null;
   plan?: number | string | null;
   remaning_days?: number | string | null;
+  institutionToken?:string|number | null;
 }

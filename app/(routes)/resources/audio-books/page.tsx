@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 const AudioBooks = () => {
   return (
-    <ResourcesLayout>
+    <ResourcesLayout h1Info="Buy Audiobooks Online | Best Audiobook Subscription">
       <div className="resouses-title books">
         <div className="app-container">
           <h5>

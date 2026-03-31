@@ -1,0 +1,279 @@
+import React, { type CSSProperties, PureComponent, type ReactNode } from 'react'
+import {
+  type SwipeableProps,
+  type SwipeEventData,
+  useSwipeable,
+} from 'react-swipeable'
+import { EpubView, type IEpubViewStyle, type IEpubViewProps } from '..'
+import {
+  ReactReaderStyle as defaultStyles,
+  type IReactReaderStyle,
+} from './style'
+import { type NavItem } from 'epubjs'
+
+type SwipeWrapperProps = {
+  children: ReactNode
+  swipeProps: Partial<SwipeableProps>
+}
+
+const SwipeWrapper = ({ children, swipeProps }: SwipeWrapperProps) => {
+  const handlers = useSwipeable(swipeProps)
+  return (
+    <div style={{ height: '100%' }} {...handlers}>
+      {children}
+    </div>
+  )
+}
+
+type TocItemProps = {
+  data: NavItem
+  setLocation: (value: string) => void
+  styles?: CSSProperties
+}
+
+const TocItem = ({ data, setLocation, styles }: TocItemProps) => (
+  <div>
+    <button onClick={() => setLocation(data.href)} style={styles}>
+      {data.label}
+    </button>
+    {data.subitems && data.subitems.length > 0 && (
+      <div style={{ paddingLeft: 10 }}>
+        {data.subitems.map((item, i) => (
+          <TocItem
+            key={i}
+            data={item}
+            styles={styles}
+            setLocation={setLocation}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+)
+
+export type IReactReaderProps = IEpubViewProps & {
+  title?: string
+  showToc?: boolean
+  readerStyles?: IReactReaderStyle
+  epubViewStyles?: IEpubViewStyle
+  swipeable?: boolean
+  isRTL?: boolean
+  theme? :string
+  updatePageContent?: (content: string) => void;  // Define the function type
+}
+
+type IReactReaderState = {
+  isLoaded: boolean
+  expandedToc: boolean
+  toc: NavItem[]
+  currentChapter: string; // Add this property
+
+}
+
+export class ReactReader extends PureComponent<
+  IReactReaderProps,
+  IReactReaderState
+> {
+  state: Readonly<IReactReaderState> = {
+    isLoaded: false,
+    expandedToc: false,
+    toc: [],
+    currentChapter: '', // Add current chapter to state
+
+  }
+  readerRef = React.createRef<EpubView>()
+  constructor(props: IReactReaderProps) {
+    super(props)
+  }
+  toggleToc = () => {
+    this.setState({
+      expandedToc: !this.state.expandedToc,
+    })
+  }
+
+  next = () => {
+    const node = this.readerRef.current;
+    if (node && node.nextPage) {
+      node.nextPage();
+      // Safely call updatePageContent if it's defined
+      this.props.updatePageContent?.('next');  // Use optional chaining
+    }
+  };
+  
+  prev = () => {
+    const node = this.readerRef.current;
+    if (node && node.prevPage) {
+      node.prevPage();
+      // Safely call updatePageContent if it's defined
+      this.props.updatePageContent?.('prev');  // Use optional chaining
+    }
+  };
+  
+
+  onTocChange = (toc: NavItem[]) => {
+    const { tocChanged } = this.props
+    this.setState(
+      {
+        toc: toc,
+      },
+      () => tocChanged && tocChanged(toc)
+    )
+  }
+
+  renderToc() {
+    const { toc, expandedToc } = this.state
+    const { readerStyles = defaultStyles } = this.props
+    return (
+      <div>
+        <div style={readerStyles.tocArea}>
+          <div style={readerStyles.toc}>
+            {toc.map((item, i) => (
+              <TocItem
+                data={item}
+                key={i}
+                setLocation={this.setLocation}
+                styles={readerStyles.tocAreaButton}
+              />
+            ))}
+          </div>
+        </div>
+        {expandedToc && (
+          <div style={readerStyles.tocBackground} onClick={this.toggleToc} />
+        )}
+      </div>
+    )
+  }
+
+  locationChanged = (location: string) => {
+    const { toc } = this.state;
+    const currentChapter = toc.find((item) => location.includes(item.href))?.label || 'Unknown Chapter';
+    console.log("currentChapter");
+    this.setState({ currentChapter });
+    
+    // Call external locationChanged prop if needed
+    this.props.locationChanged?.(location);
+  };
+
+  setLocation = (loc: string) => {
+    const { locationChanged } = this.props
+    this.setState(
+      {
+        expandedToc: false,
+      },
+      () => locationChanged && locationChanged(loc)
+    )
+  }
+
+  renderTocToggle() {
+    const { expandedToc } = this.state
+    const { readerStyles = defaultStyles } = this.props
+    return (
+      <button
+        style={Object.assign(
+          {},
+          readerStyles.tocButton,
+          expandedToc ? readerStyles.tocButtonExpanded : {}
+        )}
+        onClick={this.toggleToc}
+      >
+        <span
+          style={Object.assign(
+            {},
+            readerStyles.tocButtonBar,
+            readerStyles.tocButtonBarTop
+          )}
+        />
+        <span
+          style={Object.assign(
+            {},
+            readerStyles.tocButtonBar,
+            readerStyles.tocButtonBottom
+          )}
+        />
+      </button>
+    )
+  }
+
+  render() {
+    const { currentChapter } = this.state;
+
+    const {
+      title,
+      showToc = true,
+      loadingView,
+      readerStyles = defaultStyles,
+      locationChanged,
+      swipeable,
+      epubViewStyles,
+      isRTL = false,
+      theme,
+      ...props
+    } = this.props
+    const { toc, expandedToc } = this.state
+    return (
+      <div style={readerStyles.container}>
+        <div
+          style={Object.assign(
+            {},
+            readerStyles.readerArea,
+            expandedToc ? readerStyles.containerExpanded : {}
+          )}
+        >
+          {showToc && this.renderTocToggle()}
+          <div style={readerStyles.titleArea}>{title}</div>
+          <SwipeWrapper
+            swipeProps={{
+              onSwiped: (eventData: SwipeEventData) => {
+                const { dir } = eventData
+                if (dir === 'Left') {
+                  isRTL ? this.prev() : this.next()
+                }
+                if (dir === 'Right') {
+                  isRTL ? this.next() : this.prev()
+                }
+              },
+              onTouchStartOrOnMouseDown: ({ event }) => event.preventDefault(),
+              touchEventOptions: { passive: false },
+              preventScrollOnSwipe: true,
+              trackMouse: true,
+            }}
+          >
+            <div style={readerStyles.reader}>
+              <EpubView
+                ref={this.readerRef}
+                loadingView={
+                  loadingView === undefined ? (
+                    <div style={readerStyles.loadingView}>Loading…</div>
+                  ) : (
+                    loadingView
+                  )
+                }
+                epubViewStyles={epubViewStyles}
+                {...props}
+                tocChanged={this.onTocChange}
+                locationChanged={locationChanged}
+              />
+              {swipeable && <div style={readerStyles.swipeWrapper} />}
+            </div>
+          </SwipeWrapper>
+          <div  className={`${theme === 'dark' ? 'dark-theme' : ''}`}  style={readerStyles.footer}>
+    
+              <button className={`${theme === 'dark' ? 'dark-theme' : ''}`}
+                style={Object.assign({}, readerStyles.arrow, readerStyles.prev)}
+                onClick={isRTL ? this.next : this.prev}
+              >
+                <span className={`${theme === 'dark' ? 'dark-theme' : ''}`} style={readerStyles.nextPrevButton}>‹ Previous Page</span> 
+              </button>
+              <button className={`${theme === 'dark' ? 'dark-theme' : ''}`}
+                style={Object.assign({}, readerStyles.arrow, readerStyles.next)}
+                onClick={isRTL ? this.prev : this.next}
+              >
+                <span className={`${theme === 'dark' ? 'dark-theme' : ''}`} style={readerStyles.PrevButton}>Next Page ›</span>  
+              </button>
+          </div>
+        </div>
+        {showToc && toc && this.renderToc()}
+      </div>
+    )
+  }
+}

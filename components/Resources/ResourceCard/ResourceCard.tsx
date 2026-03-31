@@ -54,21 +54,23 @@ const ResourceCard: React.FC<ResourceCardInterface> = ({
           className={`${Style.book_card} ${
             relatedSliderClass ? Style.related__resource : ""
           }`}
+          // className={`${Style.book_card} ${relatedSliderClass ? Style.related__resource : ""}`}
         >
           <div className={Style.book_icon}>
-            {resourceType === "Audio Books" && (
-              <Image src={AudioCardIcon} alt="Resource icon" priority />
-            )}
-            {resourceType === "Books" && (
+          {(resourceType === "Audio Books" || resourceType === "Audio Books & Audio Podcast") && (
+            <Image src={AudioCardIcon} alt="Resource icon" priority />
+          )}
+
+            {(resourceType === "Books" || resourceType === "e-Books") && (
               <Image src={BookCardIcon} alt="Resource icon" />
             )}
-            {resourceType === "Videos" && (
+            {(resourceType === "Videos" || resourceType === "Videos Lectures & Video Podcast") && (
               <Image src={VideoCardIcon} alt="Resource icon" />
             )}
             {resourceType === "Class Notes" && (
               <Image src={ClassCardIcon} alt="Resource icon" />
             )}
-            {resourceType === "Gamefied" && (
+            {(resourceType === "Gamified Learning" || resourceType === "Gamefied") && (
               <Image src={GameCardIcon} alt="Resource icon" />
             )}
             {resourceType === "Ar/Vr" && (

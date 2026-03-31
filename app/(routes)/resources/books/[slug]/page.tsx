@@ -1,164 +1,30 @@
-"use client";
+import { Metadata } from "next";
+import { getResourcesMetaInfo } from "@/services/resources"; // Use the correct server function
+import BookInfo from "./BookInfo"; // Import your component
 
-import React, { useState, Suspense } from "react";
-import Image from "next/image";
-import ResourcesLayout from "../../resource-layout";
-import StarRating from "@/components/StarRating/StarRating";
-import ResourceDescription from "@/components/Resources/ResourceDescription/ResourceDescription";
-import RelatedResources from "@/components/sliders/RelatedResources/RelatedResources";
-import { getResourcesInfo } from "@/services/resources";
-import Wishlist from "@/components/Resources/Wishlist/Wishlist";
-import ShareResource from "@/components/Resources/ShareResource/ShareResource";
-import ResourceInfoLoader from "@/components/Resources/ResourceInfoLoader/ResourceInfoLoader";
-import NoDataFound from "@/components/NoDataFound/NoDataFound";
-import ResourcePlayerButton from "@/components/Resources/ResourcePlayerButton/ResourcePlayerButton";
-import { useRouter } from "next/navigation";
-import styles from "./BookInfo.module.css";
-import { useSession } from "@/providers/SessionProvider";
+interface Props {
+  params: { slug: string }; // Get the slug from the URL params
+}
 
-//* Icons
-import ResourceTypeIcon from "@/images/categories/book-card-icon.png";
-import { FaCaretRight } from "react-icons/fa";
-
-//* Image
-import DefaultResourceImage from "@/images/common/recommendation.png";
-// import Ereader from "@/components/heightlight/Heighlight";
-// import Ereader2 from "@/components/Ereader-backup/Ereader";
-// import Ereader_b from "@/components/Ereader-backup/Ereader";
-
-const ResourceDetails = ({ params }: { params: { slug: string } }) => {
-  const router = useRouter();
-  const { slug } = params;
-
-  // State to check user login status
-  const { session } = useSession();
-
-  // State to control visibility of the ResourcePlayerButton section
-  const [isPlayerVisible, setIsPlayerVisible] = useState(false);
-
-  const { resourceInfo, isLoading } = getResourcesInfo(slug ?? "");
-
-  const handleStartFreeTrial = () => {
-    router.push("/sign-up");
+// This is for generating the metadata (SSR/SSG)
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // Fetch metadata using the API function (which is already async)
+  const { resourceInfo, isLoading, isError, isSuccess } = await getResourcesMetaInfo(params.slug);
+  // Returning the metadata for the page (SEO)
+  return {
+    title: resourceInfo?.meta_title || "Netbookflix", // Default if meta_title doesn't exist
+    description: resourceInfo?.meta_description || "Netbookflix", // Default description
+    openGraph: {
+      title: resourceInfo?.meta_title || "Netbookflix",
+      description: resourceInfo?.meta_description || "Netbookflix",
+      images: [{ url: resourceInfo?.resource_image || "/default-image.jpg" }], // Default image if none
+    },
   };
+}
 
-  const togglePlayerVisibility = () => {
-    setIsPlayerVisible((prev) => !prev); // Toggle the visibility state
-  };
+// This is for rendering the page
+export default async function Page({ params }: Props) {
+  return <BookInfo params={params} />;
+}
 
-  return (
-    <ResourcesLayout showAddBanner={false} showResourcesHighlights={false}>
-      {isLoading && <ResourceInfoLoader />}
-      {!isLoading && resourceInfo === null && <NoDataFound />}
-      {!isLoading && resourceInfo !== null && (
-        <div className="resouce-info-section">
-          <div className="app-container">
-            <div className="resources-info-container">
-              <div className="resource-info">
-                <div className="resource_image_container">
-                  <Wishlist
-                    isWishlisted={resourceInfo.wishlist ?? false}
-                    resourceId={resourceInfo.slug}
-                  />
-                  <div className="resource_image">
-                    <div className="resource_icon">
-                      <Image src={ResourceTypeIcon} alt="Resource Icon" />
-                    </div>
-                    <Image
-                      src={
-                        resourceInfo.resource_image
-                          ? resourceInfo.resource_image
-                          : DefaultResourceImage
-                      }
-                      width={274}
-                      height={421}
-                      alt="Resource Image"
-                    />
-                  </div>
-                  <ShareResource />
-                </div>
-                <div className="resource_content">
-                  <div className="author_info">
-                    <p>{resourceInfo.author}</p>
-                    <h4>{resourceInfo.resource_name}</h4>
-                    <div className="resource_criteria">
-                      <p>
-                        <FaCaretRight /> Published In {resourceInfo.year}
-                      </p>
-                      <p>
-                        <FaCaretRight /> Copyright by {resourceInfo.publisher_name}
-                      </p>
-                    </div>
-                  </div>
 
-                  {/* Toggle Player Button */}
-                  {session.isLoggedIn ? (
-                    <div>
-                      <ResourcePlayerButton
-                        format={resourceInfo.format ?? ""}
-                        btnContext={isPlayerVisible ? "Close" : "Read Now"} // Toggle button text
-                        resourceLink={resourceInfo.resource ?? ""}
-                        resourceId={slug ?? ""}
-                      />
-                      {/* This button triggers the visibility toggle */}
-                      {/* <button
-                        onClick={togglePlayerVisibility}
-                        className={styles.togglePlayerButton}
-                      >
-                        {isPlayerVisible ? "Close Player" : "Open Player"}
-                      </button> */}
-
-                      {/* Conditionally render the player section based on state */}
-                      {/* {isPlayerVisible && (
-                        <div className={styles.playerContainer + ' resource-player'}>
-                          <p>Resource Player for {resourceInfo.resource_name}</p>
-                                <Ereader_b />
-
-                        </div>
-                      )} */}
-                    </div>
-                  ) : (
-                    <button
-                      onClick={handleStartFreeTrial}
-                      className={styles.startFreeTrialButton}
-                    >
-                      Start Free Trial
-                    </button>
-                  )}
-
-                  <ul className="resource_other_info">
-                    <li>ISBN Product Code - {resourceInfo.tags}</li>
-                    <li>Format - {resourceInfo.format}</li>
-                    <li>Language - {resourceInfo.language}</li>
-                    <li>Pages - {resourceInfo.length}</li>
-                    <li>Product Category - {resourceInfo.genre}</li>
-                    <li>Content Type  - {resourceInfo.material_category}</li>
-                    <li>Age Group - {resourceInfo.age_text}</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <ResourceDescription
-              summary={resourceInfo.summary ?? ""}
-              toc={resourceInfo.table_of_content ?? ""}
-              authorDetails={resourceInfo.author_detail ?? ""}
-            />
-
-            <RelatedResources resourceId={slug} />
-          </div>
-        </div>
-      )}
-    </ResourcesLayout>
-  );
-};
-
-const BookInfo = ({ params }: { params: { slug: string } }) => {
-  return (
-    <Suspense>
-      <ResourceDetails params={params} />
-    </Suspense>
-  );
-};
-
-export default BookInfo;

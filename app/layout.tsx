@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSession } from "@/providers/SessionProvider";
 import { post } from "@/utils/fetch";
 // import { metadata } from '@/services/metadata'; // Adjust the path as necessary
-// /var/www/html/nbf_front/services/metadata.ts
+import OneSignal from 'react-onesignal';
 
 
 import type { Metadata } from "next";
@@ -42,12 +42,45 @@ export default function RootLayout({
   const { session } = useSession(); // Get session context
 
   useEffect(() => {
-
-    if (session) {
-      const interval = setInterval(() => {
-       logTimeSpent(5000);
+    // Ensure this code runs only on the client side
+    if (typeof window !== 'undefined') {
+      OneSignal.init({
+        appId: 'fc640918-198c-4dc9-90c7-e9d0663a66a2',
+        safari_web_id: "web.onesignal.auto.00e855ed-5f66-45b8-ad03-54b1e142944e",
+        notifyButton: {
+          enable: true,
+          prenotify: true,
+          showCredit: false,
+          text: {
+            'tip.state.unsubscribed': 'Subscribe to notifications',
+            'tip.state.subscribed': "You're subscribed to notifications",
+            'tip.state.blocked': 'You have blocked notifications',
+            'message.prenotify': 'Click to subscribe to notifications',
+            'message.action.subscribed': "Thanks for subscribing!",
+            'message.action.resubscribed': "You're subscribed to notifications",
+            'message.action.unsubscribed': "You won't receive notifications again",
+            'message.action.subscribing': "Subscribing...",
+            'dialog.main.title': 'Manage Site Notifications',
+            'dialog.main.button.subscribe': 'SUBSCRIBE',
+            'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
+            'dialog.blocked.title': 'Unblock Notifications',
+            'dialog.blocked.message': "Follow these instructions to allow notifications:"
+          }
+        },
+        allowLocalhostAsSecureOrigin: true
+      });
+    }
+  }, []);
+  useEffect(() => {
+    let interval;
+    if (localStorage.getItem("user_id") != null) {
+      interval = setInterval(() => {
+        logTimeSpent(5000);
       }, 5000);
-  
+    } else {
+      if (interval) {
+        clearInterval(interval);  // Clear the interval if it exists
+      }
     }
 
   }, [session]);
@@ -100,23 +133,24 @@ export default function RootLayout({
               gtag('config', 'G-3FG9Q2BZJH');`
           }}
           />
+
+        {/* <!-- New Google tag (gtag.js) for 'G-G4CNMD0E6R' --> */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-G4CNMD0E6R"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-G4CNMD0E6R');`
+          }}
+        />
+        {/* Google Site Verification Meta Tag */}
+        <meta name="google-site-verification" content="3QiaS_EW9XYkOwpcsEhu0rMu3y4biRhlIH2UNuCicnM" />
+        
       </head>
-      {/* <GoogleAnalytics /> */}
-
-      {/* <!-- Google Tag Manager (noscript) --> */}
     
-      <body>
-
-      {/* <noscript>
-          <iframe
-           src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_MEASUREMENT_ID}`}
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript> */}
-        {/* <!-- End Google Tag Manager (noscript) --> */}
-
+      <body>    
         <TanStackProvider>
           <SessionProvider>{children}</SessionProvider>
         </TanStackProvider>

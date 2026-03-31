@@ -73,15 +73,17 @@ const RelatedResources: React.FC<RelatedResourcesInterface> = ({
             <div className={Style.related_resources_contianer}>
               {relatedResources?.map((data) => {
                 let url = "/";
-                if (data.material_type === "Videos") {
+                if (data.material_type === "Videos Lectures & Video Podcast") {
                   url = `/resources/videos/${data.slug}`;
                 } else if (data.material_type === "Class Notes") {
                   url = `/resources/class-notes/${data.slug}`;
-                } else if (data.material_type === "Audio Books") {
+                } else if (data.material_type === "Audio Books & Audio Podcast") {
                   url = `/resources/audio-books/${data.slug}`;
                 } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                   url = `/resources/books/${data.slug}`;
-                } else {
+                } else if (data.material_type === "Gamified Learning") {
+                  url = `/resources/gamified-learning/${data.slug}`;
+                }else {
                   url = "/";
                 }
                 return (
@@ -112,18 +114,18 @@ const RelatedResources: React.FC<RelatedResourcesInterface> = ({
               <Slider {...settings}>
                 {relatedResources?.map((data) => {
                   let url = "/";
-                  if (data.material_type === "Videos") {
+                  if (data.material_type === "Videos Lectures & Video Podcast") {
                     url = `/resources/videos/${data.slug}`;
                   } else if (data.material_type === "Class Notes") {
                     url = `/resources/class-notes/${data.slug}`;
-                  } else if (data.material_type === "Audio Books") {
+                  } else if (data.material_type === "Audio Books & Audio Podcast") {
                     url = `/resources/audio-books/${data.slug}`;
                   } else if (data.material_type === "Books" || data.material_type === "e-Books") {
                     url = `/resources/books/${data.slug}`;
                   } else if (data.material_type === "Ar/Vr") {
-                    url = `/resources/books/info?id=${data.resource_id}`;
+                    url = `/resources/books/${data.slug}`;
                   } else if (data.material_type === "Gamified Learning") {
-                    url = `/resources/books/info?id=${data.resource_id}`;
+                    url = `/resources/gamified-learning/${data.slug}`;
                   } else {
                     url = "/";
                   }

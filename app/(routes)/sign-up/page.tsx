@@ -7,6 +7,7 @@ import React, {
   ChangeEvent,
   KeyboardEvent,
   RefObject,
+  useEffect,
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +17,8 @@ import UserInterface from "@/interfaces/UserInterface";
 import { post } from "@/utils/fetch";
 import { useSession } from "@/providers/SessionProvider";
 import { useRouter } from "next/navigation";
+import Style from "./sign-up.module.css";
+
 
 //* Images
 import Logo from "@/public/logo.png";
@@ -43,6 +46,10 @@ const SignUp = () => {
     message: false,
   });
 
+  useEffect(() => {
+    console.log("Display state updated:", display);
+  }, [display]);
+
   const [showTokenField, setShowTokenField] = useState(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInterface>({
@@ -54,11 +61,12 @@ const SignUp = () => {
     gender: "",
     segment: "",
     class: "",
-    city :"",
+    city: "",
     personal_address: "",
     institute_address: "",
     registration_type: "",
     registration_token: "",
+    institutionToken:""
   });
 
   const [error, setError] = useState({
@@ -72,10 +80,11 @@ const SignUp = () => {
     genderError: "",
     segmentError: "",
     classError: "",
-    cityError : "",
+    cityError: "",
     personalAddressError: "",
     instituteAddressError: "",
     termsError: "",
+    institutionTokenError:"",
   });
 
   //! FOr OTP
@@ -96,10 +105,47 @@ const SignUp = () => {
     useRef<HTMLInputElement>(null),
   ]; // Refs for OTP input boxes
 
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [discount, setDiscount] = useState<number>(0);
+  const { setSession } = useSession();
+  
+  const applyCoupon = async () => {
+    if (!couponCode) {
+      errorToast("Please enter a coupon code!");
+      return;
+    }
+
+    try {
+      let data = await post(`${process.env.API_URL}apply-coupon`, {
+        couponCode,
+      });
+
+      console.log("Parsed Data:", data); // Log the returned data
+
+      if (data.success) {
+        setDiscount(data.discount);
+        successToast(`Coupon Applied! Discount: ${data.discount}%`);
+      } else {
+        errorToast("Invalid Coupon Code.");
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      errorToast("Something went wrong. Try again later.");
+    }
+  };
+
+  const handleCouponChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCouponCode(value);
+
+    if (value === "") {
+      setDiscount(0); // Reset discount when input is cleared
+    }
+  };
   const [loading, setLoading] = useState(false);
 
   if (!isLoading && session.isLoggedIn) {
-    router.push("/");
+       router.push("/account-creation");
   }
 
   if (!isLoading && !session.isLoggedIn) {
@@ -149,7 +195,8 @@ const SignUp = () => {
               genderError: data?.message?.gender?.toString(),
               segmentError: data?.message?.segment?.toString(),
               classError: data?.message?.class?.toString(),
-              cityError :data?.message?.city?.toString(),
+              cityError: data?.message?.city?.toString(),
+              institutionTokenError:data?.message?.institutionToken?.toString(),
               personalAddressError: data?.message?.personal_address?.toString(),
               instituteAddressError:
                 data?.message?.institute_address?.toString(),
@@ -169,7 +216,7 @@ const SignUp = () => {
               gender: "",
               segment: "",
               class: "",
-              city : "",
+              city: "",
               personal_address: "",
               institute_address: "",
               registration_type: "",
@@ -187,10 +234,12 @@ const SignUp = () => {
               genderError: "",
               segmentError: "",
               classError: "",
-              cityError : "",
+              cityError: "",
               personalAddressError: "",
               instituteAddressError: "",
               termsError: "",
+              institutionTokenError:"",
+              
             });
             setUserId("");
             errorToast("something went wrong please try again later...");
@@ -207,7 +256,7 @@ const SignUp = () => {
             gender: "",
             segment: "",
             class: "",
-            city:"",
+            city: "",
             personal_address: "",
             institute_address: "",
             registration_type: "",
@@ -220,15 +269,16 @@ const SignUp = () => {
             nameError: "",
             mobileError: "",
             passwordError: "",
-            dobError :"",
+            dobError: "",
             emailError: "",
             genderError: "",
             segmentError: "",
             classError: "",
-            cityError : "",
+            cityError: "",
             personalAddressError: "",
             instituteAddressError: "",
             termsError: "",
+            institutionTokenError:"",
           });
           setUserId("");
           errorToast("something went wrong please try again later...");
@@ -261,8 +311,22 @@ const SignUp = () => {
       })
         .then((data) => {
           if (data.status === 200) {
-            successToast("Success, please verify yourself.");
+            if (data.status === 200) {
+              localStorage.setItem("token", data?.response?.token);
+              localStorage.setItem("name", data?.response?.name);
+              localStorage.setItem("user_id", data?.response?.user_id);
+              //  successToast("Success");
+              setSession({
+                isLoggedIn: true,
+                user: data?.response,
+              });
+              if (data?.response?.is_new_user) {
+                localStorage.setItem("new_user", "true"); // Store new user flag
+              }
+            }
+            successToast("Success, Account created.");
             setDisplay({ form: false, otp: false, message: true });
+            router.push("/account-creation");
           } else if (data.status === 401) {
             errorToast(data?.message?.otp?.toString());
           } else {
@@ -514,32 +578,32 @@ const SignUp = () => {
                         <div className="error">{error.segmentError}</div>
                       </div>
                       <div className="form-group">
-                          <label htmlFor=""></label>
-                          <select
-                            name="class"
-                            id="class"
-                            onChange={(e) =>
-                              setUserInfo({
-                                ...userInfo,
-                                class: e.target.value,
-                              })
-                            }
-                            disabled={userInfo.segment === "Higher Education"} // Conditionally disable the select
-                          >
-                            <option value="">Select Class</option>
-                            {classesData?.map((data) => {
-                              return (
-                                <option value={data.id} key={data.id}>
-                                  {data.class_name}
-                                </option>
-                              );
-                            })}
-                          </select>
-                          <div className="error">{error.classError}</div>
+                        <label htmlFor=""></label>
+                        <select
+                          name="class"
+                          id="class"
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              class: e.target.value,
+                            })
+                          }
+                          disabled={userInfo.segment === "Higher Education"} // Conditionally disable the select
+                        >
+                          <option value="">Select Class</option>
+                          {classesData?.map((data) => {
+                            return (
+                              <option value={data.id} key={data.id}>
+                                {data.class_name}
+                              </option>
+                            );
+                          })}
+                        </select>
+                        <div className="error">{error.classError}</div>
                       </div>
 
                       <div className="form-group">
-                       <label htmlFor="city">City</label>
+                        <label htmlFor="city">City</label>
                         <input
                           type="text"
                           id="city"
@@ -556,6 +620,25 @@ const SignUp = () => {
                         <div className="error">{error.cityError}</div>
                       </div>
                       <div className="form-group">
+                        <label htmlFor="institutionToken">
+                          Institution Token
+                        </label>
+                        <input
+                          type="text"
+                          id="institutionToken"
+                          className="form-input inputs"
+                          name="institutionToken"
+                          placeholder="Please Enter Institution Token*"
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              institutionToken: e.target.value,
+                            })
+                          }
+                        />
+                          <div className="error">
+                          {error.institutionTokenError}
+                        </div>
                       </div>
 
                       <div className="form-group">
@@ -692,14 +775,67 @@ const SignUp = () => {
 
                     <div className="response-message-body">
                       <h6>Account Created!</h6>
+                      <p className={Style.text_center}>
+                        Choose how you'd like to get started
+                      </p>
                     </div>
 
-                    <div className="form-button-container center">
-                      <Button
-                        link="/log-in"
-                        btnColor="secondary"
-                        content="LOGIN"
-                      />
+                    <div className={Style.option_buttons_container}>
+                      {/* Start Free Trial */}
+                      <div className={Style.option_card}>
+                        <h5 className={Style.card_title}>Start Free Trial</h5>
+                        <p className="text-center">
+                          Start your free trial by entering a coupon code, or
+                          continue without one.
+                        </p>
+                        <div className={Style.coupon_container}>
+                          <div className={Style.input_wrapper}>
+                            <input
+                              type="text"
+                              placeholder="Enter Coupon Code"
+                              value={couponCode}
+                              onChange={(e) => {
+                                setCouponCode(e.target.value);
+                                handleCouponChange(e);
+                              }}
+                              className={Style.coupon_input}
+                            />
+                            <button
+                              className={Style.btn_apply_code}
+                              onClick={() => applyCoupon()}
+                            >
+                              APPLY
+                            </button>
+                          </div>
+                        </div>
+                        <a className={Style.btn_start_free_trial} href="/plans">
+                          Start Free Trial
+                        </a>
+                        {/* <Button
+                          btnColor="primary"
+                        /> */}
+                      </div>
+
+                      {/* OR */}
+
+                      {/* Paid Plan */}
+                      <div className={Style.option_card}>
+                        <h6>Choose a Paid Plan</h6>
+                        <p>Explore our premium plans to unlock all features</p>
+                        <div className="view_plan_btn_sign_up">
+                          <a
+                            className={Style.btn_start_free_trial}
+                            href="/plans"
+                          >
+                            VIEW PLANS
+                          </a>
+                          {/* <Button
+                            link="/plans"
+                            btnColor="primary"
+                            content="VIEW PLANS"
+                          /> */}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}

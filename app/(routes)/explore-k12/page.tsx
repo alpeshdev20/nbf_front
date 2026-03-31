@@ -2,7 +2,7 @@
 import Navbar from "@/components/layout/Navbar/Navbar";
 import Image from "next/image";
 import Naisa from "@/components/ExploreNaisa/Naisa";
-import SubscriptionWithCategory from "@/components/SubscriptionWithCategory/SubscriptionWithCategory";
+import K12SubscriptionWithCategory from "@/components/SubscriptionWithCategory/K12SubscriptionWithCategory";
 import Partners from "@/components/sliders/Partners/Partners";
 import NewsLetter from "@/components/NewsLetter/NewsLetter";
 import Footer from "@/components/layout/Footer/Footer";
@@ -10,11 +10,19 @@ import Testimonials from "@/components/sliders/Testimonials/Testimonials";
 import RecommondationsK12 from "@/components/sliders/RecommondationsK12/RecommondationsK12";
 // import K12Categories from "@/components/K12Categories/K12Categories";
 import K12Hero from "@/components/K12Hero/K12Hero";
+import { Metadata } from "next";
 
 //* Importing Image
 import TickIcon from "@/icons/tick.png";
+ 
+//* Metadata
+ export const metadata: Metadata = {
+  title: "Explore K-12 Solutions: NetbookFlix for Schools and Educato",
+  description: "Discover K-12 education solutions with NetbookFlix. Empower schools and educators with innovative resources and tools tailored for student success.",
+};
 
 const ExploreK12 = () => {
+  const isK12 :boolean = true
   return (
     <>
       {/* navbar  */}
@@ -29,7 +37,10 @@ const ExploreK12 = () => {
 
       {/* Banner  */}
       <K12Hero />
-
+      
+      <h1 className="h1-home-screen-seo-k12">
+             Best online Learning Resources subscription platform
+      </h1>
       <div className="home-features-section">
         {/* Explore  naisa  */}
         <Naisa />
@@ -52,7 +63,7 @@ const ExploreK12 = () => {
           </div>
         </section> */}
         {/* subscriptions */}
-        <SubscriptionWithCategory bgType="K12" icon={TickIcon} />
+        <K12SubscriptionWithCategory bgType="K12" icon={TickIcon} />
 
         {/* Partners  */}
         <Partners />
